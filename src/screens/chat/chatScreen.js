@@ -279,7 +279,7 @@ class ChatScreen extends Component {
                 fontFamily: "Montserrat-Regular"
               }}
             >
-              Delete
+              Delete 
             </Text>
           </TouchableOpacity>
         </View>
