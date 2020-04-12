@@ -1,0 +1,28 @@
+{
+  "plugins": [
+
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
+    ],
+
+    ["module-resolver", {
+      "root": ["./src"],
+      "alias": {
+        "helpers": "./src/Hesslpers",
+        "assets":"./assets"
+      }
+    }],
+
+   
+
+    ["babel-plugin-inline-import", {
+      "extensions": [
+        ".svg"
+      ]
+    }]
+
+  ]
+}

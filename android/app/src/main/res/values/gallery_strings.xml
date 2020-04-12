@@ -1,0 +1,5 @@
+<resources>
+
+    <string name="gallery_over_button_text">Send</string>
+    <string name="gallery_over_button_text_checked">Send(%1$d/%2$d)</string>
+</resources>
