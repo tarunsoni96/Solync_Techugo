@@ -62,7 +62,7 @@ class TextInputSolo extends Component {
                         keyboardType={keyboard}
                         ref={ref}
                         autoFocus={autoFocus}
-
+                        onFocus={onFocusText}
                         alignSelf={'center'}
                         value={value}
                         fontSize={fontSize}

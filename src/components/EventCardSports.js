@@ -58,7 +58,7 @@ class EventCardSports extends Component {
   };
 
   render() {
-    const { obj, year ,isOnHome} = this.props;
+    const { obj, year ,isOnHome,cardStyle} = this.props;
 
     if([...Object.keys(obj)].length > 0){
       return (
@@ -113,6 +113,7 @@ class EventCardSports extends Component {
                 style={{
                   height: "100%",
                   width: width - 55,
+
                   justifyContent: "center",
                   alignSelf: "center",
                   borderRadius: 20,
@@ -145,6 +146,7 @@ class EventCardSports extends Component {
                 borderRadius: 45 / 2,
                 position: "absolute",
                 right: 30,
+                
                 top: -20
               }}
               onPress={() => alert("dds")}
@@ -162,6 +164,7 @@ class EventCardSports extends Component {
                 width: width - 30,
                 justifyContent: "space-evenly",
                 alignSelf: "center",
+
                 backgroundColor: "#ebf0f3",
                 borderRadius: 10
               }}
@@ -173,6 +176,7 @@ class EventCardSports extends Component {
                   justifyContent: "space-evenly",
                   alignSelf: "center",
                   borderRadius: 20,
+                ...cardStyle,
                   backgroundColor: "transparent"
                 }}
               >

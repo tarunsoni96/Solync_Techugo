@@ -278,6 +278,7 @@ com/reactnativecommunity/netinfo/ConnectivityReceiver.class
 com/soloync/BuildConfig.class
 com/soloync/MainApplication$1.class
 com/soloync/MainApplication.class
+com/wix/interactable/Interactable.class
 com/yalantis/ucrop/UCropActivity$GestureTypes.class
 com/yalantis/ucrop/UCropFragment$GestureTypes.class
 com/yalantis/ucrop/view/OverlayView$FreestyleMode.class

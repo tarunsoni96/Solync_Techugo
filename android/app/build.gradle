@@ -202,8 +202,11 @@ dependencies {
     implementation project(':react-native-notification-sounds')
     implementation project(':react-native-firebase')
     implementation project(':react-native-splash-screen')
-    implementation project(':react-native-image-picker')
     implementation project(':react-native-vector-icons')
+    implementation project(':react-native-image-picker')
+    implementation project(path: ':react-native-interactable')
+
+    // implementation project(':react-native-interactable')
     // implementation project(':@react-native-community_netinfo')
     implementation project(':react-native-snackbar')
     // implementation project(':@react-native-community_async-storage')

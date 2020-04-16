@@ -10,12 +10,13 @@ import HelperMethods from "Helpers/Methods";
 export default class CustomText extends Component {
   render() {
     let {
-      size = 18,
+      size = 15,
       onPress,
       textAlign,
       type,
       color,
       font,
+      bold,
       padding,
       singleLine,
       text,
@@ -34,12 +35,8 @@ export default class CustomText extends Component {
 
     padding = padding == undefined && 1
 
-    let fontType 
-    if(HelperMethods.isPlatformAndroid()){
+    let fontType
       fontType = font || Fonts.medium
-    } else {
-      fontType = null
-    }
     
     return (
             <Text
@@ -52,7 +49,7 @@ export default class CustomText extends Component {
                   fontSize:size,
                   color: color || Colors.white,
                   textAlign: textAlign,
-                  fontFamily:fontType,
+                  fontFamily:bold ? Fonts.heavy : fontType,
                   ...style
                 }
               ]}

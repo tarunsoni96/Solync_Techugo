@@ -83,5 +83,7 @@ pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
  use_native_modules!
+  pod 'Interactable', :path => '../node_modules/react-native-interactable'
+
 end
 

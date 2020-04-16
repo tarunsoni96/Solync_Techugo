@@ -56,7 +56,8 @@ export default class ModelOverlay extends Component {
             style={{
               width: "100%",
               height: "auto",
-              paddingBottom: heightPercentageToDP(2.8),
+              paddingVertical: heightPercentageToDP(3),
+              paddingTop:heightPercentageToDP(7.5),
               alignItems: "center",
             }}
             resizeMode={"stretch"}
@@ -67,9 +68,8 @@ export default class ModelOverlay extends Component {
                 fontSize: widthPercentageToDP(5),
                 color: "black",
                 textAlign: "center",
-                paddingHorizontal:10,
+                maxWidth:widthPercentageToDP(80),
                 fontFamily: Fonts.heavy,
-                marginTop: 50,
               }}>
 
               {title ||
@@ -80,9 +80,10 @@ export default class ModelOverlay extends Component {
 
             <Text
               style={{
-                fontSize: 16,
+                fontSize: widthPercentageToDP(4),
+
                 textAlign: "center",
-                marginTop: 20,
+                marginVertical: heightPercentageToDP(4),
                 maxWidth: "70%",
 
                 color: "#7a7a7a",
@@ -98,8 +99,8 @@ export default class ModelOverlay extends Component {
                 flexDirection: "row",
                 justifyContent: "space-between",
                 width: "90%",
-                height: 60,
-                marginTop: 50,
+                height: heightPercentageToDP(9.5),
+                // marginTop: heightPercentageToDP(5),
                 alignSelf: "center",
                 // borderBottomRightRadius: 10,
                 // borderBottomLeftRadius: 10
@@ -114,7 +115,7 @@ export default class ModelOverlay extends Component {
                   borderBottomLeftRadius: 10,
                   justifyContent: "center",
                   width: "49.5%",
-                  padding: 20,
+                  // padding: heightPercentageToDP(4),
                 }}
               >
                 <Text

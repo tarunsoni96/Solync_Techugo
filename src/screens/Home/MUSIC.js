@@ -6,28 +6,39 @@ import {
   SafeAreaView,
   Image,
   Dimensions,
+  PanResponder,
   ScrollView,
   ImageBackground,
+  Animated,
   TouchableOpacity,
   AsyncStorage,
   FlatList,
-  BackHandler
+  BackHandler,
+  TouchableWithoutFeedback
 } from "react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
   heightPercentageToDP
 } from "react-native-responsive-screen";
+import BackHandlerSingleton from "ServiceProviders/BackHandlerSingleton";
+
 import Fonts from "UIProps/Fonts";
+import Icons from 'AppLevelComponents/UI/Icons'
+
 import Carousel from "react-native-snap-carousel";
 import LinearGradient from "react-native-linear-gradient";
+import HelperMethods from 'Helpers/Methods'
 import { getCats } from "ServiceProviders/ApiCaller";
 import Constants from "Helpers/Constants";
+import Interactable from 'react-native-interactable';
 import AsyncStorageHandler from "StorageHelpers/AsyncStorageHandler";
 import { withNavigation, NavigationEvents } from "react-navigation";
 import NetworkAwareContent from "../../AppLevelComponents/UI/NetworkAwareContent";
 import MobxStore from "../../StorageHelpers/MobxStore";
 import { observer } from "mobx-react";
+import CustomText from 'AppLevelComponents/UI/CustomText'
+
 import GradButton from "../../common/gradientButton";
 import NavigationConsistor from "../../Logicals/NavigationConsistor";
 import EventCardMusic from "../../components/EventCardMusic";
@@ -35,6 +46,11 @@ import EventCardSports from "../../components/EventCardSports";
 import Loader from "../../AppLevelComponents/UI/Loader";
 import EventCardTravel from "../../components/EventCardTravel";
 import Container from "../../AppLevelComponents/UI/Container";
+import {Colors} from "UIProps/Colors";
+
+
+padding = 7
+paddingAnd = 0.6
 
 const { height, width } = Dimensions.get("screen");
 
@@ -50,14 +66,21 @@ class MUSIC extends Component {
       gestureName: "none",
       backgroundColor: "#fff",
       videos:[],
+      isSpecificCat:'',
+      turnOffScroll:false,
+      catListPosType:'absolute',
       noMatches: false
     };
     this.props = props;
     this._carousel = {};
+      this._deltaY = new Animated.Value(0);
+      this.clippingPoint = hp(80)
+
   }
 
+  
+
   componentDidMount() {
-    // this.renderCategories();
     this.switchDateFetch(this.props.show)
     this.props.navigation.addListener("didFocus", this.didFocus);
   }
@@ -76,7 +99,7 @@ class MUSIC extends Component {
   };
 
   switchDateFetch(cat){
-    let filtCat = 1;
+    filtCat = 1;
     typeId = 1;
     type = "Music";
     switch (cat) {
@@ -92,25 +115,37 @@ class MUSIC extends Component {
         typeId = 3;
         break;
     }
-    this._fetchData(filtCat)
+    this.renderCategories(filtCat)
+    this.fetchData(filtCat)
   }
 
-  _fetchData(filtCat) {
-    
-    this.setState({ isApiCall: true });
+  fetchData(filtCat,specificCat = '') {
+    this.resetCaraousalPos()
+
+    HelperMethods.animateLayout()
+    this.setState({ isApiCall: true,isSpecificCat:specificCat,videos:[] });
+
+    let obj = {
+      user_id: MobxStore.userObj.user_id,
+      filterCategory: filtCat
+    }
+
+    if(specificCat){
+      obj.filter_category = specificCat
+      
+    }
+
     fetch("http://13.232.62.239:6565/api/user/home", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        user_id: MobxStore.userObj.user_id,
-        filterCategory: filtCat
-      })
+      body: JSON.stringify(obj)
     })
       .then(response => response.json())
       .then(responseJson => {
+        
         let arrData = [];
         this.setState({ isApiCall: false });
         if (responseJson.statusCode == 200) {
@@ -123,11 +158,12 @@ class MUSIC extends Component {
           }
           this.setState({
             videos: arrData,
-            noMatches: false
+            noMatches: false,
           });
         } else if (responseJson.statusCode == 201) {
           this.setState({
-            noMatches: true
+            noMatches: true,
+            
           });
         } else {
         }
@@ -165,7 +201,7 @@ class MUSIC extends Component {
     });
   }
 
-  _renderItemSub(item, index) {
+  renderItemSub(item, index) {
     return (
       <View
         style={{
@@ -191,27 +227,51 @@ class MUSIC extends Component {
       </View>
     );
   }
+
+  onCaraousalImgPress(){
+    if(this._deltaY._value > 0){
+      this.resetCaraousalPos()
+    }
+  }
+
+  resetCaraousalPos(){
+    this.caraousalInteractable.snapTo({index:0});
+    setTimeout(()=>{
+      this._deltaY.setValue(0)
+    })
+  }
+
   renderItem = ({ item, index }) => {
-    let cardToRender = <EventCardMusic obj={item} isOnHome />;
+    let cardStyle = {width:wp(40),height:hp(30)}
+    let cardToRender = <EventCardMusic style={cardStyle} obj={item} isOnHome />;
     if (type == "Sports") {
-      cardToRender = <EventCardSports obj={item} isOnHome />;
+      cardToRender = <EventCardSports  style={cardStyle} obj={item} isOnHome />;
     } else if(type == 'Travel') {
-      cardToRender = <EventCardTravel obj={item} isOnHome />;
+      cardToRender = <EventCardTravel  style={cardStyle} obj={item} isOnHome />;
+    }
+
+    let imageDim = {
+      height:hp(45),
+      width:wp(86)
     }
     return (
-      <View
-        style={{ flex: 1 }}
-      >
+      <>
+        
+      
         <View style={styles.ThumbnailBackgroundView}>
-          <TouchableOpacity
+        {!item.filter_category && 
+        null
+        }
+          <TouchableWithoutFeedback
             onPress={() => {
-              console.log("clicked to index", index);
-              this._carousel.snapToItem(index);
+              this.onCaraousalImgPress()
             }}
           >
+          <View>
             {item.profile_picture == "" ? (
               <ImageBackground
-                style={styles.CurrentVideoImage}
+                style={[styles.CurrentVideoImage,{borderRadius:10,...imageDim}]}
+                
                 source={require("../../assets/Images/@photo-cropped.png")}
                 resizeMode={"cover"}
               >
@@ -221,12 +281,13 @@ class MUSIC extends Component {
                     "rgba(255,255,255,0)",
                     "rgba(0,0,0,0.8)"
                   ]}
-                  style={{ flex: 1 }}
+                  style={{ flex: 1,borderRadius:10 }}
+                  
                 />
               </ImageBackground>
             ) : (
               <ImageBackground
-                style={[styles.CurrentVideoImage,{borderRadius:10}]}
+                style={[styles.CurrentVideoImage,{borderRadius:10,...imageDim}]}
                 source={{ uri: item.profile_picture }}
                 imageStyle={{borderRadius:10}}
                 resizeMode={"cover"}
@@ -245,9 +306,8 @@ class MUSIC extends Component {
             <View
               style={{
                 width: width - 85,
-
                 position: "absolute",
-                bottom: hp(3.5),
+                bottom: hp(3.3),
                 backgroundColor: "transparent",
                 flexDirection: "row",
                 justifyContent: "flex-start",
@@ -260,8 +320,7 @@ class MUSIC extends Component {
                   color: "#fff",
                   fontSize: 22,
                   fontFamily: "Montserrat-ExtraBold",
-                  left: "5%",
-                  backgroundColor: "transparent"
+                  marginLeft:wp(1.2),
                 }}
               >
                 {item.first_name}, {item.age}
@@ -285,15 +344,17 @@ class MUSIC extends Component {
                 </Text>
               </View>
             </View>
-          </TouchableOpacity>
+            </View>
+          </TouchableWithoutFeedback>
 
           <View
             style={{
-              width: "100%",
+              width: wp(90),
+              height:hp(25),
               alignSelf: "center",
-              marginTop: hp(-1.5)
-            }}
-          >
+              marginTop: hp(-1.5),
+              marginBottom:hp(4)
+            }}>
             {cardToRender}
           </View>
           <View
@@ -320,32 +381,39 @@ class MUSIC extends Component {
               style={{
                 marginBottom: 0,
                 margin: 10,
-                marginTop: hp(2),
-                zIndex: 1000
               }}
             />
           </View>
         </View>
-      </View>
+      </>
     );
   };
 
-  renderCategories() {
-    let view = [];
-    getCats(1)
+
+  
+
+  renderCategories(filtCat) {
+    this.setState({isLoadingCategories:true})
+    getCats(filtCat,filtCat == 3 ? 'location' : '','homesubCategory')
       .then(resp => {
         const { result } = resp;
+        HelperMethods.animateLayout()
+        this.setState({categories:result,isLoadingCategories:false})
       })
       .catch(err => {});
   }
 
   renderView(){
+     
     return(
       this.state.noMatches == false ? (
         <View
           style={{ backgroundColor: "transparent", flex: 1 }}
         >
           <View style={[styles.CarouselBackgroundView]}>
+          
+         
+
             <Carousel
               ref={c => {
                 this._carousel = c;
@@ -359,9 +427,13 @@ class MUSIC extends Component {
               layout={"default"}
             />
           </View>
+
+          
+
+
         </View>
       ) : (
-        <View style={{ alignSelf: "center", justifyContent: "center" }}>
+        <ScrollView contentContainerStyle={{ alignSelf: "center", justifyContent: "center" }}>
           <View
             style={{
               alignContent: "center",
@@ -426,36 +498,122 @@ class MUSIC extends Component {
                 }
                 text={`Change ${type.toLowerCase()} preferences`}
               />
+
+              {this.state.isSpecificCat ?
+
+            <GradButton
+                onPress={() =>
+                 this.fetchData(filtCat)
+                }
+                text={`Showing ${this.state.isSpecificCat}, Show all instead?`}
+              />
+              :null
+            
+              }
             </View>
           </View>
-        </View>
+        </ScrollView>
       )
     )
   }
+
+
+  onDownSwipeSnap(){
+    this.setState({catListPosType:'relative',turnOffScroll:true})
+  }
+
+  drawCats = ({item,index}) => {
+    const {sub_id,category_id,sub_category_name,description} = item
+    return(
+      
+      <ImageBackground
+      source={{uri:item.image}}
+      imageStyle={{borderRadius:10}}
+      style={{padding:30,marginBottom:10,borderRadius:10}}
+      >
+      <TouchableWithoutFeedback onPress={()=>this.fetchData(filtCat,sub_category_name)} >
+    <View>
+      <CustomText bold text={sub_category_name.toUpperCase()} size={17}  />
+      <CustomText style={{fontStyle:'italic'}} text={description} size={15}  />
+    </View>
+      </TouchableWithoutFeedback>
+      </ImageBackground>
+    )
+  }
+
+  renderCurrentCatTitle(){
+    return <View style={[styles.browsingCatContainer,{}]} >
+    <View style={{flexDirection:'row',alignItems:'center'}} > 
+
+      <View style={{flexDirection:'row',alignItems:'center',alignSelf:'center',}}>   
+        <CustomText text='showing: ' color={Colors.lighter} />
+        <CustomText text={this.state.isSpecificCat} style={{marginLeft:5}} color={Colors.accent} />
+      </View>
+  <Icons lib='Material' onPress={()=>this.fetchData(filtCat)} style={{marginLeft:10}} name='close' color={Colors.lighter} />
+</View>
+</View>
+  }
+
+  onBackPress(){
+    if(this._deltaY._value > 0) {
+      this.resetCaraousalPos() 
+    } else {
+      return false
+    }
+  }
+  
   render() {
-    const cats = this.state.catList.map((item, index) => {
-      return (
-        <ImageBackground
-          style={{
-            marginVertical: 10,
-            padding: 20,
-            width: "100%",
-            height: 100
-          }}
-          source={require("../../assets/Images/@pop-BG.png")}
-        >
-          <Text>oisjiosjd</Text>
-        </ImageBackground>
-      );
-    });
     return (
-      <Container >
+      <View style={{flex:1}}>
+      <BackHandlerSingleton onBackPress={()=>this.onBackPress()} />
+      
           {this.state.isApiCall ? 
           <Loader style={{marginTop:heightPercentageToDP(30)}} />
           :
-          this.renderView()
+          <>
+          {!this.state.noMatches &&
+           <Animated.View style={{
+             opacity:this._deltaY.interpolate({
+              inputRange: [0, this.clippingPoint],
+              outputRange: [0, 1]
+            }),
+             position:'absolute',width:wp(86),alignSelf:'center'}}>
+                <View style={{height: this.clippingPoint,}}>
+                <NetworkAwareContent isApiCall={this.state.isLoadingCategories} apiFunc={()=>this.renderCategories()} >
+
+               <FlatList
+               nestedScrollEnabled
+                  data={this.state.categories}
+                  renderItem={this.drawCats}
+                  keyExtractor={(item,index) => index}
+                 />
+                </NetworkAwareContent>
+               </View>
+             </Animated.View>
           }
-      </Container>
+          <Interactable.View
+          verticalOnly
+          dragEnabled={!this.state.noMatches}
+          ref={caraousalInteractable => this.caraousalInteractable = caraousalInteractable}
+          style={{flex:1}}
+          dragWithSpring={{tension: 2000, damping: 0.5}}
+          onSnap={()=>this.onDownSwipeSnap()}
+          animatedValueY={this._deltaY}
+          snapPoints={[{y: 0}, {y: this.clippingPoint}]}
+           >
+          {this.renderView()}
+          </Interactable.View>
+          </>
+          }
+          
+          {this.state.isSpecificCat && this.state.videos.length > 0 ? 
+            this.renderCurrentCatTitle()
+            :null
+          }
+
+
+
+      </View>
     );
   }
 }
@@ -518,6 +676,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center"
+  },
+
+  browsingCatContainer:{
+    justifyContent:'center',position:'absolute',
+    left:wp(7),elevation:0,backgroundColor:'#fff',zIndex:10000000,
+    borderBottomRightRadius:10,
+    top:hp(HelperMethods.isPlatformAndroid() ? -2.7: -3.5),paddingTop:HelperMethods.isPlatformAndroid() ? hp(paddingAnd) : padding,paddingBottom:HelperMethods.isPlatformAndroid() ? hp(paddingAnd) : padding
   }
 });
 export default withNavigation(MUSIC);

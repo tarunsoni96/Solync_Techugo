@@ -531,139 +531,16 @@ class ChatScreen extends Component {
           </NetworkAwareContent>
         </View>
 
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={this.state.showBlockModal}
-          onRequestClose={() => {}}
-        >
-          <View
-            style={{ flex: 1, justifyContent: "center", position: "relative" }}
-          >
-            <View
-              style={{
-                height: height,
-                width: width,
-                backgroundColor: "#5bcbbb",
-                opacity: 0.9,
-                position: "relative"
-              }}
-            />
-            <View
-              style={{
-                height: "30%",
-                width: width - 55,
-                backgroundColor: "#fff",
-                zIndex: 1,
-                alignSelf: "center",
-                opacity: 1.0,
-                position: "absolute",
-                borderRadius: 10
-              }}
-            >
-              <View style={{ width: "100%", height: "100%", borderRadius: 10 }}>
-                <View
-                  style={{
-                    width: "80%",
-                    alignSelf: "center",
-                    height: "30%",
-                    justifyContent: "flex-end"
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontWeight: "bold",
-                      fontSize: 21,
-                      color: "black",
-                      textAlign: "center"
-                    }}
-                  >
-                    Do you want to block {this.blockingUser}?
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    width: "80%",
-                    alignSelf: "center",
-                    justifyContent: "center",
-                    height: "35%"
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      textAlign: "center",
-                      marginTop: "4%",
-                      color: "#7a7a7a",
-                      fontFamily: "Montserrat-Regular"
-                    }}
-                  >
-                    They will not be able to see your profile or message you.
-                  </Text>
-                </View>
 
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    bottom: 0,
-                    position: "absolute",
-                    width: "100%",
-                    height: "30%",
-                    borderBottomRightRadius: 10,
-                    borderBottomLeftRadius: 10
-                  }}
-                >
-                  <TouchableOpacity
-                    onPress={() => {
-                      this.setBlockModalVisible(!this.state.showBlockModal);
-                    }}
-                    style={{
-                      backgroundColor: "#f6f7f8",
-                      height: "100%",
-                      width: "49.5%",
-                      justifyContent: "center",
-                      borderBottomLeftRadius: 10
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        color: "grey",
-                        fontFamily: "Montserrat-ExtraBold",
-                        alignSelf: "center"
-                      }}
-                    >
-                      CANCEL
-                    </Text>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    onPress={() => this.blockUnblockUser("block")}
-                    style={{
-                      backgroundColor: "#f6f7f8",
-                      height: "100%",
-                      width: "49.5%",
-                      justifyContent: "center",
-                      borderBottomRightRadius: 10
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        color: "#781672",
-                        alignSelf: "center",
-                        fontFamily: "Montserrat-ExtraBold"
-                      }}
-                    >
-                      BLOCK USER
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-          </View>
-        </Modal>
+        <ModelOverlay
+          closeModal={() => this.setState({ showBlockModal: false })}
+            modalVisible={this.state.showBlockModal}
+            posPress={() => this.blockUnblockUser("block")}
+            showBg={true}
+            title={`Do you want to block ${this.blockingUser}?`}
+            posBtn="Block user"
+            msg="They will not be able to see your profile or message you."
+          />
 
 
         <ModelOverlay

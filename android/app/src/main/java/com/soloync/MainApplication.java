@@ -25,6 +25,7 @@ import com.ashideas.rnrangeslider.RangeSliderPackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage; // <-- Add this line
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage; // <-- Add this line
 import io.invertase.firebase.RNFirebasePackage;
+import com.wix.interactable.Interactable;
 
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.facebook.react.ReactNativeHost;
@@ -51,10 +52,12 @@ public class MainApplication extends Application implements ReactApplication {
       new RNCardViewPackage();
       new LinearGradientPackage();
       new FBSDKPackage();
+
       
       // new GeolocationPackage();
       packages.add(new RNFirebaseMessagingPackage());
       packages.add(new RNFirebaseNotificationsPackage());
+      packages.add(new Interactable());
       return packages;
     }
 

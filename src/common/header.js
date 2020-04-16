@@ -83,13 +83,15 @@ class Header extends Component {
   }
 
   render() {
+    
+    
     return (
 
       <SafeAreaView style={{ flex: 1, }}>
 
 <StatusBar backgroundColor="#eee" barStyle={'dark-content'} />
       
-        <View style={{ height: "11%", position: "relative" }}>
+        <View style={{ height: "11%",marginBottom:10, position: "relative" }}>
 
           <View style={{
               height: "100%",
@@ -149,6 +151,7 @@ class Header extends Component {
             style={{
               height: "100%",
               backgroundColor: "#fff",
+              
               width: width / 1.9,
               alignSelf: "center",
               justifyContent: "center"

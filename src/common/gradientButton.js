@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import Loader from "AppLevelComponents/UI/Loader";
 import LinearGradient from "react-native-linear-gradient";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
 const { height, width } = Dimensions.get("screen");
 class GradButton extends Component {
@@ -40,7 +41,7 @@ class GradButton extends Component {
           end={{ x: 1, y: 1 }}
           locations={[0.2,0.5,0.7]}
           colors={["#8863BB", "#61ACE2", "#55C7C9"]}
-          style={[styles.btn,{...gradStyle}]}
+          style={[styles.btn,{padding:wp(4),margin:wp(3),...gradStyle,opacity:style?.opacity}]}
         >
           {isApiCall ? (
             <Loader color={'#fff'} />
@@ -74,6 +75,7 @@ const styles = {
     padding: 20,
     margin: 15,
     elevation: 10,
+    
     shadowColor: "#000",
     shadowOffset: { height: 5, width: 10 },
     shadowOpacity: 0.45,

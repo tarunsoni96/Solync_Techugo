@@ -12,6 +12,12 @@ import {
 import Snackbar from 'react-native-snackbar'
 import NetInfo from "@react-native-community/netinfo";
 import axios from "axios";
+import {
+  AccessToken,
+  GraphRequest,
+  GraphRequestManager,
+  LoginManager,
+} from "react-native-fbsdk";
 import NotificationSounds, { playSampleSound } from 'react-native-notification-sounds';
 import axiosCancel from 'axios-cancel';
 import NavigationService from "ServiceProviders/NavigationService";
@@ -57,8 +63,12 @@ const HelperMethods = {
     );
   },
 
-  animateLayout: function() {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  animateLayout: function(type) {
+    let anim = LayoutAnimation.Presets.easeInEaseOut
+    if(type && type == 'spring'){
+      anim = LayoutAnimation.Presets.spring
+    } 
+    LayoutAnimation.configureNext(anim);
   },
 
   isPlatformAndroid: function() {
@@ -152,6 +162,7 @@ const HelperMethods = {
       return
     
     }
+    
 
     AsyncStorageHandler.delete(Constants.isSocialLoginComplete)
     AsyncStorageHandler.delete(Constants.photoUploaded)

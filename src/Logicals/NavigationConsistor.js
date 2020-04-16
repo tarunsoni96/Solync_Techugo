@@ -78,7 +78,7 @@ import MobxStore from '../StorageHelpers/MobxStore';
             );
         
             return year;
-          }
+          },
 
 
     }

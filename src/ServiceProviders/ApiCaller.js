@@ -133,10 +133,10 @@ export const contactUs = function(user_id,type,msg) {
   });
 };
 
-export const getCats = function(typeId) {
+export const getCats = function(typeId,type,endPoint = 'subCategory') {
   return new Promise(function(resolve, reject) {
-    const formData = {category_id:typeId}
-    HelperMethods.makeNetworkCall(`user/subCategory`,formData,(resp, isError) => {
+    const formData = {category_id:typeId,type}
+    HelperMethods.makeNetworkCall(`user/${endPoint}`,formData,(resp, isError) => {
         if (!isError) {
           resolve(resp)
         } else {

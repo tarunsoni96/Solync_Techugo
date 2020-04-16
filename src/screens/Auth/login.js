@@ -82,6 +82,7 @@ class Login extends Component {
 
   facebookLogin(self, socialType) {
     if (socialType == "facebook") {
+      LoginManager.logOut();
       LoginManager.setLoginBehavior(HelperMethods.isPlatformAndroid() ? 'web_only' : 'browser');
     LoginManager.logInWithPermissions(["public_profile", "email"]).then(
         function(result) {
@@ -399,7 +400,7 @@ HelperMethods.animateLayout()
               />
             </View>
             <TextInputSolo
-              onChangeText={username => this.setState({ username, opacityButton: false })}
+              onChangeText={username => this.setState({ username, })}
               borderColor={this.state.errorBorderColor}
               inputState={""}
               autoFocus
@@ -412,7 +413,7 @@ HelperMethods.animateLayout()
             />
             
             <TextInputPassSolo
-              onChangeText={password => this.setState({ password, opacityButton: false })}
+              onChangeText={password => this.setState({ password, })}
               borderColor={this.state.passwordBorderColor}
               secureTextEntry={this.state.securePass}
               onClickHide={() => this.showPass()}
@@ -432,7 +433,7 @@ HelperMethods.animateLayout()
                 flexDirection: "column",
               }}
             ></View>
-                <GradButton style={{width:'100%',opacity:this.state.opacityButton == false ? 1 : 0.6}} onPress={()=>this.checkValidation()} isApiCall={this.state.isApiCall} text={"Login"} />
+                <GradButton style={{width:'100%',opacity:(this.state.username && this.state.password) ? 1 : 0.6}} onPress={()=> (this.state.username && this.state.password) ? this.checkValidation() : {}} isApiCall={this.state.isApiCall} text={"Login"} />
 
             <View
               style={{

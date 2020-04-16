@@ -10,19 +10,20 @@ MERGED from [androidx.multidex:multidex:2.0.0] /Users/khurshid/.gradle/caches/tr
 MERGED from [:react-native-image-crop-picker] /Users/khurshid/Projects/Solync/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-28:12
 MERGED from [:react-native-notification-sounds] /Users/khurshid/Projects/Solync/node_modules/react-native-notification-sounds/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-splash-screen] /Users/khurshid/Projects/Solync/node_modules/react-native-splash-screen/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-14:12
-MERGED from [:react-native-image-picker] /Users/khurshid/Projects/Solync/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-21:12
 MERGED from [:react-native-vector-icons] /Users/khurshid/Projects/Solync/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
-MERGED from [:@react-native-community_netinfo] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/netinfo/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-12:12
+MERGED from [:react-native-image-picker] /Users/khurshid/Projects/Solync/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-21:12
+MERGED from [:react-native-interactable] /Users/khurshid/Projects/Solync/node_modules/react-native-interactable/lib/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-18:12
 MERGED from [:react-native-snackbar] /Users/khurshid/Projects/Solync/node_modules/react-native-snackbar/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
-MERGED from [:@react-native-community_async-storage] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/async-storage/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-exception-handler] /Users/khurshid/Projects/Solync/node_modules/react-native-exception-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-16:12
-MERGED from [:@react-native-community_geolocation] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/geolocation/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:rn-range-slider] /Users/khurshid/Projects/Solync/node_modules/rn-range-slider/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-fbsdk] /Users/khurshid/Projects/Solync/node_modules/react-native-fbsdk/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:21:1-30:12
 MERGED from [:react-native-gesture-handler] /Users/khurshid/Projects/Solync/node_modules/react-native-gesture-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-cardview] /Users/khurshid/Projects/Solync/node_modules/react-native-cardview/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
+MERGED from [:react-native-community_async-storage] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/async-storage/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:react-native-community_geolocation] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/geolocation/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:react-native-community_netinfo] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/netinfo/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-12:12
 MERGED from [:react-native-linear-gradient] /Users/khurshid/Projects/Solync/node_modules/react-native-linear-gradient/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
-MERGED from [com.facebook.react:react-native:0.60.0] /Users/khurshid/.gradle/caches/transforms-2/files-2.1/444e3549aadeffe0aea5b92c747c9ad0/AndroidManifest.xml:2:1-13:12
+MERGED from [com.facebook.react:react-native:0.61.0] /Users/khurshid/.gradle/caches/transforms-2/files-2.1/85fd4ec4ad3f599d1a515887c5412b62/AndroidManifest.xml:2:1-13:12
 MERGED from [com.github.yalantis:ucrop:2.2.2-native] /Users/khurshid/.gradle/caches/transforms-2/files-2.1/d51bd586beb4b7427d65504123199882/AndroidManifest.xml:2:1-11:12
 MERGED from [com.google.android.material:material:1.0.0] /Users/khurshid/.gradle/caches/transforms-2/files-2.1/ed23c1f9c1f674f871978af94f2e6052/AndroidManifest.xml:17:1-24:12
 MERGED from [com.facebook.android:facebook-login:5.15.3] /Users/khurshid/.gradle/caches/transforms-2/files-2.1/9edd50c8882757ba33f777463746de41/AndroidManifest.xml:21:1-31:12
@@ -142,6 +143,8 @@ MERGED from [:react-native-image-crop-picker] /Users/khurshid/Projects/Solync/no
 		ADDED from /Users/khurshid/Projects/Solync/android/app/src/main/AndroidManifest.xml:6:22-78
 uses-permission#android.permission.VIBRATE
 ADDED from /Users/khurshid/Projects/Solync/android/app/src/main/AndroidManifest.xml:7:5-66
+MERGED from [:react-native-interactable] /Users/khurshid/Projects/Solync/node_modules/react-native-interactable/lib/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-66
+MERGED from [:react-native-interactable] /Users/khurshid/Projects/Solync/node_modules/react-native-interactable/lib/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-66
 	android:name
 		ADDED from /Users/khurshid/Projects/Solync/android/app/src/main/AndroidManifest.xml:7:22-63
 uses-permission#android.permission.ACCESS_COARSE_LOCATION
@@ -176,12 +179,14 @@ MERGED from [:react-native-splash-screen] /Users/khurshid/Projects/Solync/node_m
 MERGED from [:react-native-splash-screen] /Users/khurshid/Projects/Solync/node_modules/react-native-splash-screen/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-12:19
 MERGED from [:react-native-image-picker] /Users/khurshid/Projects/Solync/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:9:5-19:19
 MERGED from [:react-native-image-picker] /Users/khurshid/Projects/Solync/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:9:5-19:19
+MERGED from [:react-native-interactable] /Users/khurshid/Projects/Solync/node_modules/react-native-interactable/lib/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:13:5-16:19
+MERGED from [:react-native-interactable] /Users/khurshid/Projects/Solync/node_modules/react-native-interactable/lib/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:13:5-16:19
 MERGED from [:react-native-exception-handler] /Users/khurshid/Projects/Solync/node_modules/react-native-exception-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-14:19
 MERGED from [:react-native-exception-handler] /Users/khurshid/Projects/Solync/node_modules/react-native-exception-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-14:19
 MERGED from [:react-native-fbsdk] /Users/khurshid/Projects/Solync/node_modules/react-native-fbsdk/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:28:5-20
 MERGED from [:react-native-fbsdk] /Users/khurshid/Projects/Solync/node_modules/react-native-fbsdk/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:28:5-20
-MERGED from [com.facebook.react:react-native:0.60.0] /Users/khurshid/.gradle/caches/transforms-2/files-2.1/444e3549aadeffe0aea5b92c747c9ad0/AndroidManifest.xml:11:5-20
-MERGED from [com.facebook.react:react-native:0.60.0] /Users/khurshid/.gradle/caches/transforms-2/files-2.1/444e3549aadeffe0aea5b92c747c9ad0/AndroidManifest.xml:11:5-20
+MERGED from [com.facebook.react:react-native:0.61.0] /Users/khurshid/.gradle/caches/transforms-2/files-2.1/85fd4ec4ad3f599d1a515887c5412b62/AndroidManifest.xml:11:5-20
+MERGED from [com.facebook.react:react-native:0.61.0] /Users/khurshid/.gradle/caches/transforms-2/files-2.1/85fd4ec4ad3f599d1a515887c5412b62/AndroidManifest.xml:11:5-20
 MERGED from [com.google.android.material:material:1.0.0] /Users/khurshid/.gradle/caches/transforms-2/files-2.1/ed23c1f9c1f674f871978af94f2e6052/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.0.0] /Users/khurshid/.gradle/caches/transforms-2/files-2.1/ed23c1f9c1f674f871978af94f2e6052/AndroidManifest.xml:22:5-20
 MERGED from [com.facebook.android:facebook-login:5.15.3] /Users/khurshid/.gradle/caches/transforms-2/files-2.1/9edd50c8882757ba33f777463746de41/AndroidManifest.xml:28:5-29:19
@@ -364,20 +369,16 @@ MERGED from [:react-native-notification-sounds] /Users/khurshid/Projects/Solync/
 MERGED from [:react-native-notification-sounds] /Users/khurshid/Projects/Solync/node_modules/react-native-notification-sounds/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-splash-screen] /Users/khurshid/Projects/Solync/node_modules/react-native-splash-screen/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-splash-screen] /Users/khurshid/Projects/Solync/node_modules/react-native-splash-screen/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-image-picker] /Users/khurshid/Projects/Solync/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:react-native-image-picker] /Users/khurshid/Projects/Solync/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-vector-icons] /Users/khurshid/Projects/Solync/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-vector-icons] /Users/khurshid/Projects/Solync/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [:@react-native-community_netinfo] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/netinfo/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:@react-native-community_netinfo] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/netinfo/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-image-picker] /Users/khurshid/Projects/Solync/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-image-picker] /Users/khurshid/Projects/Solync/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-interactable] /Users/khurshid/Projects/Solync/node_modules/react-native-interactable/lib/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-interactable] /Users/khurshid/Projects/Solync/node_modules/react-native-interactable/lib/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-snackbar] /Users/khurshid/Projects/Solync/node_modules/react-native-snackbar/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-snackbar] /Users/khurshid/Projects/Solync/node_modules/react-native-snackbar/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [:@react-native-community_async-storage] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/async-storage/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:@react-native-community_async-storage] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/async-storage/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-exception-handler] /Users/khurshid/Projects/Solync/node_modules/react-native-exception-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-exception-handler] /Users/khurshid/Projects/Solync/node_modules/react-native-exception-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [:@react-native-community_geolocation] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/geolocation/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:@react-native-community_geolocation] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/geolocation/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:rn-range-slider] /Users/khurshid/Projects/Solync/node_modules/rn-range-slider/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:rn-range-slider] /Users/khurshid/Projects/Solync/node_modules/rn-range-slider/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-fbsdk] /Users/khurshid/Projects/Solync/node_modules/react-native-fbsdk/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:24:5-26:41
@@ -386,10 +387,16 @@ MERGED from [:react-native-gesture-handler] /Users/khurshid/Projects/Solync/node
 MERGED from [:react-native-gesture-handler] /Users/khurshid/Projects/Solync/node_modules/react-native-gesture-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-cardview] /Users/khurshid/Projects/Solync/node_modules/react-native-cardview/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-cardview] /Users/khurshid/Projects/Solync/node_modules/react-native-cardview/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-community_async-storage] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/async-storage/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-community_async-storage] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/async-storage/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-community_geolocation] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/geolocation/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-community_geolocation] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/geolocation/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-community_netinfo] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/netinfo/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-community_netinfo] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/netinfo/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-linear-gradient] /Users/khurshid/Projects/Solync/node_modules/react-native-linear-gradient/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-linear-gradient] /Users/khurshid/Projects/Solync/node_modules/react-native-linear-gradient/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [com.facebook.react:react-native:0.60.0] /Users/khurshid/.gradle/caches/transforms-2/files-2.1/444e3549aadeffe0aea5b92c747c9ad0/AndroidManifest.xml:7:5-9:41
-MERGED from [com.facebook.react:react-native:0.60.0] /Users/khurshid/.gradle/caches/transforms-2/files-2.1/444e3549aadeffe0aea5b92c747c9ad0/AndroidManifest.xml:7:5-9:41
+MERGED from [com.facebook.react:react-native:0.61.0] /Users/khurshid/.gradle/caches/transforms-2/files-2.1/85fd4ec4ad3f599d1a515887c5412b62/AndroidManifest.xml:7:5-9:41
+MERGED from [com.facebook.react:react-native:0.61.0] /Users/khurshid/.gradle/caches/transforms-2/files-2.1/85fd4ec4ad3f599d1a515887c5412b62/AndroidManifest.xml:7:5-9:41
 MERGED from [com.github.yalantis:ucrop:2.2.2-native] /Users/khurshid/.gradle/caches/transforms-2/files-2.1/d51bd586beb4b7427d65504123199882/AndroidManifest.xml:7:5-9:41
 MERGED from [com.github.yalantis:ucrop:2.2.2-native] /Users/khurshid/.gradle/caches/transforms-2/files-2.1/d51bd586beb4b7427d65504123199882/AndroidManifest.xml:7:5-9:41
 MERGED from [com.google.android.material:material:1.0.0] /Users/khurshid/.gradle/caches/transforms-2/files-2.1/ed23c1f9c1f674f871978af94f2e6052/AndroidManifest.xml:20:5-44
@@ -552,8 +559,8 @@ MERGED from [com.google.android.gms:play-services-measurement-sdk-api:17.0.0] /U
 		ADDED from [:react-native-firebase] /Users/khurshid/Projects/Solync/node_modules/react-native-firebase/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:22-65
 uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from [:react-native-firebase] /Users/khurshid/Projects/Solync/node_modules/react-native-firebase/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:13:5-79
-MERGED from [:@react-native-community_netinfo] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/netinfo/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:9:5-79
-MERGED from [:@react-native-community_netinfo] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/netinfo/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:9:5-79
+MERGED from [:react-native-community_netinfo] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/netinfo/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:9:5-79
+MERGED from [:react-native-community_netinfo] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/netinfo/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:9:5-79
 MERGED from [com.google.android.gms:play-services-measurement-api:17.0.0] /Users/khurshid/.gradle/caches/transforms-2/files-2.1/6fe8878a2cdc1d1d88223de606639f62/AndroidManifest.xml:23:5-79
 MERGED from [com.google.android.gms:play-services-measurement-api:17.0.0] /Users/khurshid/.gradle/caches/transforms-2/files-2.1/6fe8878a2cdc1d1d88223de606639f62/AndroidManifest.xml:23:5-79
 MERGED from [com.google.firebase:firebase-iid:19.0.1] /Users/khurshid/.gradle/caches/transforms-2/files-2.1/646eb997dbf8a665fc83de892bba0a35/AndroidManifest.xml:22:5-79
@@ -614,14 +621,14 @@ ADDED from [:react-native-image-picker] /Users/khurshid/Projects/Solync/node_mod
 		ADDED from [:react-native-image-picker] /Users/khurshid/Projects/Solync/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-37
 	android:name
 		ADDED from [:react-native-image-picker] /Users/khurshid/Projects/Solync/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:13-56
-uses-permission#android.permission.ACCESS_WIFI_STATE
-ADDED from [:@react-native-community_netinfo] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/netinfo/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:10:5-76
-	android:name
-		ADDED from [:@react-native-community_netinfo] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/netinfo/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:10:22-73
 activity#com.masteratul.exceptionhandler.DefaultErrorScreen
 ADDED from [:react-native-exception-handler] /Users/khurshid/Projects/Solync/node_modules/react-native-exception-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:9-13:20
 	android:name
 		ADDED from [:react-native-exception-handler] /Users/khurshid/Projects/Solync/node_modules/react-native-exception-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:19-84
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from [:react-native-community_netinfo] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/netinfo/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:10:5-76
+	android:name
+		ADDED from [:react-native-community_netinfo] /Users/khurshid/Projects/Solync/node_modules/@react-native-community/netinfo/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:10:22-73
 activity#com.facebook.CustomTabMainActivity
 ADDED from [com.facebook.android:facebook-common:5.15.3] /Users/khurshid/.gradle/caches/transforms-2/files-2.1/4a784105fabd1066131011717aff5cb2/AndroidManifest.xml:34:9-71
 	android:name

@@ -25,11 +25,12 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
   }
 
   renderForAndroid() {
-    const {style} = this.props
+    const {style,turnOffScroll} = this.props
     return (
       <>
       <StatusBar backgroundColor="#eee" barStyle={'dark-content'} />
         <ScrollView
+        scrollEnabled={turnOffScroll == undefined ? true : turnOffScroll}
         style={styles.container}
         contentContainerStyle={{alignItems: "center",...styles.contentContainerStyle,...style}}
         nestedScrollEnabled
