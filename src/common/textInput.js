@@ -37,7 +37,7 @@ class TextInputSolo extends Component {
                 </View>
 
                 {Platform.OS == 'ios' ?
-                    <TextInput style={{ borderTopColor: 'transparent', borderRightColor: 'transparent', borderLeftColor: 'transparent', borderLeftWidth: 0, borderRightWidth: 0, borderBottomColor: borderColor || 'lightgrey', borderWidth: 2, width: width - 35, height: '60%' }}
+                    <TextInput style={{ borderTopColor: 'transparent', borderRightColor: 'transparent', borderLeftColor: 'transparent', borderLeftWidth: 0, borderRightWidth: 0, borderBottomColor: borderColor || 'lightgrey', borderWidth: 2, width: width - 35, height: '60%',color:'#000' }}
                         onChangeText={onChangeText}
                         fontSize={17}
                         fontFamily={'Montserrat-Bold'}
@@ -53,9 +53,10 @@ class TextInputSolo extends Component {
                         maxLength={maxLength}
                         editable={editable}
                     /> :
-                    <TextInput style={{ borderTopColor: 'transparent', borderRightColor: 'transparent', borderLeftColor: 'transparent', borderLeftWidth: 0, borderRightWidth: 0, borderBottomColor: borderColor || 'lightgrey', borderWidth: 2, width: width - 35 }}
+                    <TextInput style={{ borderTopColor: 'transparent', borderRightColor: 'transparent', borderLeftColor: 'transparent', borderLeftWidth: 0, borderRightWidth: 0, borderBottomColor: borderColor || 'lightgrey', borderWidth: 2, width: width - 35,color:'#000' }}
                         onChangeText={onChangeText}
                         fontSize={17}
+                        editable={editable}
                         //fontWeight={'700'}
                         fontFamily={'Montserrat-Bold'}
                         //clearTextOnFocus={true}

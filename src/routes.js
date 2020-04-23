@@ -33,6 +33,7 @@ import ChatRoom from "./screens/ChatRoom/ChatRoom";
 import AddPersonChat from "./screens/AddPersonChat/AddPersonChat";
 import AskQues from "./screens/AskQues/AskQues";
 import CropImage from "./screens/CropImage/CropImage";
+import TermsConditions from "./screens/TermsConditions/TermsConditions";
 
 const loginStack = createStackNavigator(
   {
@@ -237,17 +238,20 @@ const App = createStackNavigator(
 
     CropImage:{
       screen:CropImage
-    }
+    },
+
+
+    TermsConditions:TermsConditions
   },
   {
     headerMode: "none",
-    initialRouteName:'Home'
+    initialRouteName:'TermsConditions'
   }
 );
 
 const TopLevelNavigator = createSwitchNavigator({
-  landingStack,
   App, 
+  landingStack,
   loginStack,
 });
 

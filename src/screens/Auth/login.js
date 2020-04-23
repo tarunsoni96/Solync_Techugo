@@ -12,7 +12,7 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
 } from "react-native";
-
+import queryString from 'query-string'
 import Images from "../../constant/images";
 import HelperMethods from "Helpers/Methods";
 import AsyncStorageHandler from "StorageHelpers/AsyncStorageHandler";
@@ -80,11 +80,12 @@ class Login extends Component {
     }
   }
 
+  
+
   facebookLogin(self, socialType) {
     if (socialType == "facebook") {
-      LoginManager.logOut();
       LoginManager.setLoginBehavior(HelperMethods.isPlatformAndroid() ? 'web_only' : 'browser');
-    LoginManager.logInWithPermissions(["public_profile", "email"]).then(
+    LoginManager.logInWithPermissions(["public_profile","user_birthday","user_work_history","user_about_me", "email"]).then(
         function(result) {
           if (result.isCancelled) {
           } else {
@@ -93,8 +94,8 @@ class Login extends Component {
                 if (error) {
                   alert("Error fetching data: " + error.toString());
                 } else {
+                  // alert(JSON.stringify( result))
                   AsyncStorageHandler.store(Constants.fbData,result)
-
                   self._onSignInWithSocial(result)
                 }
               };
@@ -170,7 +171,7 @@ class Login extends Component {
           AsyncStorageHandler.store(Constants.photoUploaded,'false')
             MobxStore.updateUserObj(responseJson.result[0])
             AsyncStorageHandler.store(Constants.userInfoObj,responseJson.result[0],val => {
-            HelperMethods.snackbar(responseJson.statusMessage)
+            // HelperMethods.snackbar(responseJson.statusMessage)
           this.props.navigation.navigate('SelectionScreen')
           });
           

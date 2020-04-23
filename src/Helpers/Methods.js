@@ -31,6 +31,7 @@ import SocketIO from "../components/SocketIO";
 import MobxStore from "../StorageHelpers/MobxStore";
 import { withNavigation } from "react-navigation";
 const queryString = require('query-string');
+
 let timer;
 let baseUrl = 'http://13.232.62.239:6565/api/'
 let counter = 2;
@@ -317,7 +318,63 @@ const HelperMethods = {
     if(MobxStore.userObj.in_app_vibration == 1){
       Vibration.vibrate()
     }
-  }
+  },
+
+
+  logoutFB :function (callBack){
+    var current_access_token = '';
+    AccessToken.getCurrentAccessToken().then((data) => {
+      current_access_token = data.accessToken.toString();
+    }).then(() => {
+      let logout = new GraphRequest("me/permissions/",
+        {
+            accessToken: current_access_token,
+            httpMethod: 'DELETE'
+        },
+        (error, result) => {
+            if (error) {
+                console.log('Error fetching data: ' + error.toString());
+            } else {
+                LoginManager.logOut();
+                callBack({success:true})
+            }
+        });
+      new GraphRequestManager().addRequest(logout).start();
+    })
+    .catch(error => {
+      console.log(error)
+    });    
+
+
+    // AccessToken.getCurrentAccessToken().then(data => {
+    //   const query = queryString.stringify({
+    //     access_token: data.accessToken.toString(),
+    //   })
+      
+    //   fetch(`https://graph.facebook.com/v3.2/me/permissions?${query}`, {
+    //     method: 'post',
+    //     headers: {
+    //       Accept: 'application/json',
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({
+    //       method: 'delete',
+    //       format: 'json',
+    //     }),
+    //   })
+    //   .then(response => response.json()).then(jso => {})
+    //   .catch(err => console.log(err))
+    // })
+
+     
+
+
+  },
+
+  getAge :function(birthDate){
+    return Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e+10)
+  } 
+
 
 };
 

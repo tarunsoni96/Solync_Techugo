@@ -200,7 +200,20 @@ class homeScreen extends Component {
       this.setModalVisible(true);
       return;
     } else {
+      this.setModalVisible(false);
       HelperMethods.logout(this.props.navigation);
+      return
+      
+      if(MobxStore.userObj.facebook_id){
+        HelperMethods.logoutFB(loggedout => {
+          if(loggedout.success){
+            HelperMethods.logout(this.props.navigation);
+          }
+        })
+      } else {
+        HelperMethods.logout(this.props.navigation);
+      }
+      
     }
   }
 
@@ -402,7 +415,7 @@ class homeScreen extends Component {
                   min={18}
                   initialLowValue={this.state.rangeLow}
                   initialHighValue={this.state.rangeHigh}
-                  max={35}
+                  max={80}
                   step={1}
                   selectionColor="#B52050"
                   blankColor="#DCDCDC"
@@ -1062,13 +1075,14 @@ class homeScreen extends Component {
             posPress={() => this.setState({
                           modalVisible: false,
                           hideProfileValue: true,
-                        })}
+                          })}
             modalVisible={this.state.modalVisible}
             title="Hide Profile"
             posBtn="hide profile"
+            tintColor='grey'
+            cancelColor={Colors.colorMusic}
             msg="This will prevent other users from seeing your profile. Do you want to continue?"
           />
-
 
           <ModelOverlay
             showBg={true}
@@ -1076,6 +1090,8 @@ class homeScreen extends Component {
             posPress={() => this._onLogOut()}
             modalVisible={this.state.modalVisibleLogOut}
             title="Logout"
+            tintColor='grey'
+            cancelColor={Colors.colorMusic}
             posBtn="Logout"
             msg="Are you sure want to log out?"
           />

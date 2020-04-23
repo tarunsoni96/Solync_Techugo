@@ -141,6 +141,7 @@ export default class instructionSent extends Component {
             inactiveColor={this.state.inactiveColorCode}
             className={'border-b'}
             space={4}
+            isError={this.state.message}
             codeLength={4}
             autoFocus
             onCodeChange={code => alert(code)}

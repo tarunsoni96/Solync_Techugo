@@ -23,6 +23,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { NavigationEvents } from "react-navigation";
 import MobxStore from "../StorageHelpers/MobxStore";
 import { observer } from "mobx-react";
+import { widthPercentageToDP } from "react-native-responsive-screen";
 const { height, width } = Dimensions.get("screen");
 
 @observer
@@ -54,10 +55,20 @@ class Header extends Component {
   }
 
   componentDidMount() {
+    this.props.navigation.addListener('didFocus',this.didFocus)
     HelperMethods.animateLayout()
+
     this.setState({ show: "MUSIC" });
   }
 
+  didFocus = () => {
+    if(MobxStore.filterType){
+      this.setState({profileToggled:false, show:MobxStore.filterType.toUpperCase()},()=>{
+        MobxStore.isFilterChanged('')
+      })
+    }
+  }
+  
   onBack(){
     if(this.state.show == 'MUSIC'){
       HelperMethods.appExitPrompter()
@@ -106,16 +117,16 @@ class Header extends Component {
                 onPress={() => this.showProfile("PROFILE")}
                 style={{ height: 40, justifyContent: "center" }}>
 
-                <Image source={require("../assets/Images/@3xprofile-active.png")} style={{ alignSelf: "center", height: 33, width: 33 }} />
+                <Image resizeMode='contain' source={require("../assets/Images/@3xprofile-active.png")} style={{ alignSelf: "center", width: widthPercentageToDP(9.8) }} />
               </TouchableOpacity>
             ) : (
               <TouchableOpacity
                 onPress={() => this.showProfile("PROFILE")}
-                style={{ height: 40, justifyContent: "center" }}
+                style={{ justifyContent: "center" }}
               >
                 <Image
                   source={require("../assets/Images/@3xprofile.png")}
-                  style={{ alignSelf: "center", height: 30, width: 30 }}
+                  style={{ alignSelf: "center", width: widthPercentageToDP(9) }}
                   resizeMode={"contain"}
                 />
               </TouchableOpacity>
@@ -141,7 +152,7 @@ class Header extends Component {
             >
               <Image
                 source={MobxStore.isAnyUnreadMsg ? require("../assets/Images/@3xmessages-unread.png") : require("../assets/Images/@3xmessages.png")}
-                style={{ alignSelf: "center", height: 26, width: 30 }}
+                style={{ alignSelf: "center",  width: widthPercentageToDP(7) }}
                 resizeMode={"contain"}
               />
             </TouchableOpacity>

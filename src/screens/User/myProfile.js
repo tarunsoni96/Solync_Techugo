@@ -41,6 +41,7 @@ class MyProfile extends Component {
   }
 
   willFocus = () => {
+   
     this.setState({})
   }
 

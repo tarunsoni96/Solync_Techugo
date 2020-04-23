@@ -16,6 +16,7 @@ import {
 } from "react-native-responsive-screen";
 import {Colors} from "UIProps/Colors";
 const { height, width } = Dimensions.get("screen");
+import Fonts from "UIProps/Fonts";
 import LinearGradient from "react-native-linear-gradient";
 import EventNotSetup from "./EventNotSetup";
 import NavigationConsistor from "../Logicals/NavigationConsistor";
@@ -133,7 +134,8 @@ class EventCardTravel extends Component {
                   </Text>
                   <Text
                   numberOfLines={1}
-                    style={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}
+            
+                    style={{ color: "#fff", fontSize: 18,fontFamily: "Montserrat-Bold", }}
                   >
                     {obj?.location}, {obj?.artist_or_event}
                   </Text>

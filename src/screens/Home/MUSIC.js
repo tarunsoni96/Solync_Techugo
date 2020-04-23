@@ -82,35 +82,30 @@ class MUSIC extends Component {
 
   componentDidMount() {
     this.switchDateFetch(this.props.show)
-    this.props.navigation.addListener("didFocus", this.didFocus);
   }
 
   componentWillReceiveProps(nextProps) {
     this.switchDateFetch(nextProps.show);
   }
 
-  didFocus = () => {
-    if (MobxStore.filterType) {
-      if(this.props.show == MobxStore.filterType){
-        this.switchDateFetch()
-        MobxStore.resetFilterChange();
-      }
-    }
-  };
 
   switchDateFetch(cat){
     filtCat = 1;
     typeId = 1;
+    tintColor = Colors.colorMusic
     type = "Music";
     switch (cat) {
       case "SPORTS":
         filtCat = 2;
+        tintColor = Colors.colorSports
         typeId = 2;
         type = "Sports";
         break;
 
       case "TRAVEL":
         type = "Travel";
+        tintColor = Colors.colorTravel
+
         filtCat = 3;
         typeId = 3;
         break;
@@ -120,6 +115,7 @@ class MUSIC extends Component {
   }
 
   fetchData(filtCat,specificCat = '') {
+    MobxStore.navigateToTab = ''
     this.resetCaraousalPos()
 
     HelperMethods.animateLayout()
@@ -132,7 +128,6 @@ class MUSIC extends Component {
 
     if(specificCat){
       obj.filter_category = specificCat
-      
     }
 
     fetch("http://13.232.62.239:6565/api/user/home", {
@@ -235,7 +230,7 @@ class MUSIC extends Component {
   }
 
   resetCaraousalPos(){
-    this.caraousalInteractable.snapTo({index:0});
+    this.caraousalInteractable?.snapTo({index:0});
     setTimeout(()=>{
       this._deltaY.setValue(0)
     })
@@ -249,15 +244,12 @@ class MUSIC extends Component {
     } else if(type == 'Travel') {
       cardToRender = <EventCardTravel  style={cardStyle} obj={item} isOnHome />;
     }
-
     let imageDim = {
-      height:hp(45),
+      height:hp(height < 600 ? 37 : 45),
       width:wp(86)
     }
     return (
       <>
-        
-      
         <View style={styles.ThumbnailBackgroundView}>
         {!item.filter_category && 
         null
@@ -271,7 +263,6 @@ class MUSIC extends Component {
             {item.profile_picture == "" ? (
               <ImageBackground
                 style={[styles.CurrentVideoImage,{borderRadius:10,...imageDim}]}
-                
                 source={require("../../assets/Images/@photo-cropped.png")}
                 resizeMode={"cover"}
               >
@@ -350,22 +341,14 @@ class MUSIC extends Component {
           <View
             style={{
               width: wp(90),
-              height:hp(25),
+              flex:1,
+              // height:hp(30),
               alignSelf: "center",
               marginTop: hp(-1.5),
               marginBottom:hp(4)
             }}>
             {cardToRender}
           </View>
-          <View
-            style={{
-              width: width,
-              paddingBottom: 20,
-              justifyContent: "center",
-              alignSelf: "center",
-              zIndex: 100
-            }}
-          >
             <GradButton
               text="Chat"
               onPress={() =>
@@ -381,9 +364,9 @@ class MUSIC extends Component {
               style={{
                 marginBottom: 0,
                 margin: 10,
+                width:'100%'
               }}
             />
-          </View>
         </View>
       </>
     );
@@ -433,28 +416,24 @@ class MUSIC extends Component {
 
         </View>
       ) : (
-        <ScrollView contentContainerStyle={{ alignSelf: "center", justifyContent: "center" }}>
+        <ScrollView contentContainerStyle={{ alignSelf: "center",flexGrow:1,  }}>
           <View
             style={{
               alignContent: "center",
               alignItems: "center",
-              paddingTop: height * 0.1,
-              justifyContent: "center"
-            }}
-          >
+              justifyContent: "center",
+              marginTop:hp(10)}}>
+
             <Image
               source={require("../../assets/Images/xxxhdpi/nomatches.png")}
-              style={{ height: 90, width: 90 }}
-            />
-
+              style={{ height: 90, width: 90 }}/>
             <Text
               style={{
                 fontSize: 25,
                 paddingTop: 40,
                 paddingBottom: 20,
                 fontFamily: "Montserrat-ExtraBold"
-              }}
-            >
+              }}>
               No matches
             </Text>
             <Text
@@ -462,9 +441,7 @@ class MUSIC extends Component {
                 color: "#7e7e7e",
                 fontSize: 15,
                 fontFamily: "Montserrat-Regular",
-                textAlign: "center"
-              }}
-            >
+                textAlign: "center"}}>
               Solync is unable to find any matches.{"\n"}
               Please change your search and filter{"\n"}
               preferences or try again later
@@ -529,13 +506,14 @@ class MUSIC extends Component {
       <ImageBackground
       source={{uri:item.image}}
       imageStyle={{borderRadius:10}}
-      style={{padding:30,marginBottom:10,borderRadius:10}}
+      resizeMode='cover'
+      style={{padding:30,marginBottom:10,borderRadius:10,height:110}}
       >
       <TouchableWithoutFeedback onPress={()=>this.fetchData(filtCat,sub_category_name)} >
-    <View>
-      <CustomText bold text={sub_category_name.toUpperCase()} size={17}  />
-      <CustomText style={{fontStyle:'italic'}} text={description} size={15}  />
-    </View>
+        <View>
+          <CustomText bold text={sub_category_name.toUpperCase()} size={17}  />
+          <CustomText style={{fontStyle:'italic',fontSize:14}} text={description} size={15}  />
+        </View>
       </TouchableWithoutFeedback>
       </ImageBackground>
     )
@@ -547,7 +525,7 @@ class MUSIC extends Component {
 
       <View style={{flexDirection:'row',alignItems:'center',alignSelf:'center',}}>   
         <CustomText text='showing: ' color={Colors.lighter} />
-        <CustomText text={this.state.isSpecificCat} style={{marginLeft:5}} color={Colors.accent} />
+        <CustomText text={this.state.isSpecificCat} style={{marginLeft:5}} color={tintColor} />
       </View>
   <Icons lib='Material' onPress={()=>this.fetchData(filtCat)} style={{marginLeft:10}} name='close' color={Colors.lighter} />
 </View>
@@ -670,6 +648,7 @@ const styles = StyleSheet.create({
   ThumbnailBackgroundView: {
     alignItems: "center",
     width: width - 40,
+    flex:1,
     alignSelf: "center"
   },
   CarouselBackgroundView: {

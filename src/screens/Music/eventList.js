@@ -14,6 +14,8 @@ import {
   BackHandler,
   AsyncStorage
 } from "react-native";
+import {Colors} from "UIProps/Colors";
+
 import LinearGradient from "react-native-linear-gradient";
 import Header from "../../common/headerCommon";
 import CardView from "react-native-cardview";
@@ -25,6 +27,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp, heightPercentageT
 import Container from "../../AppLevelComponents/UI/Container";
 import ScreenHeader from "../../components/ScreenHeader";
 import Loader from "../../AppLevelComponents/UI/Loader";
+import MobxStore from "../../StorageHelpers/MobxStore";
 const { height, width } = Dimensions.get("screen");
 class BlockedUser extends Component {
   constructor(props) {
@@ -34,6 +37,7 @@ class BlockedUser extends Component {
       modalVisible: false,
       asdf: [],
       isLoading: false,
+      completingProf:false,
       userId: ""
     };
   }
@@ -92,8 +96,23 @@ class BlockedUser extends Component {
       });
   }
 
-  _CompleteProfile(title, locationRegion, locationCountry, formatDate) {
+  _CompleteProfile(title, locationRegion, locationCountry, formatDate,cats) {
+    this.setState({completingProf:true})
+    if(!this.state.completingProf){
+
     let { params } = this.props.navigation.state;
+    
+    let obj ={
+      category_id: params?.typeId,
+      subcategories_ids: cats.subcategories_ids,
+      subcategory:params?.data.toString(),
+      artist_or_event: title.trim(),
+      location: locationRegion + "," + locationCountry,
+      date: formatDate == "" ? "" : formatDate,
+      user_id: MobxStore.userObj.user_id,
+      lat: params?.lat,
+      lng: params?.lng
+    }
 
     fetch("http://13.232.62.239:6565/api/user/completeProfile", {
       method: "POST",
@@ -101,22 +120,15 @@ class BlockedUser extends Component {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        category_id: params?.typeId,
-        subcategory: params?.data.toString(),
-        artist_or_event: title.trim(),
-        location: locationRegion + "," + locationCountry,
-        date: formatDate == "" ? "" : formatDate,
-        user_id: this.state.userId,
-        lat: params?.lat,
-        lng: params?.lng
-      })
+      body: JSON.stringify(obj)
     })
       .then(response => response.json())
 
       .then(responseJson => {
+        this.setState({completingProf:false})
         if (responseJson.statusCode == 200) {
-          this.props.navigation.navigate("Home", { userId: params?.userId });
+          MobxStore.isFilterChanged(params?.type)
+          this.props.navigation.pop(4)
         } else if (responseJson.statusCode == 201) {
           this.props.navigation.navigate("UploadPhoto", {
             userId: params?.userId
@@ -126,9 +138,12 @@ class BlockedUser extends Component {
         }
         return responseJson;
       })
-      .catch(error => {});
+      .catch(error => {alert(error)});
+
+    } 
+
   }
-  _formatDate(date) {
+  _formatDate(date,startTime) {
     var monthNames = [
       "January",
       "February",
@@ -147,17 +162,22 @@ class BlockedUser extends Component {
     var day = date.getDate();
     var monthIndex = date.getMonth();
     var year = date.getFullYear();
-    console.log(
-      "======",
-      JSON.stringify(day + " " + monthNames[monthIndex] + " " + year)
-    );
-
-    return day + " " + monthNames[monthIndex] + " " + year;
+      if(startTime){
+       if(startTime.indexOf(monthNames[monthIndex]) > -1 && startTime.indexOf(day) > -1){
+        return  `, ${year}`
+      } else if(startTime.indexOf(monthNames[monthIndex]) > -1){
+        return  ` - ${day}, ${year}`
+      } 
+      } else {
+        return  `${monthNames[monthIndex]} ${day}`
+      }
   }
   renderItemList(item, index) {
     let { params } = this.props.navigation.state;
     var str = item.item.start_time.split(" ")[0];
+    var strEndTime = item.item.stop_time.split(" ")[0];
     var formatDate = this._formatDate(str);
+    var formatDateEndTime = this._formatDate(strEndTime,formatDate);
     return (
       <TouchableOpacity
         onPress={() =>
@@ -165,7 +185,8 @@ class BlockedUser extends Component {
             item.item.title,
             item.item.region_name,
             item.item.country_abbr,
-            formatDate
+            formatDate,
+            item.item
           )
         }
         style={{
@@ -179,7 +200,7 @@ class BlockedUser extends Component {
           source={require("../../assets/Images/@Group.png")}
           resizeMode="stretch"
           style={{
-            height: hp("28%"),
+            height: hp(height < 600 ? "38%" : '28%'),
             width: "97%",
             alignSelf: "center",
             justifyContent: "center",
@@ -283,7 +304,7 @@ class BlockedUser extends Component {
                       alignSelf: "flex-start"
                     }}
                   >
-                    {formatDate}
+                    {formatDate}{formatDateEndTime}
                   </Text>
                 </View>
               </View>
@@ -300,7 +321,8 @@ class BlockedUser extends Component {
                   style={{
                     backgroundColor: "transparent",
                     justifyContent: "center",
-                    alignSelf: "center"
+                    alignSelf: "center",
+                    marginTop:height < 600 ? 10 : 0
                   }}
                 >
                   <Text
@@ -358,12 +380,30 @@ class BlockedUser extends Component {
 
       :
         <FlatList
+        initialNumToRender={20}
           data={this.state.data}
           renderItem={(item, index) => this.renderItemList(item, index)}
-          extraData={this.state}
+          keyExtractor={(item,index) => index}
           style={{ marginTop: 10 }}
         />
       }
+
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={this.state.completingProf}
+        onRequestClose={() => {
+          alert('Loading..')
+        }}
+      >
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center",backgroundColor:'rgba(255,255,255,0.6)' }}
+        >
+
+        <Loader color={Colors.accent} size='large' /> 
+
+        </View>
+        </Modal>
       </Container>
 
     );

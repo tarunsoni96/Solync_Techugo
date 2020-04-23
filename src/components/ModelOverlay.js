@@ -22,6 +22,7 @@ export default class ModelOverlay extends Component {
       isGroupChat,
       msg,
       bgColor,
+      cancelColor,
       posBtn,
       ngBtn,
     } = this.props;
@@ -121,7 +122,7 @@ export default class ModelOverlay extends Component {
                 <Text
                   style={{
                     fontSize: 16,
-                    color: "grey",
+                    color: cancelColor || "grey",
                     fontFamily: "Montserrat-ExtraBold",
                     alignSelf: "center",
                   }}

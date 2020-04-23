@@ -190,6 +190,7 @@ export default class ResetPassword extends Component {
                                 autoFocus
                                 secureTextEntry={this.state.securePass}
                                 value={this.state.password}
+                                onFocus={()=>this.setState({password:this.state.passwordMessage ? '' : this.state.password})}
                                 fontFamily={'Montserrat-Bold'}
                                 onChangeText={(password) => this.setState({ password, opacityButton: false })} />
 
@@ -217,6 +218,8 @@ export default class ResetPassword extends Component {
                             <TextInput style={{ borderColor: '#C0C0C0', width: width - 120, borderWidth: 0,  opacity: 2.0 }}
                                 secureTextEntry={this.state.securePass}
                                 fontSize={17}
+                                onFocus={()=>this.setState({confirmpassword:this.state.passwordMessage ? '' : this.state.confirmpassword})}
+
                                 secureTextEntry={this.state.secureConfirmPass}
                                 fontFamily={'Montserrat-Bold'}
                                 value={this.state.confirmpassword}

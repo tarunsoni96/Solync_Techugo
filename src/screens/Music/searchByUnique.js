@@ -473,6 +473,7 @@ class SearchByUnique extends Component {
           ListEmptyComponent={this.noSuggestionsView}
           extraData={this.state}
           style={{ maxHeight: 250 }}
+          nestedScrollEnabled
           keyboardShouldPersistTaps="always"
           showsVerticalScrollIndicator={false}
           onScrollBeginDrag={Keyboard.dismiss}
@@ -481,6 +482,7 @@ class SearchByUnique extends Component {
     } else {
       return (
         <FlatList
+        nestedScrollEnabled
           data={this.state.eventData}
           keyboardShouldPersistTaps="always"
           renderItem={({ item, index }) => this._renderItemArtist(item, index)}

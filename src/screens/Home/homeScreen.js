@@ -51,7 +51,7 @@ class homeScreen extends Component {
   }
 
   willBlur = () => {
-    NavigationConsistor.turnOffChatListeners(socketio,['receiveHomeMessage',])
+    NavigationConsistor.turnOffChatListeners(socketio,['receiveHomeMessage','newGroupInfo'])
   }
 
   _handleAppStateChange = (nextAppState) => {
@@ -80,6 +80,11 @@ class homeScreen extends Component {
        socketio.listenEvent('receiveHomeMessage',callBackData => {
            HelperMethods.triggerChatMsgFeedback(this.props.navigation,callBackData.result)
         })
+
+        socketio.listenEvent('newGroupInfo',callBackData => {
+          HelperMethods.snackbar(callBackData.result)
+       })
+
       }
     })
   }
@@ -91,7 +96,7 @@ class homeScreen extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <Header />
+        <Header  />
       </View>
     );
   }

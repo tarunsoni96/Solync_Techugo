@@ -51,6 +51,11 @@ let monthData = [
   { name: "Oct – Dec" },
 ];
 
+let dateText = ''
+let params ={}
+let firstInputTitle = "";
+let content = ''
+let inpStyle ={}
 export default class SearchByUnique extends Component {
   constructor(props) {
     super(props);
@@ -118,9 +123,12 @@ export default class SearchByUnique extends Component {
         AsyncStorageHandler.store(Constants.isInterestSelected, "true");
         if (responseJson.statusCode == 200) {
           MobxStore.isFilterChanged(params?.type);
-          this.props.navigation.navigate("Home", {
-            user_id: MobxStore.userObj.user_id,
-          });
+          if(params?.type == 'Sports' || params?.type == 'Music'){
+            this.props.navigation.pop(4)
+          } else {
+            this.props.navigation.pop(2)
+
+          }
         } else if (responseJson.statusCode == 201) {
           this.props.navigation.navigate("UploadPhoto", {
             userId: MobxStore.userObj.user_id,
@@ -139,12 +147,11 @@ export default class SearchByUnique extends Component {
 
   componentWillMount() {
     params = this.props.navigation.state.params;
-    dateText = ''
     this.renderContent();
   }
 
   componentDidMount() {
-
+    // if(params?.type != 'Travel')
     this.getLocations()
 
     this.setState(
@@ -158,7 +165,17 @@ export default class SearchByUnique extends Component {
   getLocations(){
      this.setState({isLoadingLocations:true,datesData:[]})
         getEventLocation(params?.artFest).then(resp => {
-          this.setState({isLoadingLocations:false,monthData:resp.result.locations})
+          this.setState({isLoadingLocations:false})
+          // if(resp.statusCode == 201){
+          //   this.props.navigation.navigate("NoConcert", {
+          //     sub_ids: params?.data,
+          //     artist: params?.artFest,
+          //     loc: "",
+          //     type: params?.type,
+          //   });
+          //   return
+          // }
+          this.setState({monthData:resp.result.locations})
         }).catch(err => {
           this.setState({isLoadingLocations:false})
         })
@@ -1015,7 +1032,7 @@ export default class SearchByUnique extends Component {
               onBackPress={() => this.props.navigation.pop()}
             >
               <View style={{width: "100%" }}>
-                {content}
+                {content && content}
 
                 {this.renderInputs()}
               </View>

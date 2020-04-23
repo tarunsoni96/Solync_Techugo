@@ -143,7 +143,7 @@ class ChatRoom extends Component {
       case "Music":
         tintColor = Colors.colorMusic;
         categoryPic = require("../../assets/Images/@3xmusic-colour.png");
-        categoryBG = require("../../assets/Images/@2xdropdown-box.png");
+        categoryBG = require("../../assets/Images/@3xmusic_Ticket_BG.png");
         break;
 
       case "Sports":
@@ -386,6 +386,7 @@ class ChatRoom extends Component {
         let msgs = [];
 
         result?.data?.map((item, index) => {
+          
           let obj = {
             _id: item.id,
             createdAt: item.date_added,
@@ -648,9 +649,8 @@ class ChatRoom extends Component {
   renderSystemMsg = msg => {
     return(
       <View style={{flexDirection:'row',alignItems:'center',alignSelf:'center',marginTop:5}} > 
-      <Icons lib='FontAwesome' name='user' color='#9AA3A9' size={17} />
-
-      <Text style={styles.systemMsgStyle} >{msg.currentMessage.text}</Text>
+        <Icons lib='FontAwesome' name='user' color='#9AA3A9' size={17} />
+        <Text style={styles.systemMsgStyle} >{msg.currentMessage.text}</Text>
       </View>
     )
   }
@@ -945,7 +945,7 @@ class ChatRoom extends Component {
           autoFocus
           onChangeText={msg => this.onInputEdit(msg)}
           value={this.state.msg}
-          onFocus={() => this.hideAttach()}
+          onFocus={() => this.hideAttach(true)}
           style={{
             fontSize: 18,
             fontFamily: Fonts.medium,
@@ -1121,7 +1121,7 @@ class ChatRoom extends Component {
       return;
     }
 
-    this.hideAttach();
+    this.hideAttach(true);
 
     if (isImage) {
       props.onSend({ url }, true);
@@ -1131,9 +1131,9 @@ class ChatRoom extends Component {
     }
   }
 
-  hideAttach() {
+  hideAttach(showEvent) {
     HelperMethods.animateLayout();
-    this.setState({ showAttachPopup: false,showChatUsers:false,showEvent:false });
+    this.setState({ showAttachPopup: false,showChatUsers:false,showEvent:!showEvent ? false : this.state.showEvent });
   }
 
   renderChatDP() {
@@ -1150,7 +1150,7 @@ class ChatRoom extends Component {
               params?.userObj.profile_picture ||
               "https://absorbmarketing.com/wp-content/uploads/2015/01/Picture-of-person.png"
           }}
-          style={{ width: 30, height: 30, borderRadius: 50 }}
+          style={{ width: 35,height:35, borderRadius: 50 }}
           resizeMode="cover"
         />
       );
@@ -1165,11 +1165,14 @@ class ChatRoom extends Component {
     if (this.isGroupChat) {
       return (
         <>
-          <Text style={{ color: '#000',fontFamily:Fonts.medium,fontSize:18 }} numberOfLines={1}>{ groupName || params?.userObj.first_name}</Text>
           <ScrollView horizontal>
+          <View>
+
+          <Text style={{ color: '#000',fontFamily:Fonts.medium,fontSize:wp(4.4) }} numberOfLines={1}>{ groupName || params?.userObj.first_name}</Text>
             <Text style={{ color: tintColor }}>
               {this.state.groupUsernames.join(", ")}
             </Text>
+          </View>
           </ScrollView>
         </>
       );
@@ -1177,12 +1180,12 @@ class ChatRoom extends Component {
       return (
         <>
           <ScrollView horizontal>
-            <Text style={{ color: "#000" }}>
+            <Text style={{ color: "#000",fontSize:17,fontFamily:Fonts.medium }}>
               {params?.userObj.first_name}
               {MobxStore.addedUserNamesChat.join("")}
             </Text>
           </ScrollView>
-          <Text style={{ color: tintColor }}>{this.state.userStatus}</Text>
+          <Text style={{ color: tintColor,fontSize:14,fontFamily:Fonts.medium }}>{this.state.userStatus}</Text>
         </>
       );
     }
@@ -1218,7 +1221,7 @@ class ChatRoom extends Component {
           renderItem={this.renderGroupChatUsers}
           keyExtractor={(item,index) => item.first_name} 
           extraData={this.state}
-              style={{ maxWidth:200,maxHeight:200 }}
+              style={{maxWidth:wp(60), maxHeight:200 }}
               keyboardShouldPersistTaps='always'
               showsVerticalScrollIndicator={false}
             />
@@ -1246,7 +1249,10 @@ class ChatRoom extends Component {
 
     navigateToUserProfile(userData){
       this.toggleUserList()
-      alert('Todo')
+      if(MobxStore.userObj?.first_name != userData.first_name){
+        MobxStore.navigateToTab = categoryType
+        this.props.navigation.navigate('Home')
+      }
   }
 
   renderGroupChatUsers = ({item,index}) => {
@@ -1256,7 +1262,7 @@ class ChatRoom extends Component {
 
       <View style={{padding:15,flexDirection:'row',alignItems:'center'}}> 
         <Image style={{borderRadius:50,width:30,height:30}} source={{uri:item.profile_picture}} />   
-        <Text style={{fontSize:16,fontFamily:Fonts.heavy,marginLeft:20,width:'50%'}}>{MobxStore.userObj?.first_name == item.first_name ? 'You' : item.first_name}</Text>
+        <Text style={{fontSize:16,fontFamily:Fonts.heavy,marginLeft:20}}>{MobxStore.userObj?.first_name == item.first_name ? 'You' : item.first_name}</Text>
         
       </View>
 
@@ -1357,7 +1363,7 @@ class ChatRoom extends Component {
                   style={[
                     styles.triangle,
                     {
-                      right: "73%",
+                      right: "75%",
                       top: "85%",
                       position: "absolute",
                       borderBottomColor: tintColor
@@ -1406,14 +1412,15 @@ class ChatRoom extends Component {
           <>
             <ImageBackground
               style={{
-                padding: "3%",
-                left: "10%",
+                padding:height < 600 ? 12 : 20,
+                alignSelf:'center',
+                marginLeft:wp(0),
                 marginBottom: 1,
-                marginTop:10,
-                width: global.deviceWidth / 1.2
+                // marginTop:10,
+                width: wp(80)
               }}
-              resizeMode="cover"
-              imageStyle={{ borderRadius: 16 }}
+              resizeMode="contain"
+              imageStyle={{ borderRadius: 25,padding:20 }}
               source={categoryBG}
             >
               <Text style={{ color: "#eee" }}>{params?.eventType == 'Travel' ? 'Location:' :'Event:'} </Text>

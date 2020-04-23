@@ -82,9 +82,15 @@ class ChatScreen extends Component {
     this.props.navigation.addListener("willFocus", this.willFocus);
     this.props.navigation.addListener("willBlur", this.willBlur);
       this.setBlockReciever()
-
+    this.setGroupCreatedReciever()
      
 
+  }
+
+  setGroupCreatedReciever(){
+    socketio.listenEvent('newGroupInfo',callBackData => {
+      HelperMethods.snackbar(callBackData.result)
+   })
   }
 
   setBlockReciever(){
@@ -104,7 +110,8 @@ class ChatScreen extends Component {
     NavigationConsistor.turnOffChatListeners(socketio, [
       'conversationList',
       'blockedReceiver',
-      'receiveHomeMessage'
+      'receiveHomeMessage',
+      'newGroupInfo',
     ]);
     
   }
@@ -498,7 +505,8 @@ class ChatScreen extends Component {
   }
   render() {
     return (
-      <Container turnOffScroll={false}>
+      <Container turnOffScroll={!this.state.isSwiping}>
+      
 
         <ScreenHeader isCenter={true} title={'Chat'} noBold />
         <View style={{padding:13,width:'100%'}}>
@@ -532,6 +540,7 @@ class ChatScreen extends Component {
         </View>
 
 
+
         <ModelOverlay
           closeModal={() => this.setState({ showBlockModal: false })}
             modalVisible={this.state.showBlockModal}
@@ -553,7 +562,8 @@ class ChatScreen extends Component {
             msg="Are you sure you want to delete this chat?"
           />
 
-      </Container>
+</Container>
+      
     );
   }
 }

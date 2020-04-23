@@ -24,6 +24,9 @@ import NavigationConsistor from "../Logicals/NavigationConsistor";
 
 class EventCardMusic extends Component {
 
+  state = {
+    eventLinesLength:0
+  }
   renderItem = ({ item, index }) => {
     const {isOnHome} = this.props
     return (
@@ -108,21 +111,23 @@ class EventCardMusic extends Component {
               style={{
                 width: "100%",
                 alignSelf: "center",
-                flex:1,
+                // flex:1,
               }}
             >
               <ImageBackground
                 source={require("../assets/Images/@Group.png")}
                 resizeMode="stretch"
                 style={{
-                  height: 'auto',
-                  width: "100%",
+                  // flex:0.9,
+                  width:'100%',
                   alignSelf: "center",
                   justifyContent: "center",
                   alignItems: "center"
                 }}
+
               >
-              <View>
+                  
+              <View style={{paddingBottom:height < 600 ? 0 : 0,}}>
 
                 {!isOnHome && 
               <Image
@@ -130,13 +135,14 @@ class EventCardMusic extends Component {
                     style={{ height: 45, width: 45,right:'-3%',top:'-12%',position:'absolute' }}
                   />
                 }
+                
                   <View
                     style={{
                       width: "90%",
                       marginLeft:0,
-
-                        borderRadius: 20,
-                        marginTop:14,
+                      marginTop:height < 600 ? 24 - (this.state.eventLinesLength*1.4 + 5) : 15,
+                      paddingHorizontal:5,
+                      borderRadius: 20,
                       backgroundColor: "transparent"
                     }}
                   >
@@ -145,7 +151,6 @@ class EventCardMusic extends Component {
                         color: "#d39dc5",
                         fontSize: 14,
                         fontWeight: "bold",
-                        alignSelf: "flex-start",
                         width: "70%"
                       }}
                     >
@@ -154,10 +159,14 @@ class EventCardMusic extends Component {
 
 
                     <Text
-                    numberOfLines={1}
+                    numberOfLines={2}
+                    onTextLayout={({ nativeEvent: { lines } }) =>
+                      this.setState({eventLinesLength:lines.length})
+                      }
                       style={{
                         color: "#fff",
-                        fontSize: 16,
+                        fontSize: wp(4),
+                        paddingBottom:10,
                         fontFamily:Fonts.heavy,
                       }}
                     >
@@ -189,7 +198,7 @@ class EventCardMusic extends Component {
                         justifyContent: "space-between",
                         flexDirection: "row",
                         width: "85%",
-                        marginTop:20,
+                        // marginTop:20,
                         alignSelf: "flex-start",
                         height: "20%"
                       }}
@@ -198,7 +207,6 @@ class EventCardMusic extends Component {
                         style={{
                           width: width / 3.8,
                           backgroundColor: "transparent",
-                          alignSelf: "center"
                         }}
                       >
                         <Text
@@ -226,7 +234,6 @@ class EventCardMusic extends Component {
                         style={{
                           width: width / 5,
                           backgroundColor: "transparent",
-                          alignSelf: "center"
                         }}
                       >
                         <Text
@@ -250,40 +257,43 @@ class EventCardMusic extends Component {
                           {NavigationConsistor._formatYear(obj.date)}
                         </Text>
                       </View>
-                      <View style={{ width: width / 3.5, alignSelf: "center" }}>
+                      <View style={{ width: width / 3.5,  }}>
                         <Text
                           style={{
                             color: "#8c979e",
                             fontSize: 15,
                             fontFamily: "Montserrat-Bold",
-                            alignSelf: "flex-start"
+                            // alignSelf: "flex-start"
                           }}
                         >
                           Location
                         </Text>
                         <Text
-                        numberOfLines={1}
+                        // numberOfLines={1}
                           style={{
                             color: "#343434",
                             fontSize: 12,
                             fontFamily: "Montserrat-Bold",
-                            alignSelf: "flex-start"
+                            // alignSelf: "flex-start"
                           }}
                         >
                           {obj?.location}
                         </Text>
                       </View>
                     </View>
+
                     <View
                       onStartShouldSetResponder={() => true}
                       style={{
                         justifyContent: "flex-start",
                         flexDirection: "row",
                         maxWidth:'100%',
+                        zIndex:1000,
                         overflow:'hidden'
                       }}
                     >
                       <FlatList
+                      onStartShouldSetResponder={() => true}
 
                         renderItem={this.renderItem}
                         data={obj.subCategory}
@@ -293,6 +303,7 @@ class EventCardMusic extends Component {
                         keyExtractor={(item, index) => index}
                       />
                     </View>
+
                   </View>
                 </View>
               </View>

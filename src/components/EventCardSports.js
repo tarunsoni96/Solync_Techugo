@@ -17,6 +17,7 @@ import {
 const { height, width } = Dimensions.get("screen");
 import LinearGradient from "react-native-linear-gradient";
 import EventNotSetup from "./EventNotSetup";
+import Fonts from "UIProps/Fonts";
 import NavigationConsistor from "../Logicals/NavigationConsistor";
 
 class EventCardSports extends Component {
@@ -122,7 +123,7 @@ class EventCardSports extends Component {
               >
                 <Text
                   style={{
-                    color: "#5c92bc",
+                    color: "#99C1BD",
                     fontSize: 14,
                     fontWeight: "bold",
                     alignSelf: "flex-start",
@@ -133,7 +134,8 @@ class EventCardSports extends Component {
                 </Text>
                 <Text
                 numberOfLines={1}
-                  style={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}
+                        
+                  style={{ color: "#fff", fontSize: 18, fontFamily:Fonts.heavy, }}
                 >
                   {obj?.location}
                 </Text>

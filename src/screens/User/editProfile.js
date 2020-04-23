@@ -806,16 +806,19 @@ export default class EditProfile extends Component {
   }
 
   _showDate() {
+    Keyboard.dismiss()
     HelperMethods.animateLayout();
     this.setState({ showMonth: true, flatId: "1" });
   }
 
   _showYear() {
+    Keyboard.dismiss()
     HelperMethods.animateLayout();
     this.setState({ showMonth: true, flatId: "2" });
   }
 
   _showMonth() {
+    Keyboard.dismiss()
     HelperMethods.animateLayout();
     this.setState({ showMonth: true, flatId: "0" });
   }
@@ -1189,9 +1192,9 @@ export default class EditProfile extends Component {
                       fontWeight: "bold",
                       alignSelf: "center",
                       width: "50%",
+                      textAlign:'center'
                     }}
                   >
-                    {" "}
                     {this.state.valueDate}
                   </Text>
                   <View style={{ alignSelf: "center" }}>
@@ -1263,9 +1266,9 @@ export default class EditProfile extends Component {
                       fontWeight: "bold",
                       alignSelf: "center",
                       width: "50%",
+                      textAlign:'center'
                     }}
                   >
-                    {" "}
                     {this.state.valueMonth}
                   </Text>
                   <View
@@ -1338,9 +1341,9 @@ export default class EditProfile extends Component {
                       fontWeight: "bold",
                       alignSelf: "center",
                       width: "50%",
+                      textAlign:'center'
                     }}
                   >
-                    {" "}
                     {this.state.valueYear}
                   </Text>
                   <View style={{ alignSelf: "center" }}>

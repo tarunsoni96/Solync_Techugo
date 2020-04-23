@@ -9,6 +9,7 @@ class MobxStore {
   @observable isOnChatScreen = false
   @observable isAnyUnreadMsg = false
   @observable reloadConvList = false
+  @observable navigateToTab = ''
   
   addUser (item) {
     this.removeAllUsers()
