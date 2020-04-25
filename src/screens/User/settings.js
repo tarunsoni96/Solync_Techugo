@@ -27,9 +27,13 @@ import MobxStore from "../../StorageHelpers/MobxStore";
 import ModelOverlay from "../../components/ModelOverlay";
 
 const { height, width } = Dimensions.get("screen");
+
+
 class homeScreen extends Component {
   constructor(props) {
     super(props);
+
+    this.ageChanged = false
     this.state = {
       modalVisibleLogOut: false,
       textColor: "",
@@ -241,10 +245,6 @@ class homeScreen extends Component {
     hideProfileValue = hideProfileValue ? 1 : 0;
     switchVibrationValue = switchVibrationValue ? 1 : 0;
     switchSoundValue = switchSoundValue ? 1 : 0;
-    if(!gender){
-      alert('Please select gender')
-      return
-    }
     this.setState({ isApiCall: true });
 
     updateSettings(
@@ -252,7 +252,7 @@ class homeScreen extends Component {
       msgVal,
       rangeLow,
       rangeHigh,
-      gender,
+      'gender',
       hideProfileValue,
       switchVibrationValue,
       switchSoundValue
@@ -260,9 +260,22 @@ class homeScreen extends Component {
       .then((resp) => {
         this.setState({ isApiCall: false, data: resp });
         MobxStore.updateUserSettings(resp);
-        // const { params } = this.props.navigation.state;
-        // MobxStore.isFilterChanged(params?.filterType);
-        this.props.navigation.pop();
+
+        const { params } = this.props.navigation.state;
+
+        if(this.ageChanged){
+          if(params?.filterType){
+            MobxStore.isFilterChanged(params?.filterType);
+            HelperMethods.resetStack(this.props.navigation)
+          } else {
+            MobxStore.isFilterChanged('');
+            MobxStore.specificCat = ''
+            HelperMethods.resetStack(this.props.navigation)
+            
+          }
+        } else {
+this.props.navigation.pop()
+        }
       })
       .catch((err) => {
         alert(JSON.stringify( err))
@@ -380,7 +393,6 @@ class homeScreen extends Component {
           ></View>
           <View
             style={{
-              height: 60,
               width: width - 30,
               alignSelf: "center",
               justifyContent: "center",
@@ -423,13 +435,14 @@ class homeScreen extends Component {
                   labelStyle="none"
                   onValueChanged={(low, high, fromUser) => {
                     this.setState({ rangeLow: low, rangeHigh: high });
+                    this.ageChanged = true
                   }}
                 />
               )}
             </NetworkAwareContent>
           </View>
 
-          <View
+          {/* <View
             style={{
               width: width - 30,
               height: height / 6,
@@ -599,7 +612,7 @@ class homeScreen extends Component {
                 </TouchableWithoutFeedback>
               )}
             </View>
-          </View>
+          </View> */}
           <View
             style={{ height: 10, width: width, backgroundColor: "#fff" }}
           ></View>
@@ -937,7 +950,8 @@ class homeScreen extends Component {
           <View
             style={{ height: 10, width: width, backgroundColor: "#fff" }}
           ></View>
-          <View
+          <TouchableOpacity
+          onPress={()=>this.props.navigation.navigate('TermsConditions',{type:'Privacy policy'})}
             style={{
               justifyContent: "space-between",
               width: width - 30,
@@ -960,7 +974,7 @@ class homeScreen extends Component {
               style={{ alignSelf: "center" }}
               source={require("../../assets/Images/@arrow-right.png")}
             />
-          </View>
+          </TouchableOpacity>
           <View
             style={{ height: 10, width: width, backgroundColor: "#fff" }}
           ></View>
@@ -979,7 +993,9 @@ class homeScreen extends Component {
           <View
             style={{ height: 10, width: width, backgroundColor: "#fff" }}
           ></View>
-          <View
+          <TouchableOpacity
+          onPress={()=>this.props.navigation.navigate('TermsConditions',{type:'Terms of service'})}
+
             style={{
               justifyContent: "space-between",
               width: width - 30,
@@ -1002,7 +1018,7 @@ class homeScreen extends Component {
               style={{ alignSelf: "center" }}
               source={require("../../assets/Images/@arrow-right.png")}
             />
-          </View>
+          </TouchableOpacity>
           <View
             style={{ height: 10, width: width, backgroundColor: "#fff" }}
           ></View>

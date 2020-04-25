@@ -6,9 +6,13 @@ import {
   TouchableOpacity,
   ImageBackground,
   SafeAreaView,
+  TouchableWithoutFeedback,
   FlatList,
 } from "react-native";
 import Container from "../../AppLevelComponents/UI/Container";
+import Fonts from "UIProps/Fonts";
+import CustomText from 'AppLevelComponents/UI/CustomText'
+import {Colors} from "UIProps/Colors";
 import 'Helpers/global'
 import { widthPercentageToDP, heightPercentageToDP } from "react-native-responsive-screen";
 import GradButton from "../../common/gradientButton";
@@ -24,11 +28,18 @@ class NoConcert extends Component {
       data: [],
       latitude: 0,
       longitude: 0,
+      loading:false
     };
   }
 
   componentWillMount(){
+
     params = this.props.navigation.state.params
+  }
+
+  componentDidMount(){
+    this._fetchData()
+
   }
 
   _fetchData() {
@@ -65,97 +76,50 @@ class NoConcert extends Component {
   }
   _renderItem(item, index) {
     let { params } = this.props.navigation.state;
+
     return (
-      <View
-        style={{
-          height: 80,
-          width: width - 40,
-          backgroundColor: "transparent",
-          marginTop: 15,
-          alignSelf: "center",
-        }}
-      >
-        {params.typeId == "1" ? (
-          <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate("FindPeople", {
-                type: params.type,
-                artFest: item.item.title,
-                data: params.sub_ids,
-                dataSubName: params.dataSubName,
-              })
-            }
-            style={{
-              width: width - 40,
-              height: "80%",
-              backgroundColor: "#f6f7f8",
-              marginTop: 10,
-              alignSelf: "center",
-              borderRadius: 4,
-              justifyContent: "center",
-            }}
-          >
-            <Text
-              style={{ fontSize: 15, fontFamily: "Montserrat-Bold", left: 10 }}
+      <TouchableWithoutFeedback onPress={() =>
+                  this.props.navigation.navigate("FindPeople", {
+                    // type: params.type,
+                    // artFest: item.item.title,
+                    // data: params.sub_ids,
+                    // dataSubName: params.dataSubName,
+
+        type: params.type,
+        artFest: item.item.title,
+        data: params.sub_ids,
+        typeId: params.typeId,
+        title:params?.title,
+
+
+
+        dataSubName: params.dataSubName,
+        selectedCats: params?.selectedCats,
+
+                  })
+                }
             >
-              {item.item.title}
-            </Text>
-          </TouchableOpacity>
-        ) : params.typeId == "2" ? (
-          <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate("FindPeopleSports", {
-                type: params.type,
-                artFest: item.item.title,
-                data: params.sub_ids,
-                dataSubName: params.dataSubName,
-              })
-            }
-            style={{
-              width: width - 40,
-              height: "80%",
-              backgroundColor: "#f6f7f8",
-              marginTop: 10,
-              alignSelf: "center",
-              borderRadius: 4,
-              justifyContent: "center",
-            }}
-          >
-            <Text
-              style={{ fontSize: 15, fontFamily: "Montserrat-Bold", left: 10 }}
-            >
-              {item.item.title}
-            </Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate("FindPeopleTravel", {
-                type: params.type,
-                artFest: item.item.title,
-                data: params.sub_ids,
-                dataSubName: params.dataSubName,
-              })
-            }
-            style={{
-              width: width - 40,
-              height: "80%",
-              backgroundColor: "#f6f7f8",
-              marginTop: 10,
-              alignSelf: "center",
-              borderRadius: 4,
-              justifyContent: "center",
-            }}
-          >
-            <Text
-              style={{ fontSize: 15, fontFamily: "Montserrat-Bold", left: 10 }}
-            >
-              {item.item.title}
-            </Text>
-          </TouchableOpacity>
-        )}
+
+      <View style={{marginBottom:20,flex:1,backgroundColor:'#F6F7F8',width:'100%',borderRadius:10,padding:23,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+        <CustomText text={item.item.title} style={{fontFamily:Fonts.heavy,maxWidth:params.type == 'Music' ? widthPercentageToDP(40) : widthPercentageToDP(80)}} color='#000' />
+        {params.type == 'Music' && 
+        <CustomText color={Colors.colorMusic}  text={item.item.performers ?  'Artist/Band' : 'Festival'} />
+        }
       </View>
-    );
+      </TouchableWithoutFeedback>
+    )
+    //       <TouchableOpacity
+    //         onPress={() =>
+    //           this.props.navigation.navigate("FindPeopleSports", {
+    //             type: params.type,
+    //             artFest: item.item.title,
+    //             data: params.sub_ids,
+    //             dataSubName: params.dataSubName,
+    //           })
+    //         }
+    //     )}
+    //   </View>
+    // );
   }
   render() {
     
@@ -170,6 +134,7 @@ class NoConcert extends Component {
           break;
     }
     return (
+      <>
       <Container>
         <View style={{flex:1,justifyContent:'center',paddingHorizontal:widthPercentageToDP(10),alignItems:'center'}}>
 
@@ -200,18 +165,21 @@ class NoConcert extends Component {
 
             <NetworkAwareContent isApiCall={this.state.loading} >
 
+              <View style={{marginTop:30,flex:1,width:widthPercentageToDP(85)}} >
+
           <FlatList
             data={this.state.data}
             renderItem={(item, index) => this._renderItem(item, index)}
             extraData={this.state}
           />
+              </View>
             </NetworkAwareContent>
         </View>
 
-              <GradButton style={{width:'100%'}} text='Go back to search' onPress={()=>this.props.navigation.pop(3)} />
              
       </Container>
-
+              <GradButton style={{width:'100%'}} text='Go back to search' onPress={()=>this.props.navigation.pop(2)} />
+</>
     );
   }
 }

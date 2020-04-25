@@ -45,6 +45,7 @@ class Header extends Component {
 
   }
   showDetails(param) {
+    MobxStore.specificCat = ''
     this.previousShow = param
     HelperMethods.animateLayout()
       this.setState({
@@ -404,7 +405,7 @@ class Header extends Component {
           <PROFILE />
           :
 
-        <MUSIC show={this.state.show} />
+        <MUSIC specificCat={MobxStore.specificCat} show={this.state.show} />
           }
 
 

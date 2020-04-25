@@ -4,6 +4,7 @@ import {
   StyleSheet,
   View,
   SafeAreaView,
+  Platform,
   Dimensions,
   TextInput,
   Image,
@@ -105,6 +106,7 @@ var group_id = ''
 class ChatRoom extends Component {
   constructor(props) {
     super(props);
+    this.isLeaved = false
     this.isGroupChat = false;
     this.sendProps = undefined;
     this.giftedChatRef = null;
@@ -213,16 +215,17 @@ class ChatRoom extends Component {
     }
     MobxStore.reloadConvList = true
     socketio.emitToEvent("blockGroup",obj );
-    this.leaveGroupChat()
+    // this.leaveGroupChat()
   }
 
   addUserToGroup(){
     this.setUserIds()
     let obj = {
-        group_id,
-        "group_name":params?.userObj.first_name,
-        "other_user_id":userIds,
-        }
+      group_id,
+      "group_name":params?.userObj.first_name,
+      "other_user_id":userIds,
+      user_id:MobxStore.userObj.user_id,
+    }
     socketio.emitToEvent("addGroupUser",obj );
     this.clearAddPersons()
   }
@@ -379,14 +382,15 @@ class ChatRoom extends Component {
         this.setState({ blocked: true,blockedBy:false, userStatus: "Blocked" });
         return;
       } else if(result.block_status == 'blocked' && this.isGroupChat){
-        this.leaveGroupChat()
+        if(!this.isLeaved){
+          this.leaveGroupChat()
+        }
       } else {
         this.setUpGroupChat(result)
         this.setUpChat();
         let msgs = [];
 
         result?.data?.map((item, index) => {
-          
           let obj = {
             _id: item.id,
             createdAt: item.date_added,
@@ -415,6 +419,7 @@ class ChatRoom extends Component {
   }
 
   leaveGroupChat(){
+    this.isLeaved= true
     HelperMethods.snackbar('You have blocked all the users and left from the group')
         MobxStore.reloadConvList = true
         this.props.navigation.pop()
@@ -631,19 +636,23 @@ class ChatRoom extends Component {
   onSend(messages = []) {
     this.giftedChatRef.scrollToBottom();
     HelperMethods.animateLayout();
-    this.setState(
-      previousState => ({
-        messages: GiftedChat.append(previousState.messages, messages[0])
-      }),
-      () => {
-        const { params } = this.props.navigation.state || {};
-        if (messages[0].url) {
-          this.sendMsg(myUserId, clientId, "", messages[0].url, "image");
-        } else {
-          this.sendMsg(myUserId, params?.clientId, messages[0].text);
+    if(messages[0].text.trim().length == 0){
+      return
+    }
+    
+      this.setState(
+        previousState => ({
+          messages: GiftedChat.append(previousState.messages, messages[0])
+        }),
+        () => {
+          const { params } = this.props.navigation.state || {};
+          if (messages[0].url) {
+            this.sendMsg(myUserId, clientId, "", messages[0].url, "image");
+          } else  {
+            this.sendMsg(myUserId, params?.clientId, messages[0].text);
+          }
         }
-      }
-    );
+        );
   }
 
   renderSystemMsg = msg => {
@@ -659,7 +668,7 @@ class ChatRoom extends Component {
     if(this.state.typingUserName){
 
       return(
-        <View style={{flexDirection:'row',alignItems:'center',marginLeft:10,marginBottom:HelperMethods.isPlatformAndroid() ? 8 :undefined }} > 
+        <View style={{flexDirection:'row',alignItems:'center',marginLeft:10,marginBottom:8 }} > 
 
         <View style={{flexDirection:'row',alignItems:'center',}}>
 
@@ -672,7 +681,7 @@ class ChatRoom extends Component {
       </View>
     )
   } else {
-    return <View  style={{margin:HelperMethods.isPlatformAndroid() ? 8 :undefined }} />
+    return <View  style={{margin:8 }} />
   }
   }
 
@@ -926,7 +935,7 @@ class ChatRoom extends Component {
         style={{
           flexDirection: "row",
           alignItems: "center",
-          backgroundColor: Colors.inputBGChat,
+          backgroundColor:  Colors.inputBGChat,
           width: "82%",
 
         }}
@@ -951,7 +960,7 @@ class ChatRoom extends Component {
             fontFamily: Fonts.medium,
             width: "80%",
             alignItems: "center",
-            padding: 15,
+            padding:15,
             backgroundColor: Colors.inputBGChat
           }}
           placeholder="Send a message"
@@ -1275,11 +1284,20 @@ class ChatRoom extends Component {
 
 
 
+  isIphoneXorAbove() {
+    const dimen = Dimensions.get('window');
+    return (
+      Platform.OS === 'ios' &&
+      !Platform.isPad &&
+      !Platform.isTVOS &&
+      ((dimen.height === 812 || dimen.width === 812) || (dimen.height === 896 || dimen.width === 896))
+    );
+  }
+
   render() {
     const { params } = this.props.navigation.state;
     return (
-      <SafeAreaView
-        style={{ flex: 1 }}
+      <SafeAreaView style={{ flex: 1, }}
       >
         {(this.state.showAttachPopup || this.state.showChatUsers || this.state.showEvent) ? (
           <>
@@ -1412,15 +1430,14 @@ class ChatRoom extends Component {
           <>
             <ImageBackground
               style={{
-                padding:height < 600 ? 12 : 20,
+                padding:height < MobxStore.heightToScaleSmall ? 10 : 15,
                 alignSelf:'center',
                 marginLeft:wp(0),
                 marginBottom: 1,
-                // marginTop:10,
+                marginTop:10,
                 width: wp(80)
               }}
-              resizeMode="contain"
-              imageStyle={{ borderRadius: 25,padding:20 }}
+              imageStyle={{ borderRadius:7,padding:0 }}
               source={categoryBG}
             >
               <Text style={{ color: "#eee" }}>{params?.eventType == 'Travel' ? 'Location:' :'Event:'} </Text>
@@ -1439,6 +1456,7 @@ class ChatRoom extends Component {
           ref={ref => (this.giftedChatRef = ref)}
           renderBubble={this.msgBubble}
           renderComposer={this.renderInputToolbar}
+          bottomOffset={this.isIphoneXorAbove() ? 23 : undefined}
           renderSend={this.renderSend}
           renderSystemMessage={this.renderSystemMsg}
           keyboardShouldPersistTaps="always"

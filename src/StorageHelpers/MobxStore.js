@@ -10,6 +10,8 @@ class MobxStore {
   @observable isAnyUnreadMsg = false
   @observable reloadConvList = false
   @observable navigateToTab = ''
+  @observable heightToScaleSmall = 750
+  @observable specificCat = ''
   
   addUser (item) {
     this.removeAllUsers()

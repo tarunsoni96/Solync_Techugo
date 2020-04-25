@@ -703,20 +703,20 @@ public final class R {
         public static final int notification_tile_bg = 0x7f0700a7;
         public static final int notify_panel_notification_icon_bg = 0x7f0700a8;
         public static final int redbox_top_border_background = 0x7f0700a9;
-        public static final int tooltip_frame_dark = 0x7f0700e5;
-        public static final int tooltip_frame_light = 0x7f0700e6;
-        public static final int ucrop_ic_angle = 0x7f0700e7;
-        public static final int ucrop_ic_crop = 0x7f0700e8;
-        public static final int ucrop_ic_cross = 0x7f0700e9;
-        public static final int ucrop_ic_done = 0x7f0700ea;
-        public static final int ucrop_ic_next = 0x7f0700eb;
-        public static final int ucrop_ic_reset = 0x7f0700ec;
-        public static final int ucrop_ic_rotate = 0x7f0700ed;
-        public static final int ucrop_ic_scale = 0x7f0700ee;
-        public static final int ucrop_shadow_upside = 0x7f0700ef;
-        public static final int ucrop_vector_ic_crop = 0x7f0700f0;
-        public static final int ucrop_vector_loader = 0x7f0700f1;
-        public static final int ucrop_vector_loader_animated = 0x7f0700f2;
+        public static final int tooltip_frame_dark = 0x7f0700e7;
+        public static final int tooltip_frame_light = 0x7f0700e8;
+        public static final int ucrop_ic_angle = 0x7f0700e9;
+        public static final int ucrop_ic_crop = 0x7f0700ea;
+        public static final int ucrop_ic_cross = 0x7f0700eb;
+        public static final int ucrop_ic_done = 0x7f0700ec;
+        public static final int ucrop_ic_next = 0x7f0700ed;
+        public static final int ucrop_ic_reset = 0x7f0700ee;
+        public static final int ucrop_ic_rotate = 0x7f0700ef;
+        public static final int ucrop_ic_scale = 0x7f0700f0;
+        public static final int ucrop_shadow_upside = 0x7f0700f1;
+        public static final int ucrop_vector_ic_crop = 0x7f0700f2;
+        public static final int ucrop_vector_loader = 0x7f0700f3;
+        public static final int ucrop_vector_loader_animated = 0x7f0700f4;
     }
     public static final class id {
         private id() {}

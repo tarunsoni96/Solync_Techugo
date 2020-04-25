@@ -28,7 +28,12 @@ import Container from "../../AppLevelComponents/UI/Container";
 import ScreenHeader from "../../components/ScreenHeader";
 import Loader from "../../AppLevelComponents/UI/Loader";
 import MobxStore from "../../StorageHelpers/MobxStore";
+import EventCardMusic from "../../components/EventCardMusic";
+import { NavigationActions, StackActions } from 'react-navigation';
+ 
 const { height, width } = Dimensions.get("screen");
+
+let params = {}
 class BlockedUser extends Component {
   constructor(props) {
     super(props);
@@ -42,7 +47,7 @@ class BlockedUser extends Component {
     };
   }
   componentDidMount() {
-    let { params } = this.props.navigation.state;
+     params = this.props.navigation.state.params
     console.log(JSON.stringify(params?.typeId));
     AsyncStorage.getItem("userId", (err, result) => {
       userData = JSON.parse(result);
@@ -63,7 +68,7 @@ class BlockedUser extends Component {
       body: JSON.stringify({
         category_id: params?.typeId,
         sub_ids: params?.dataSubName,
-        location: params?.loc.trim(),
+        location: params?.loc?.trim(),
         date: params?.date == undefined ? "" : params?.date,
         artistEvent: params?.artistEvent == undefined ? "" : params?.artistEvent,
         lat: params?.lat,
@@ -73,6 +78,7 @@ class BlockedUser extends Component {
       .then(response => response.json())
 
       .then(responseJson => {
+       
         let arrData = [];
         this.setState({
           isLoading: false
@@ -86,8 +92,24 @@ class BlockedUser extends Component {
             data: arrData
           });
         } else {
-          HelperMethods.snackbar("No events found");
-          this.props.navigation.pop();
+          if(resp.statusCode == 201){
+            this.props.navigation.navigate("NoConcert", {
+              type:params?.type,
+              loc:params?.loc,
+              data:params?.data,
+              selectedCats: params?.selectedCats,
+              lat:params?.lat,
+              lng:params?.lng,
+              userId:params?.userId,
+              date:params?.date,
+              dataSubName:params?.dataSubName,
+              typeId:params?.typeId,
+      
+              });
+              return
+          }
+          // HelperMethods.snackbar("No events found");
+          // this.props.navigation.pop();
         }
         return responseJson;
       })
@@ -96,7 +118,13 @@ class BlockedUser extends Component {
       });
   }
 
+  
   _CompleteProfile(title, locationRegion, locationCountry, formatDate,cats) {
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'Home' })],
+  });
+
     this.setState({completingProf:true})
     if(!this.state.completingProf){
 
@@ -125,10 +153,13 @@ class BlockedUser extends Component {
       .then(response => response.json())
 
       .then(responseJson => {
+        
         this.setState({completingProf:false})
         if (responseJson.statusCode == 200) {
+          MobxStore.specificCat = ''
           MobxStore.isFilterChanged(params?.type)
-          this.props.navigation.pop(4)
+          this.props.navigation.dispatch(resetAction)
+               
         } else if (responseJson.statusCode == 201) {
           this.props.navigation.navigate("UploadPhoto", {
             userId: params?.userId
@@ -180,6 +211,15 @@ class BlockedUser extends Component {
     var formatDateEndTime = this._formatDate(strEndTime,formatDate);
     return (
       <TouchableOpacity
+        
+        style={{
+          width: "100%",
+          marginBottom:20,
+          
+        }}
+      >
+
+        <EventCardMusic
         onPress={() =>
           this._CompleteProfile(
             item.item.title,
@@ -189,183 +229,8 @@ class BlockedUser extends Component {
             item.item
           )
         }
-        style={{
-          width: "100%",
-          alignSelf: "center",
-          justifyContent: "center",
-          backgroundColor: "transparent"
-        }}
-      >
-        <ImageBackground
-          source={require("../../assets/Images/@Group.png")}
-          resizeMode="stretch"
-          style={{
-            height: hp(height < 600 ? "38%" : '28%'),
-            width: "97%",
-            alignSelf: "center",
-            justifyContent: "center",
-            alignItems: "center",
-            left: 6
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              height: "40%",
-              width: "85%",
-              alignSelf: "center",
-              backgroundColor: "transparent",
-              justifyContent: "center"
-            }}
-          >
-            <View
-              style={{
-                height: "50%",
-                width: "100%",
-                justifyContent: "center",
-                alignSelf: "center",
-                backgroundColor: "transparent"
-              }}
-            >
-              <Text
-                style={{
-                  color: "#d39dc5",
-                  fontSize: 13,
-                  fontWeight: "bold",
-                  alignSelf: "flex-start"
-                }}
-              >
-                Event:
-              </Text>
-              <Text style={{ width: "auto", backgroundColor: "transparent" }}>
-                <Text
-                  style={{
-                    color: "#fff",
-                    fontSize: 13,
-                    fontWeight: "bold",
-                    backgroundColor: "transparent",
-                    width: "auto"
-                  }}
-                >
-                  {item.item.title}
-                </Text>
-              </Text>
-            </View>
-          </View>
-          <View
-            style={{
-              height: "60%",
-              width: "80%",
-              justifyContent: "center",
-              alignSelf: "flex-start",
-              backgroundColor: "transparent"
-            }}
-          >
-            <View
-              style={{
-                height: "80%",
-                width: "75%",
-                justifyContent: "space-between",
-                alignSelf: "center",
-                backgroundColor: "transparent"
-              }}
-            >
-              <View
-                style={{
-                  justifyContent: "space-between",
-                  flexDirection: "row",
-                  width: "85%",
-                  alignSelf: "flex-start",
-                  backgroundColor: "transparent"
-                }}
-              >
-                <View
-                  style={{
-                    backgroundColor: "transparent",
-                    justifyContent: "center",
-                    alignSelf: "center"
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: "#8c979e",
-                      fontSize: 13,
-                      fontFamily: "Montserrat-Bold",
-                      alignSelf: "flex-start"
-                    }}
-                  >
-                    Date/s
-                  </Text>
-                  <Text
-                    style={{
-                      color: "#343434",
-                      fontSize: 13,
-                      fontFamily: "Montserrat-Bold",
-                      alignSelf: "flex-start"
-                    }}
-                  >
-                    {formatDate}{formatDateEndTime}
-                  </Text>
-                </View>
-              </View>
-              <View
-                style={{
-                  justifyContent: "space-between",
-                  flexDirection: "row",
-                  width: "85%",
-                  alignSelf: "flex-start",
-                  backgroundColor: "transparent"
-                }}
-              >
-                <View
-                  style={{
-                    backgroundColor: "transparent",
-                    justifyContent: "center",
-                    alignSelf: "center",
-                    marginTop:height < 600 ? 10 : 0
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: "#8c979e",
-                      fontSize: 13,
-                      fontFamily: "Montserrat-Bold",
-                      alignSelf: "flex-start"
-                    }}
-                  >
-                    Location
-                  </Text>
-                  {item.item.venue_address == "" ||
-                  item.item.venue_address == null ||
-                  item.item.venue_address == undefined ? (
-                    <Text
-                      style={{
-                        color: "#343434",
-                        fontSize: 13,
-                        fontFamily: "Montserrat-Bold",
-                        alignSelf: "flex-start"
-                      }}
-                    >
-                      {params?.loc}
-                    </Text>
-                  ) : (
-                    <Text
-                      style={{
-                        color: "#343434",
-                        fontSize: 13,
-                        fontFamily: "Montserrat-Bold",
-                        alignSelf: "flex-start"
-                      }}
-                    >
-                      {item.item.venue_address}
-                    </Text>
-                  )}
-                </View>
-              </View>
-            </View>
-          </View>
-        </ImageBackground>
-        <View style={{ height: 20, width: width }}></View>
+        
+         obj={item.item} location={params?.loc} dates={`${formatDate}${formatDateEndTime || ''}`} isEventList={true} isOnHome={true} type={params?.type} />
       </TouchableOpacity>
     );
   }
@@ -373,7 +238,7 @@ class BlockedUser extends Component {
   render() {
     let { params } = this.props.navigation.state;
     return (
-      <Container>
+      <Container turnOffScroll={true}>
       <ScreenHeader title={params?.loc} isCenter />
       {this.state.isLoading ? 
         <Loader style={{alignSelf:'center',marginTop:heightPercentageToDP(38)}} />
@@ -382,9 +247,10 @@ class BlockedUser extends Component {
         <FlatList
         initialNumToRender={20}
           data={this.state.data}
+          nestedScrollEnabled
+          style={{width:'100%',marginTop:30}}
           renderItem={(item, index) => this.renderItemList(item, index)}
           keyExtractor={(item,index) => index}
-          style={{ marginTop: 10 }}
         />
       }
 

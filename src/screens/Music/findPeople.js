@@ -26,6 +26,8 @@ import Constants from "../../Helpers/Constants";
 import Container from "../../AppLevelComponents/UI/Container";
 import { Colors } from "UIProps/Colors";
 import GradButton from "../../common/gradientButton";
+import { NavigationActions, StackActions } from 'react-navigation';
+
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -109,6 +111,11 @@ export default class SearchByUnique extends Component {
     };
     this.setState({isApiCall:true})
 
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'Home' })],
+  });
+
     fetch("http://13.232.62.239:6565/api/user/completeProfile", {
       method: "POST",
       headers: {
@@ -119,16 +126,12 @@ export default class SearchByUnique extends Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
+        MobxStore.specificCat = ''
         this.setState({isApiCall:false})
         AsyncStorageHandler.store(Constants.isInterestSelected, "true");
         if (responseJson.statusCode == 200) {
           MobxStore.isFilterChanged(params?.type);
-          if(params?.type == 'Sports' || params?.type == 'Music'){
-            this.props.navigation.pop(4)
-          } else {
-            this.props.navigation.pop(2)
-
-          }
+          this.props.navigation.dispatch(resetAction)
         } else if (responseJson.statusCode == 201) {
           this.props.navigation.navigate("UploadPhoto", {
             userId: MobxStore.userObj.user_id,
@@ -166,15 +169,7 @@ export default class SearchByUnique extends Component {
      this.setState({isLoadingLocations:true,datesData:[]})
         getEventLocation(params?.artFest).then(resp => {
           this.setState({isLoadingLocations:false})
-          // if(resp.statusCode == 201){
-          //   this.props.navigation.navigate("NoConcert", {
-          //     sub_ids: params?.data,
-          //     artist: params?.artFest,
-          //     loc: "",
-          //     type: params?.type,
-          //   });
-          //   return
-          // }
+          
           this.setState({monthData:resp.result.locations})
         }).catch(err => {
           this.setState({isLoadingLocations:false})

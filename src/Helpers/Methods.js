@@ -31,6 +31,8 @@ import SocketIO from "../components/SocketIO";
 import MobxStore from "../StorageHelpers/MobxStore";
 import { withNavigation } from "react-navigation";
 const queryString = require('query-string');
+import { NavigationActions, StackActions } from 'react-navigation';
+
 
 let timer;
 let baseUrl = 'http://13.232.62.239:6565/api/'
@@ -373,7 +375,17 @@ const HelperMethods = {
 
   getAge :function(birthDate){
     return Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e+10)
-  } 
+  } ,
+
+  resetStack:function(navigation){
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'Home' })],
+  });
+
+    navigation.dispatch(resetAction)
+
+  }
 
 
 };

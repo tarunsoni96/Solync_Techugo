@@ -92,7 +92,7 @@ export default class EditProfile extends Component {
       locationMusic: "",
       showDate: false,
       valueDate: "",
-      flatId: 0,
+      flatId: '',
       subCatMus: [],
       uri: null,
       dateErrorMessage: "",
@@ -387,7 +387,12 @@ export default class EditProfile extends Component {
     var age = parseInt(currYear) - parseInt(selYear);
 
     let validateFirstNameResult = validateFirstName(this.state.name);
-    let validateEmailAddressResult = validateEmail(this.state.email);
+    let validateEmailAddressResult
+    if(this.state.email != 'Not provided'){
+       validateEmailAddressResult = validateEmail(this.state.email);
+    } else {
+       validateEmailAddressResult = {error : ''}
+    }
     let validateOccupationResult = validateOccupation(this.state.occupation);
 
     if (this.state.name == "") {
@@ -497,14 +502,14 @@ export default class EditProfile extends Component {
 
     let formdata = new FormData();
     formdata.append("user_id", this.state.userId);
-    formdata.append("first_name", this.state.name);
-    formdata.append("email", this.state.email);
+    formdata.append("first_name", this.state.name.trim());
+    formdata.append("email", this.state.email.trim());
     dob =
       valueYear != "Not set"
         ? `${valueYear}-${this.state.idMonth}-${valueDate}`
         : "0000-00-00";
     formdata.append("dob", dob);
-    formdata.append("occupation", this.state.occupation);
+    formdata.append("occupation", this.state.occupation.trim());
 
     for (let i = 0; i < images.length; i++) {
       if (!this.state.images[i].isOldImage && !images[i].isImageAdder) {
@@ -717,6 +722,8 @@ export default class EditProfile extends Component {
 
     let musicEvent = (
       <EventCardMusic
+      type='Music'
+      style={{marginBottom:25}}
         obj={this.state.eventMusic}
         year={getYr(this.state.eventMusic)}
       />
@@ -724,16 +731,21 @@ export default class EditProfile extends Component {
     view.push(musicEvent);
 
     let sportEvent = (
-      <EventCardSports
-        obj={this.state.eventSports}
+      <EventCardMusic
+      type='Sports'
+      style={{marginBottom:25}}
+      obj={this.state.eventSports}
         year={getYr(this.state.eventSports)}
       />
     );
     view.push(sportEvent);
 
     let travelEvent = (
-      <EventCardTravel
-        obj={this.state.eventTravels}
+      
+      <EventCardMusic
+      type='Travel'
+      style={{marginBottom:25}}
+      obj={this.state.eventTravels}
         year={getYr(this.state.eventTravels)}
       />
     );
@@ -808,19 +820,19 @@ export default class EditProfile extends Component {
   _showDate() {
     Keyboard.dismiss()
     HelperMethods.animateLayout();
-    this.setState({ showMonth: true, flatId: "1" });
+    this.setState({ showMonth: this.state.flatId == '1' ? false : true, flatId: this.state.flatId == '1' ? '' : "1" });
   }
 
   _showYear() {
     Keyboard.dismiss()
     HelperMethods.animateLayout();
-    this.setState({ showMonth: true, flatId: "2" });
+    this.setState({ showMonth: this.state.flatId == '2' ? false : true, flatId:this.state.flatId == '2' ? '' :  "2" });
   }
 
   _showMonth() {
     Keyboard.dismiss()
     HelperMethods.animateLayout();
-    this.setState({ showMonth: true, flatId: "0" });
+    this.setState({ showMonth: this.state.flatId == '0' ? false : true, flatId: this.state.flatId == '0' ? '' : "0" });
   }
 
   _renderItemDate(item) {
@@ -937,6 +949,10 @@ export default class EditProfile extends Component {
 
   animateLayout() {
     HelperMethods.animateLayout();
+  }
+
+  hideDropDowns(){
+    this.setState({showMonth:false,flatId:''})
   }
 
   render() {
@@ -1072,6 +1088,7 @@ export default class EditProfile extends Component {
             keyboard={"default"}
             fontSize={17}
             maxLength={25}
+            onFocusText={()=>this.hideDropDowns()}
             onChangeText={(text) => this.setState({ name: text })}
             fontFamily={"Montserrat-Bold"}
             value={this.state.name}
@@ -1082,6 +1099,7 @@ export default class EditProfile extends Component {
             fontFamily={"Montserrat-Bold"}
             value={this.state.email}
             inputState={""}
+            onFocusText={()=>this.hideDropDowns()}
             editable={MobxStore.userObj.facebook_id.length == 0}
             onChangeText={(email) => this.setState({ email })}
             borderColor={this.state.emailAddressBorderColor}
@@ -1108,7 +1126,6 @@ export default class EditProfile extends Component {
                   color: "#879299",
                 }}
               >
-                {" "}
                 Date of birth
               </Text>
 
@@ -1190,12 +1207,11 @@ export default class EditProfile extends Component {
                     style={{
                       fontSize: 17,
                       fontWeight: "bold",
-                      alignSelf: "center",
                       width: "50%",
                       textAlign:'center'
                     }}
                   >
-                    {this.state.valueDate}
+                  {this.state.valueDate}
                   </Text>
                   <View style={{ alignSelf: "center" }}>
                     <Image
@@ -1430,6 +1446,7 @@ export default class EditProfile extends Component {
             value={this.state.occupation}
             onChangeText={(occupation) => this.setState({ occupation })}
             maxLength={25}
+            onFocusText={()=>this.hideDropDowns()}
             borderColor={this.state.occupationBorderColor}
             inputState={this.state.occupationMessage}
             message={this.state.occupationMessage}

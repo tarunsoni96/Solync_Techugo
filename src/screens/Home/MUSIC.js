@@ -54,6 +54,7 @@ paddingAnd = 0.6
 
 const { height, width } = Dimensions.get("screen");
 
+var currentItem = {}
 @observer
 class MUSIC extends Component {
   constructor(props) {
@@ -64,6 +65,7 @@ class MUSIC extends Component {
       catList: [],
       myText: "I'm ready to get swiped!",
       gestureName: "none",
+      carScrollEnabled:true,
       backgroundColor: "#fff",
       videos:[],
       isSpecificCat:'',
@@ -74,22 +76,22 @@ class MUSIC extends Component {
     this.props = props;
     this._carousel = {};
       this._deltaY = new Animated.Value(0);
-      this.clippingPoint = hp(80)
+      this.clippingPoint = hp(76)
 
   }
 
   
 
   componentDidMount() {
-    this.switchDateFetch(this.props.show)
+    this.switchDateFetch(this.props.show,MobxStore.specificCat)
   }
 
   componentWillReceiveProps(nextProps) {
-    this.switchDateFetch(nextProps.show);
+    this.switchDateFetch(nextProps.show,nextProps.specificCat);
   }
 
 
-  switchDateFetch(cat){
+  switchDateFetch(cat,specificCat){
     filtCat = 1;
     typeId = 1;
     tintColor = Colors.colorMusic
@@ -111,7 +113,7 @@ class MUSIC extends Component {
         break;
     }
     this.renderCategories(filtCat)
-    this.fetchData(filtCat)
+    this.fetchData(filtCat,specificCat)
   }
 
   fetchData(filtCat,specificCat = '') {
@@ -119,6 +121,11 @@ class MUSIC extends Component {
     this.resetCaraousalPos()
 
     HelperMethods.animateLayout()
+    if(specificCat){
+      MobxStore.specificCat = specificCat
+    } else {
+      MobxStore.specificCat = ''
+    }
     this.setState({ isApiCall: true,isSpecificCat:specificCat,videos:[] });
 
     let obj = {
@@ -151,6 +158,8 @@ class MUSIC extends Component {
             var data1 = responseJson.result.home[i];
             arrData.push(data1);
           }
+
+          currentItem = arrData[0]
           this.setState({
             videos: arrData,
             noMatches: false,
@@ -236,18 +245,64 @@ class MUSIC extends Component {
     })
   }
 
+  toggleCarScroll(val){
+    this.setState({carScroll:val})
+  }
   renderItem = ({ item, index }) => {
-    let cardStyle = {width:wp(40),height:hp(30)}
-    let cardToRender = <EventCardMusic style={cardStyle} obj={item} isOnHome />;
+    let cardToRender = <EventCardMusic toggleCarScroll={(val)=>this.toggleCarScroll(val)} type={type}  obj={item} isOnHome />;
     if (type == "Sports") {
-      cardToRender = <EventCardSports  style={cardStyle} obj={item} isOnHome />;
+      cardToRender = <EventCardMusic toggleCarScroll={(val)=>this.toggleCarScroll(val)} type={type}  obj={item} isOnHome />;
     } else if(type == 'Travel') {
-      cardToRender = <EventCardTravel  style={cardStyle} obj={item} isOnHome />;
+      cardToRender =<EventCardMusic toggleCarScroll={(val)=>this.toggleCarScroll(val)} type={type}  obj={item} isOnHome />;
     }
     let imageDim = {
-      height:hp(height < 600 ? 37 : 45),
+      height:hp(40),
       width:wp(86)
     }
+
+    let info = <View
+    style={{
+      width: width - 85,
+      position: "absolute",
+      bottom: hp(3),
+      backgroundColor: "transparent",
+      flexDirection: "row",
+      justifyContent: "flex-start",
+      alignSelf: "center",
+      alignItems:'center',
+    }}
+  >
+    <Text
+      style={{
+        color: "#fff",
+        fontSize: 22,
+        fontFamily: "Montserrat-ExtraBold",
+        marginLeft:wp(1.2),
+      }}
+    >
+      {item.first_name}, {item.age}
+    </Text>
+
+    <View
+      style={{
+        width: width / 2,
+        backgroundColor: "transparent",
+      }}
+    >
+      <Text
+        style={{
+          color: "grey",
+          fontSize: 16,
+          backgroundColor: "transparent",
+          left: 4
+        }}
+      >
+        {"  "}
+        {item.occupation}
+      </Text>
+    </View>
+    </View>
+
     return (
       <>
         <View style={styles.ThumbnailBackgroundView}>
@@ -262,7 +317,7 @@ class MUSIC extends Component {
           <View>
             {item.profile_picture == "" ? (
               <ImageBackground
-                style={[styles.CurrentVideoImage,{borderRadius:10,...imageDim}]}
+                style={[styles.CurrentVideoImage,{borderRadius:40,flex:1}]}
                 source={require("../../assets/Images/@photo-cropped.png")}
                 resizeMode={"cover"}
               >
@@ -275,12 +330,14 @@ class MUSIC extends Component {
                   style={{ flex: 1,borderRadius:10 }}
                   
                 />
+
+                {info}
               </ImageBackground>
             ) : (
               <ImageBackground
-                style={[styles.CurrentVideoImage,{borderRadius:10,...imageDim}]}
+                style={[styles.CurrentVideoImage,{borderRadius:20,flex:1,}]}
                 source={{ uri: item.profile_picture }}
-                imageStyle={{borderRadius:10}}
+                imageStyle={{borderRadius:20}}
                 resizeMode={"cover"}
               >
                 <LinearGradient
@@ -289,12 +346,21 @@ class MUSIC extends Component {
                     "rgba(255,255,255,0)",
                     "rgba(0,0,0,0.8)"
                   ]}
-                  style={{ flex: 1,borderRadius:10 }}
+                  style={{ flex: 1,borderRadius:20 }}
                 />
+
+              {info}
+             
+
               </ImageBackground>
             )}
 
-            <View
+            <View style={{marginTop:-20,}}>
+            {cardToRender}
+            </View>
+
+
+            {/* <View
               style={{
                 width: width - 85,
                 position: "absolute",
@@ -334,39 +400,25 @@ class MUSIC extends Component {
                   {item.occupation}
                 </Text>
               </View>
-            </View>
+            </View> */}
             </View>
           </TouchableWithoutFeedback>
 
-          <View
-            style={{
-              width: wp(90),
-              flex:1,
-              // height:hp(30),
-              alignSelf: "center",
-              marginTop: hp(-1.5),
-              marginBottom:hp(4)
-            }}>
-            {cardToRender}
-          </View>
-            <GradButton
-              text="Chat"
-              onPress={() =>
-                NavigationConsistor.navigateToChat(
-                  this.props.navigation,
-                  item,
-                  item.user_id,
-                  item.artist_or_event,
-                  type == 'Travel' ? item.year  : NavigationConsistor._formatYear(item.date) ,
-                  type
-                )
-              }
-              style={{
-                marginBottom: 0,
-                margin: 10,
-                width:'100%'
+          <ScrollView
+          style={{marginTop: hp(-1.5),
+            alignSelf: "center",
+
               }}
-            />
+  nestedScrollEnabled
+          contentContainerStyle={{
+              width: wp(90),
+              // height:hp(30),
+              backgroundColor:'#000',
+              justifyContent:'flex-end',
+              
+            }}>
+          </ScrollView>
+           
         </View>
       </>
     );
@@ -386,6 +438,13 @@ class MUSIC extends Component {
       .catch(err => {});
   }
 
+  onScroll = (event) =>{
+    var currentOffset = event.nativeEvent.contentOffset.y;
+        var direction = currentOffset > this.offset ? 'down' : 'up';
+    this.offset = currentOffset;
+      this.setState({carScrollEnabled:currentOffset == 0 ? false  :true})
+  }
+
   renderView(){
      
     return(
@@ -395,7 +454,6 @@ class MUSIC extends Component {
         >
           <View style={[styles.CarouselBackgroundView]}>
           
-         
 
             <Carousel
               ref={c => {
@@ -403,12 +461,31 @@ class MUSIC extends Component {
               }}
               data={this.state.videos}
               renderItem={this.renderItem.bind(this)}
-              sliderWidth={width}
-              itemWidth={width - 31}
+              sliderWidth={wp(100)}
+              itemWidth={width - 50}
+              onSnapToItem={index=> currentItem = this.state.videos[index]}
               layoutCardOffset={20}
               nestedScrollEnabled
               layout={"default"}
             />
+            <GradButton
+              text="Chat"
+              onPress={() =>
+                NavigationConsistor.navigateToChat(
+                  this.props.navigation,
+                  currentItem,
+                  currentItem.user_id,
+                  currentItem.artist_or_event,
+                  type == 'Travel' ? currentItem.year  : NavigationConsistor._formatYear(currentItem.date) ,
+                  type
+                )
+              }
+              style={{
+                marginBottom: 0,
+                width:'100%'
+              }}
+            />
+
           </View>
 
           
@@ -495,7 +572,10 @@ class MUSIC extends Component {
   }
 
 
-  onDownSwipeSnap(){
+  onDownSwipeSnap(e){
+     if(e.nativeEvent.index == 0){
+       this.setState({carScrollEnabled:true})
+     }
     this.setState({catListPosType:'relative',turnOffScroll:true})
   }
 
@@ -575,7 +655,7 @@ class MUSIC extends Component {
           ref={caraousalInteractable => this.caraousalInteractable = caraousalInteractable}
           style={{flex:1}}
           dragWithSpring={{tension: 2000, damping: 0.5}}
-          onSnap={()=>this.onDownSwipeSnap()}
+          onSnap={(e)=>this.onDownSwipeSnap(e)}
           animatedValueY={this._deltaY}
           snapPoints={[{y: 0}, {y: this.clippingPoint}]}
            >
@@ -647,14 +727,14 @@ const styles = StyleSheet.create({
   },
   ThumbnailBackgroundView: {
     alignItems: "center",
-    width: width - 40,
+    
     flex:1,
     alignSelf: "center"
   },
   CarouselBackgroundView: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
 
   browsingCatContainer:{

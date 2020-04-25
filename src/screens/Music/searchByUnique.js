@@ -157,6 +157,7 @@ class SearchByUnique extends Component {
         data: params.data,
         lat: global.latitude,
         lng: global.longitude,
+        selectedCats: params?.selectedCats,
         userId: this.state.userId,
         date: "",
         dataSubName: params.dataSubName,

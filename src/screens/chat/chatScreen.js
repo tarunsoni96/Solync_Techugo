@@ -122,7 +122,9 @@ class ChatScreen extends Component {
       // socketio.emitToEvent("conversationList", {
       //   user_id: MobxStore.userObj.user_id
       // });
-      this.fetchList()
+      socketio.emitToEvent("conversationList", {
+        user_id: MobxStore.userObj.user_id
+      });
     }
     socketio.listenEvent('receiveHomeMessage',callBackData => {
       const {result} = callBackData

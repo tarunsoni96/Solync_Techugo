@@ -63,7 +63,8 @@ const styles = EStyleSheet.create({
   },
 
   contentContainerStyle:{
-    alignItems: "center",flexGrow:1, paddingBottom:'0rem',
+    flexGrow:1, paddingBottom:'0rem',
+    width:'100%',
   }
 
 });

@@ -113,6 +113,7 @@ const App = createStackNavigator(
       }
     },
     MultipleView: {
+      key:'MultipleView',
       screen: MultipleView,
       navigationOptions: {
         gesturesEnabled: false
@@ -138,6 +139,7 @@ const App = createStackNavigator(
     },
     MyProfile: {
       screen: MyProfile,
+      key:'MyProfile',
       navigationOptions: {
         gesturesEnabled: false
       }
@@ -245,13 +247,13 @@ const App = createStackNavigator(
   },
   {
     headerMode: "none",
-    initialRouteName:'TermsConditions'
+    initialRouteName:'Home'
   }
 );
 
 const TopLevelNavigator = createSwitchNavigator({
-  App, 
   landingStack,
+  App, 
   loginStack,
 });
 
