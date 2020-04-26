@@ -58,7 +58,6 @@ class Header extends Component {
   componentDidMount() {
     this.props.navigation.addListener('didFocus',this.didFocus)
     HelperMethods.animateLayout()
-
     this.setState({ show: "MUSIC" });
   }
 
@@ -66,6 +65,10 @@ class Header extends Component {
     if(MobxStore.filterType){
       this.setState({profileToggled:false, show:MobxStore.filterType.toUpperCase()},()=>{
         MobxStore.isFilterChanged('')
+      })
+    } else if(MobxStore.navigateToTab && this.state.show != MobxStore.navigateToTab.toUpperCase()){
+      this.setState({profileToggled:false, show:MobxStore.navigateToTab.toUpperCase()},()=>{
+        MobxStore.navigateToTab = ''
       })
     }
   }

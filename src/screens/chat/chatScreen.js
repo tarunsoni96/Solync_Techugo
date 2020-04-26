@@ -95,8 +95,6 @@ class ChatScreen extends Component {
 
   setBlockReciever(){
 
-   
-
     socketio.listenEvent('blockedReceiver',callBackData => {
       const {result } = callBackData
       if(result == 'blocked'){
@@ -122,6 +120,7 @@ class ChatScreen extends Component {
       // socketio.emitToEvent("conversationList", {
       //   user_id: MobxStore.userObj.user_id
       // });
+      this.setState({isApiCall:true})
       socketio.emitToEvent("conversationList", {
         user_id: MobxStore.userObj.user_id
       });

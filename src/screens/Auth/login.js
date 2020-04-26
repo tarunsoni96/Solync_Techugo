@@ -82,8 +82,37 @@ class Login extends Component {
 
   
 
+  customFacebookLogout = () => {
+    var current_access_token = '';
+    AccessToken.getCurrentAccessToken().then((data) => {
+      current_access_token = data.accessToken.toString();
+    }).then(() => {
+      let logout =
+      new GraphRequest(
+        "me/permissions/",
+        {
+            accessToken: current_access_token,
+            httpMethod: 'DELETE'
+        },
+        (error, result) => {
+            if (error) {
+                console.log('Error fetching data: ' + error.toString());
+            } else {
+                LoginManager.logOut();
+            }
+        });
+      new GraphRequestManager().addRequest(logout).start();
+    })
+    .catch(error => {
+      console.log(error)
+    });      
+  }
+
   facebookLogin(self, socialType) {
     if (socialType == "facebook") {
+    //  this.customFacebookLogout()
+    //  return
+    
       LoginManager.setLoginBehavior(HelperMethods.isPlatformAndroid() ? 'web_only' : 'browser');
     LoginManager.logInWithPermissions(["public_profile","user_birthday","user_work_history","user_about_me", "email"]).then(
         function(result) {
@@ -94,7 +123,6 @@ class Login extends Component {
                 if (error) {
                   alert("Error fetching data: " + error.toString());
                 } else {
-                  // alert(JSON.stringify( result))
                   AsyncStorageHandler.store(Constants.fbData,result)
                   self._onSignInWithSocial(result)
                 }
