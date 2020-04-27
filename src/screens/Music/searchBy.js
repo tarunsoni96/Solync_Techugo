@@ -117,11 +117,11 @@ export default class SearchBy extends Component {
 
                             <Text style={{ color: '#000', fontSize: 17, alignSelf: 'center', fontFamily: 'Montserrat-Bold' }}>{firstInputTitle}</Text>
 
-                            <TouchableOpacity style={{ height: '50%' }} onPress={() => this.props.navigation.navigate('SearchByUnique', { type: abc,selectedCats:params?.selectedCats,inputPlaceHolder:'Enter event name', searchType:'event',inputTitle:firstInputTitle, data: data, typeId: params?.typeId, dataSubName: dataSubName })}>
+                            <TouchableOpacity style={{ height: '50%' }} onPress={() => this.props.navigation.navigate('SearchByUnique', { type: abc,selectedCats:params?.selectedCats,inputPlaceHolder:'Enter artist or festival name', searchType:'event',inputTitle:firstInputTitle, data: data, typeId: params?.typeId, dataSubName: dataSubName })}>
                                 <View style={{ textAlign: 'center', borderTopColor: 'transparent', borderRightColor: 'transparent', borderLeftColor: 'transparent', borderBottomColor: '#edeff0', borderWidth: 2, width: width - 50, height: '100%', opacity: 2.0, alignSelf: 'center', justifyContent: 'center' }}
                                 >
                                     <Text style={{ fontSize: 15, fontFamily: 'Montserrat-Bold', alignSelf: 'center', color: '#a7a8a8' }}
-                                    >Enter event name</Text>
+                                    >Enter artist or festival name</Text>
                                 </View>
                             </TouchableOpacity>
 

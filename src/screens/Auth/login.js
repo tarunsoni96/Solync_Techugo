@@ -204,7 +204,7 @@ class Login extends Component {
           });
           
         } else if (responseJson.statusCode == 400) {
-          HelperMethods.snackbar(responseJson.statusMessage)
+          // HelperMethods.snackbar(responseJson.statusMessage)
 
           this.setState({
             usernameBorderColor: "#bb205a",
@@ -506,30 +506,28 @@ HelperMethods.animateLayout()
                 }}
                 onPress={() => this.facebookLogin(this, "facebook")}
               >
-                <View
-                  style={{
-                    justifyContent: "center",
-                    flexDirection: "row",
-                    width: "85%",
-                    alignSelf: "center"
-                  }}
-                >
-                  <Image
-                    source={require("../../assets/Images/Facebook.png")}
-                    style={{ height: 20, width: 10, alignSelf: "center" }}
-                  />
-                  <Text
-                    style={{
-                      opacity: 1,
-                      fontSize: 18,
-                      marginLeft: 20,
-                      fontFamily: "Montserrat-ExtraBold",
-                      color: "#4e4e4e"
-                    }}
-                  >
-                    Continue with Facebook
-                  </Text>
-                </View>
+                 <View
+            style={{
+              flexDirection: "row",
+              justifyContent:'center',
+              alignItems:'center'
+            }}
+          >
+            <Image
+              source={require("../../assets/Images/Facebook.png")}
+              resizeMode='contain'
+              style={{ height: 18, width: 10, }}/>
+
+
+            <Text style={{
+                fontSize: 16,
+                marginLeft:5,
+                fontFamily: "Montserrat-ExtraBold",
+                color: "#4e4e4e",
+                }}>
+              Continue with Facebook
+            </Text>
+          </View>
               </TouchableOpacity>
             </View>
 

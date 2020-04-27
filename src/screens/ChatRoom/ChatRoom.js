@@ -636,10 +636,9 @@ class ChatRoom extends Component {
   onSend(messages = []) {
     this.giftedChatRef.scrollToBottom();
     HelperMethods.animateLayout();
-    if(messages[0].text.trim().length == 0){
+    if(messages[0].text && messages[0].text.trim().length == 0){
       return
     }
-    
       this.setState(
         previousState => ({
           messages: GiftedChat.append(previousState.messages, messages[0])
@@ -647,6 +646,7 @@ class ChatRoom extends Component {
         () => {
           const { params } = this.props.navigation.state || {};
           if (messages[0].url) {
+            
             this.sendMsg(myUserId, clientId, "", messages[0].url, "image");
           } else  {
             this.sendMsg(myUserId, params?.clientId, messages[0].text);
@@ -1456,7 +1456,7 @@ class ChatRoom extends Component {
           ref={ref => (this.giftedChatRef = ref)}
           renderBubble={this.msgBubble}
           renderComposer={this.renderInputToolbar}
-          bottomOffset={this.isIphoneXorAbove() ? 23 : undefined}
+          bottomOffset={this.isIphoneXorAbove() ? 23 : -9.1}
           renderSend={this.renderSend}
           renderSystemMessage={this.renderSystemMsg}
           keyboardShouldPersistTaps="always"

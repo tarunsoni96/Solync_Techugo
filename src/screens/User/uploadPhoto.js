@@ -133,7 +133,7 @@ export default class UploadPhoto extends Component {
             <Text
               style={{
                 color: "#7e7e7e",
-                fontSize: wp('4.5%'),
+                fontSize: wp('4%'),
                 fontFamily: "Montserrat-Regular"
               }}
             >

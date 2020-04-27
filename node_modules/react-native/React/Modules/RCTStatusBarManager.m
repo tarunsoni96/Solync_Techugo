@@ -14,11 +14,16 @@
 #if !TARGET_OS_TV
 @implementation RCTConvert (UIStatusBar)
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunguarded-availability"
+
 RCT_ENUM_CONVERTER(UIStatusBarStyle, (@{
   @"default": @(UIStatusBarStyleDefault),
   @"light-content": @(UIStatusBarStyleLightContent),
-  @"dark-content": @(UIStatusBarStyleDefault),
+  @"dark-content": (@available(iOS 13.0, *)) ? @(UIStatusBarStyleDarkContent) : @(UIStatusBarStyleDefault),
 }), UIStatusBarStyleDefault, integerValue);
+
+#pragma clang diagnostic pop
 
 RCT_ENUM_CONVERTER(UIStatusBarAnimation, (@{
   @"none": @(UIStatusBarAnimationNone),

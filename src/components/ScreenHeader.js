@@ -29,7 +29,7 @@ class ScreenHeader extends Component {
               <Image
                 source={require("../assets/Images/Left.png")}
                 style={{
-                  marginLeft:23,
+                  marginLeft:21.5,
                   width:20,
                   height:20,
                 }}

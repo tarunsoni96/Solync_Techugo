@@ -13,6 +13,7 @@ import {
 const { height, width } = Dimensions.get('screen')
 import ErrorText from '../common/error'
 import Images from '../constant/images'
+import Fonts from "UIProps/Fonts";
 class TextInputSolo extends Component {
     constructor(props) {
         super(props);
@@ -36,42 +37,23 @@ class TextInputSolo extends Component {
                         </View>}
                 </View>
 
-                {Platform.OS == 'ios' ?
-                    <TextInput style={{ borderTopColor: 'transparent', borderRightColor: 'transparent', borderLeftColor: 'transparent', borderLeftWidth: 0, borderRightWidth: 0, borderBottomColor: borderColor || 'lightgrey', borderWidth: 2, width: width - 35, height: '60%',color:'#000' }}
+                
+                    <TextInput style={{ borderTopColor: 'transparent', borderRightColor: 'transparent', borderLeftColor: 'transparent', borderLeftWidth: 0, borderRightWidth: 0, borderBottomColor: borderColor || 'lightgrey', borderWidth: 2, width: width - 35, height: Platform.OS == 'ios' ? '60%' : undefined,color:'#000', }}
                         onChangeText={onChangeText}
                         fontSize={17}
-                        fontFamily={'Montserrat-Bold'}
+                        fontFamily={Fonts.medium}
                         keyboardType={keyboard}
                         alignSelf={'center'}
                         ref={ref}
                         value={value}
-                        fontSize={fontSize}
-                        fontFamily={fontFamily}
+                        fontSize={16}
                         onFocus={onFocusText}
                         autoFocus={autoFocus}
                         underlineColorAndroid="transparent"
                         maxLength={maxLength}
                         editable={editable}
-                    /> :
-                    <TextInput style={{ borderTopColor: 'transparent', borderRightColor: 'transparent', borderLeftColor: 'transparent', borderLeftWidth: 0, borderRightWidth: 0, borderBottomColor: borderColor || 'lightgrey', borderWidth: 2, width: width - 35,color:'#000' }}
-                        onChangeText={onChangeText}
-                        fontSize={17}
-                        editable={editable}
-                        //fontWeight={'700'}
-                        fontFamily={'Montserrat-Bold'}
-                        //clearTextOnFocus={true}
-                        keyboardType={keyboard}
-                        ref={ref}
-                        autoFocus={autoFocus}
-                        onFocus={onFocusText}
-                        alignSelf={'center'}
-                        value={value}
-                        fontSize={fontSize}
-                        fontFamily={fontFamily}
-                        underlineColorAndroid="transparent"
-                        maxLength={maxLength}
-
-                    />}
+                    /> 
+                   
             </View>
         )
     }

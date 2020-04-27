@@ -15,6 +15,7 @@ import {
 } from "react-native";
 import HelperMethods from 'Helpers/Methods'
 import Constants from 'Helpers/Constants'
+import Fonts from "UIProps/Fonts";
 import BackHandlerSingleton from "ServiceProviders/BackHandlerSingleton";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import AsyncStorageHandler from "StorageHelpers/AsyncStorageHandler";
@@ -858,9 +859,7 @@ _showMonth() {
           />
           <View
             style={{
-              position: "relative",
-              width: width - 30,
-              alignSelf: "center",
+              marginHorizontal:9,
               justifyContent: "center"
             }}
           >
@@ -873,7 +872,6 @@ _showMonth() {
                   color: "#879299"
                 }}
               >
-                {" "}
                 Date of birth
               </Text>
               {this.state.dateErrorMessage == "" ? null : (
@@ -891,9 +889,8 @@ _showMonth() {
             </View>
             <View
               style={{
-                width: width - 30,
                 flexDirection: "row",
-                justifyContent: "space-around",
+                justifyContent: "space-between",
                 backgroundColor: "transparent"
               }}
             >
@@ -915,14 +912,9 @@ _showMonth() {
                   }}
                 >
                   <Text
-                    style={{
-                      fontSize: 17,
-                      fontWeight: "bold",
-                      alignSelf: "center",
-                      width: "50%"
-                    }}
+                    style={styles.dobText}
                   >
-                    {" "}
+                  
                     Day
                   </Text>
                   <View style={{ alignSelf: "center" }}>
@@ -950,14 +942,9 @@ _showMonth() {
                   }}
                 >
                   <Text
-                    style={{
-                      fontSize: 17,
-                      fontWeight: "bold",
-                      alignSelf: "center",
-                      width: "50%"
-                    }}
+                    style={styles.dobText}
                   >
-                    {" "}
+                    
                     {this.state.valueDate}
                   </Text>
                   <View style={{ alignSelf: "center" }}>
@@ -986,14 +973,9 @@ _showMonth() {
                   }}
                 >
                   <Text
-                    style={{
-                      fontSize: 17,
-                      fontWeight: "bold",
-                      alignSelf: "center",
-                      width: "80%"
-                    }}
+                    style={styles.dobText}
                   >
-                    {" "}
+                    
                     Month
                   </Text>
                   <View style={{ alignSelf: "center" }} style={{ width: 35, justifyContent: "center" }}>
@@ -1022,14 +1004,9 @@ _showMonth() {
                   }}
                 >
                   <Text
-                    style={{
-                      fontSize: 17,
-                      fontWeight: "bold",
-                      alignSelf: "center",
-                      width: "50%"
-                    }}
+                    style={styles.dobText}
                   >
-                    {" "}
+                    
                     {this.state.valueMonth}
                   </Text>
                   <View
@@ -1062,14 +1039,9 @@ _showMonth() {
                   }}
                 >
                   <Text
-                    style={{
-                      fontSize: 17,
-                      fontWeight: "bold",
-                      alignSelf: "center",
-                      width: "50%"
-                    }}
+                    style={styles.dobText}
                   >
-                    {" "}
+                    
                     Year
                   </Text>
                   <View style={{ alignSelf: "center" }}>
@@ -1097,14 +1069,9 @@ _showMonth() {
                   }}
                 >
                   <Text
-                    style={{
-                      fontSize: 17,
-                      fontWeight: "bold",
-                      alignSelf: "center",
-                      width: "50%"
-                    }}
+                    style={styles.dobText}
                   >
-                    {" "}
+                    
                     {this.state.valueYear}
                   </Text>
                   <View style={{ alignSelf: "center" }}>
@@ -1616,5 +1583,12 @@ _showMonth() {
 
 </>
     );
+  }
+}
+const styles = {
+  dobText:{
+    fontSize:16,
+    fontFamily:Fonts.medium,
+    marginVertical:10,
   }
 }

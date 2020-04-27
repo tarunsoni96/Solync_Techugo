@@ -19,6 +19,7 @@ import {
   cropPhoto,
 } from "ServiceProviders/TakePhoto";
 import HelperMethods from "Helpers/Methods";
+import Fonts from "UIProps/Fonts";
 import BackHandlerSingleton from "ServiceProviders/BackHandlerSingleton";
 import RemoveModelConfirmation from "../../components/RemoveModelConfirmation";
 import Images from "../../constant/images";
@@ -958,7 +959,7 @@ export default class EditProfile extends Component {
   render() {
     return (
       
-      <Container >
+      <Container>
 
       <SafeAreaView style={{ flex: 1,width:'100%', }}>
           <View
@@ -968,7 +969,7 @@ export default class EditProfile extends Component {
               flexDirection: "row",
               width: width,
               marginVertical: 40,
-            marginBottom:40,
+            marginBottom:25,
               justifyContent: "space-between",
               borderColor: "#DCDCDC",
               alignSelf: "center",
@@ -1052,18 +1053,17 @@ export default class EditProfile extends Component {
 
 
           <View
-            style={{ height: 40, width: width,}}
+            style={{ height: 25, width: width,}}
           ></View>
-          <View
-            style={{ width: width, height: 40, }}
-          >
             <View
               style={{
-                height: "100%",
-                width: width - 30,
+                width: '100%',
+                padding:10,
+                paddingHorizontal:19,
                 backgroundColor: "#f6f7f8",
                 justifyContent: "center",
                 alignSelf: "center",
+                marginBottom:10,
               }}
             >
               <Text
@@ -1076,7 +1076,6 @@ export default class EditProfile extends Component {
               >
                 Personal Information
               </Text>
-            </View>
           </View>
 
           <TextInputSolo
@@ -1112,15 +1111,13 @@ export default class EditProfile extends Component {
           <View
             style={{
               height: height / 7,
-              width: width - 30,
-              alignSelf: "center",
-              justifyContent: "center",
+              paddingHorizontal:18,
+              marginTop:20,
             }}
           >
             <View style={{ flexDirection: "row" }}>
               <Text
                 style={{
-                  opacity: 1,
                   fontSize: 13,
                   fontFamily: "Montserrat-SemiBold",
                   color: "#879299",
@@ -1145,10 +1142,11 @@ export default class EditProfile extends Component {
             </View>
             <View
               style={{
-                width: width - 30,
+                // width: width - 30,
                 flexDirection: "row",
-                justifyContent: "space-around",
-                backgroundColor: "transparent",
+                justifyContent: "space-between",
+                marginTop:5,
+                
               }}
             >
               {this.state.valueDate == "" ? (
@@ -1169,14 +1167,8 @@ export default class EditProfile extends Component {
                   }}
                 >
                   <Text
-                    style={{
-                      fontSize: 17,
-                      fontWeight: "bold",
-                      alignSelf: "center",
-                      width: "50%",
-                    }}
+                    style={styles.dobText}
                   >
-                    {" "}
                     Day
                   </Text>
                   <View style={{ alignSelf: "center" }}>
@@ -1201,16 +1193,9 @@ export default class EditProfile extends Component {
                     borderRightWidth: 0,
                     borderBottomColor: "lightgrey",
                     borderWidth: 2,
-                  }}
-                >
+                  }}>
                   <Text
-                    style={{
-                      fontSize: 17,
-                      fontWeight: "bold",
-                      width: "50%",
-                      textAlign:'center'
-                    }}
-                  >
+                    style={styles.dobText}>
                   {this.state.valueDate}
                   </Text>
                   <View style={{ alignSelf: "center" }}>
@@ -1239,12 +1224,7 @@ export default class EditProfile extends Component {
                   }}
                 >
                   <Text
-                    style={{
-                      fontSize: 17,
-                      fontWeight: "bold",
-                      alignSelf: "center",
-                      width: "80%",
-                    }}
+                    style={styles.dobText}
                   >
                     {" "}
                     Month
@@ -1277,13 +1257,7 @@ export default class EditProfile extends Component {
                   }}
                 >
                   <Text
-                    style={{
-                      fontSize: 17,
-                      fontWeight: "bold",
-                      alignSelf: "center",
-                      width: "50%",
-                      textAlign:'center'
-                    }}
+                    style={styles.dobText}
                   >
                     {this.state.valueMonth}
                   </Text>
@@ -1352,13 +1326,7 @@ export default class EditProfile extends Component {
                   }}
                 >
                   <Text
-                    style={{
-                      fontSize: 17,
-                      fontWeight: "bold",
-                      alignSelf: "center",
-                      width: "50%",
-                      textAlign:'center'
-                    }}
+                    style={styles.dobText}
                   >
                     {this.state.valueYear}
                   </Text>
@@ -1458,7 +1426,7 @@ export default class EditProfile extends Component {
             style={{ height: 20, width: width, backgroundColor: "#fff" }}
           ></View>
           <View
-            style={{ width: width, height: 40, backgroundColor: "#f6f7f8" }}
+            style={{ width: width, height: 40,marginBottom:10, backgroundColor: "#f6f7f8" }}
           >
             <View
               style={{
@@ -1522,5 +1490,13 @@ export default class EditProfile extends Component {
       </Container>
 
     );
+  }
+}
+
+const styles = {
+  dobText:{
+    fontSize:16,
+    fontFamily:Fonts.medium,
+    marginVertical:10,
   }
 }

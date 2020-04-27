@@ -193,11 +193,8 @@ class landingScreen extends Component {
           <Text
             style={{
               textAlign: "center",
-              opacity: 1,
               fontSize: 22,
-              fontFamily: "Montserrat-Bold",
-              justifyContent: "flex-end",
-              alignSelf: "center",
+              fontFamily: "Montserrat-ExtraBold",
               color: "#fff",
               marginTop: "10%"
             }}
@@ -218,23 +215,22 @@ class landingScreen extends Component {
         >
           <View
             style={{
-              justifyContent: "space-around",
               flexDirection: "row",
-              width: "75%",
-              alignSelf: "center"
+              alignItems:'center',
+              justifyContent:'center'
             }}>
             <Image
+            resizeMode='contain'
               source={require("../../assets/Images/@email.png")}
-              style={{ alignSelf: "center" }}
+              style={{ height:14}}
             />
 
             <Text
               style={{
-                textAlign: "center",
-                opacity: 1,
-                fontSize: 17,
+                fontSize: 16,
                 fontFamily: "Montserrat-ExtraBold",
-                color: "#4e4e4e"
+                color: "#4e4e4e",
+                marginLeft:10,
               }}
             >
               Register with Email
@@ -256,23 +252,23 @@ class landingScreen extends Component {
         >
           <View
             style={{
-              justifyContent: "space-around",
               flexDirection: "row",
-              width: "75%",
-              alignSelf: "center"
+              justifyContent:'center',
+              alignItems:'center'
             }}
           >
             <Image
               source={require("../../assets/Images/Facebook.png")}
-              style={{ height: 20, width: 10, alignSelf: "center" }}/>
+              resizeMode='contain'
+              style={{ height: 18, width: 10, }}/>
+
 
             <Text style={{
-                textAlign: "center",
-                opacity: 1,
-                fontSize: 17,
+                fontSize: 16,
+                marginLeft:5,
                 fontFamily: "Montserrat-ExtraBold",
                 color: "#4e4e4e",
-                alignSelf: "center"}}>
+                }}>
               Continue with Facebook
             </Text>
           </View>
@@ -281,16 +277,14 @@ class landingScreen extends Component {
         <View style={{height:"2%",width: width, backgroundColor: "transparent" }} />
         <View
           style={{
-            height: "5%",
-            width: width - 30,
             alignSelf: "center",
             justifyContent: "center",
-            flexDirection: "row"
+            flexDirection: "row",
+            marginBottom:10,
           }}>
 
           <Text style={{
               textAlign: "center",
-              opacity: 1,
               fontSize: 15,
               fontFamily: "Montserrat-SemiBold",
               color: "#fff"}}>
@@ -298,8 +292,6 @@ class landingScreen extends Component {
           </Text>
           <TouchableOpacity onPress={() => this.props.navigation.navigate("Login")}>
             <Text style={{
-                textAlign: "center",
-                opacity: 1,
                 fontSize: 15,
                 fontFamily: "Montserrat-Bold",
                 color: "#fff"}}>

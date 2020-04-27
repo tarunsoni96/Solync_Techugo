@@ -31,6 +31,7 @@ import { withNavigation } from "react-navigation";
 import { widthPercentageToDP } from "react-native-responsive-screen";
 import ScreenHeader from "../../components/ScreenHeader";
 import BackHandlerSingleton from "../../ServiceProviders/BackHandlerSingleton";
+import Fonts from "../../UIProps/Fonts";
 
 class SearchByUnique extends Component {
   constructor(props) {
@@ -541,6 +542,7 @@ class SearchByUnique extends Component {
                   width: width - 50,
                   height: "30%",
                   opacity: 2.0,
+                  fontFamily:Fonts.medium,
                   alignSelf: "center",
                 }}
                 placeholder={params?.inputPlaceHolder}
@@ -558,7 +560,6 @@ class SearchByUnique extends Component {
                     visible: false,
                   })
                 }
-                fontFamily={"Montserrat-Bold"}
               />
             ) : (
               <TextInput

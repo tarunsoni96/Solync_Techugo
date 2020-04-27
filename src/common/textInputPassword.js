@@ -25,7 +25,7 @@ class TextInputPassSolo extends Component {
         return (
             <View style={{ position:'relative',height: height/6,marginBottom:-20,marginTop:10, width: width - 30, alignSelf: 'center', justifyContent: 'center', flexDirection: 'column',backgroundColor:'transparent'}}>
            <View style={{flexDirection:'row',alignItems:'center'}}>
-           <Text style={{ opacity: 1, fontSize: 13, fontFamily: 'Montserrat-SemiBold', color: '#879299' }}> Password</Text>
+           <Text style={{ opacity: 1, fontSize: 13, fontFamily: 'Montserrat-SemiBold', color: '#879299' }}>Password</Text>
            {inputState == '' ? null :
                                 <View style={{ flexDirection: 'row',alignItems:'center', width: width / 1.5 }}>
                                     <Image source={Images.warning} style={{ marginLeft: 20,width:17,height:16 }} />

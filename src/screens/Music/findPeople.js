@@ -320,7 +320,7 @@ export default class SearchByUnique extends Component {
           </Text>
           <View
             style={{
-              height: 1,
+              height: 2,
               width: "90%",
               marginHorizontal: 10,
               alignSelf: "center",
@@ -404,7 +404,7 @@ export default class SearchByUnique extends Component {
           </Text>
           <View
             style={{
-              height: 1,
+              height: 2,
               width: "90%",
               alignSelf: "center",
               backgroundColor: "#DCDCDC",
@@ -620,7 +620,7 @@ export default class SearchByUnique extends Component {
           </Text>
           <View
             style={{
-              height: 1,
+              height: 2,
               width: "100%",
               backgroundColor: "#DCDCDC",
               marginTop: 10,
@@ -677,7 +677,6 @@ export default class SearchByUnique extends Component {
     inpStyle = {
       marginBottom: 50,
     };
-
     if (params?.type == "Travel") {
       return (
         <View style={{ marginTop: 25, padding: 10 }}>
@@ -755,45 +754,24 @@ export default class SearchByUnique extends Component {
       } else {
         dateText ='Please select'
       }
+      let vSpacing = 10
+      let margBottom = 40
 
       return (
-        <View style={{ marginTop: 25, padding: 10 }}>
-          <View
-            style={{
-              position: "relative",
-              height: height / 7,
-              width: width - 30,
-              alignSelf: "center",
-              justifyContent: "center",
-            }}
-          >
-            <View style={{ flexDirection: "row" }}>
+        <View style={{  padding:20,paddingTop:0 }}>
               <Text
                 style={{
-                  opacity: 1,
                   fontSize: 14,
                   fontFamily: "Montserrat-SemiBold",
+                  marginTop:margBottom,
                   color: "#879299",
                 }}
               >
                 {firstInputTitle}
               </Text>
-            </View>
 
-            <View
-              style={{
-                width: width,
-                height: "50%",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
               <View
                 style={{
-                  width: width - 30,
-                  backgroundColor: "transparent",
-                  justifyContent: "space-between",
-                  flexDirection: "row",
                   borderTopColor: "transparent",
                   borderRightColor: "transparent",
                   borderLeftColor: "transparent",
@@ -801,35 +779,28 @@ export default class SearchByUnique extends Component {
                   borderRightWidth: 0,
                   borderBottomColor: "lightgrey",
                   borderWidth: 2,
-                  alignSelf: "center",
                 }}
               >
-                <ScrollView nestedScrollEnabled>
                   <Text
                     style={{
                       fontSize: 16,
+                      marginVertical:vSpacing,
                       fontFamily: "Montserrat-Bold",
                     }}
                   >
                     {params?.artFest}
                   </Text>
-                </ScrollView>
               </View>
-            </View>
-          </View>
-          <View
-            style={{
-              alignSelf: "center",
-              marginTop: hp(3.7),
-              justifyContent: "center",
-            }}
-          >
+
+
             <Text
               style={{
                 opacity: 1,
                 fontSize: 14,
                 fontFamily: "Montserrat-SemiBold",
                 color: "#879299",
+                marginTop:margBottom,
+
               }}
             >
               Location
@@ -837,7 +808,7 @@ export default class SearchByUnique extends Component {
             <TouchableOpacity
               onPress={() => this._showLocation()}
               style={{
-                width: width - 30,
+                width:'100%',
                 backgroundColor: "transparent",
                 justifyContent: "space-between",
                 flexDirection: "row",
@@ -856,6 +827,8 @@ export default class SearchByUnique extends Component {
                 <Text
                   style={{
                     fontSize: 16,
+                    marginVertical:vSpacing,
+
                     fontFamily: "Montserrat-Bold",
                     alignSelf: "center",
                   }}
@@ -868,6 +841,8 @@ export default class SearchByUnique extends Component {
                     fontSize: 16,
                     fontFamily: "Montserrat-Bold",
                     alignSelf: "center",
+                    marginVertical:vSpacing,
+
                   }}
                 >
                   {this.state.location}
@@ -880,7 +855,6 @@ export default class SearchByUnique extends Component {
                 />
               </View>
             </TouchableOpacity>
-          </View>
           {this.state.showLocation == true ? (
             <ImageBackground
               source={require("../../assets/Images/@Groupdown.png")}
@@ -903,20 +877,13 @@ export default class SearchByUnique extends Component {
             </ImageBackground>
           ) : null}
 
-          <View
-            style={{
-              width: width - 30,
-              marginTop: hp(9),
-              alignSelf: "center",
-              justifyContent: "center",
-            }}
-          >
             <Text
               style={{
                 opacity: 1,
                 fontSize: 14,
                 fontFamily: "Montserrat-SemiBold",
                 color: "#879299",
+                marginTop:margBottom,
               }}
             >
               Date
@@ -924,7 +891,7 @@ export default class SearchByUnique extends Component {
             <TouchableOpacity
               onPress={() => this._showDate()}
               style={{
-                width: width - 30,
+                width: '100%',
                 backgroundColor: "transparent",
                 justifyContent: "space-between",
                 flexDirection: "row",
@@ -935,7 +902,6 @@ export default class SearchByUnique extends Component {
                 borderRightWidth: 0,
                 borderBottomColor: "lightgrey",
                 borderWidth: 2,
-                alignSelf: "center",
                 zIndex: 100000,
               }}
             >
@@ -944,10 +910,9 @@ export default class SearchByUnique extends Component {
                   style={{
                     fontSize: 16,
                     fontFamily: "Montserrat-Bold",
-                    alignSelf: "center",
+                    marginVertical:vSpacing,
                   }}
                 >
-                  {" "}
                   {dateText}
                 </Text>
               ) : (
@@ -955,7 +920,8 @@ export default class SearchByUnique extends Component {
                   style={{
                     fontSize: 16,
                     fontFamily: "Montserrat-Bold",
-                    alignSelf: "center",
+                    marginVertical:vSpacing,
+
                   }}
                 >
                   {this.state.date}
@@ -968,7 +934,6 @@ export default class SearchByUnique extends Component {
                 />
               </View>
             </TouchableOpacity>
-          </View>
 
           {this.state.showDate == true ? (
             <ImageBackground
@@ -1026,7 +991,7 @@ export default class SearchByUnique extends Component {
               nestedScrollEnabled
               onBackPress={() => this.props.navigation.pop()}
             >
-              <View style={{width: "100%" }}>
+              <View style={{width: "100%", }}>
                 {content && content}
 
                 {this.renderInputs()}

@@ -74,8 +74,8 @@
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Solync will save captured photos to storage</string>
 
-
-
+<key>UIUserInterfaceStyle</key>
+    <string>Light</string>
 	<key>FacebookAppID</key>
 	<string>2340479859602910</string>
 	<key>FacebookDisplayName</key>
