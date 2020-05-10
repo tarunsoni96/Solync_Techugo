@@ -19,7 +19,8 @@ import {
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-  heightPercentageToDP
+  heightPercentageToDP,
+  widthPercentageToDP
 } from "react-native-responsive-screen";
 import BackHandlerSingleton from "ServiceProviders/BackHandlerSingleton";
 
@@ -262,14 +263,11 @@ class MUSIC extends Component {
 
     let info = <View
     style={{
-      width: width - 85,
+      // width: width - 85,
       position: "absolute",
-      bottom: hp(3),
-      backgroundColor: "transparent",
-      flexDirection: "row",
-      justifyContent: "flex-start",
-      alignSelf: "center",
-      alignItems:'center',
+      bottom: hp(5),
+      paddingHorizontal:20,
+      flex:1,
     }}
   >
     <Text
@@ -277,30 +275,26 @@ class MUSIC extends Component {
         color: "#fff",
         fontSize: 22,
         fontFamily: "Montserrat-ExtraBold",
-        marginLeft:wp(1.2),
       }}
     >
-      {item.first_name}, {item.age}
-    </Text>
+      {item.first_name}, {item.age}{'  '}
 
-    <View
-      style={{
-        width: width / 2,
-        backgroundColor: "transparent",
-      }}
-    >
       <Text
         style={{
           color: "grey",
           fontSize: 16,
-          backgroundColor: "transparent",
-          left: 4
+        fontFamily: Fonts.regular,
+          
         }}
       >
-        {"  "}
         {item.occupation}
       </Text>
-    </View>
+
+    </Text>
+
+
+
+    
     </View>
 
     return (
@@ -317,7 +311,7 @@ class MUSIC extends Component {
           <View>
             {item.profile_picture == "" ? (
               <ImageBackground
-                style={[styles.CurrentVideoImage,{borderRadius:40,flex:1}]}
+                style={[styles.CurrentVideoImage,{borderRadius:40,flex:0.99}]}
                 source={require("../../assets/Images/@photo-cropped.png")}
                 resizeMode={"cover"}
               >
@@ -335,7 +329,7 @@ class MUSIC extends Component {
               </ImageBackground>
             ) : (
               <ImageBackground
-                style={[styles.CurrentVideoImage,{borderRadius:20,flex:1,}]}
+                style={[styles.CurrentVideoImage,{borderRadius:20,flex:0.99,}]}
                 source={{ uri: item.profile_picture }}
                 imageStyle={{borderRadius:20}}
                 resizeMode={"cover"}
@@ -482,7 +476,7 @@ class MUSIC extends Component {
               }
               style={{
                 marginBottom: 0,
-                width:'100%'
+                width:'93%'
               }}
             />
 
@@ -587,11 +581,11 @@ class MUSIC extends Component {
       source={{uri:item.image}}
       imageStyle={{borderRadius:10}}
       resizeMode='cover'
-      style={{padding:30,marginBottom:10,borderRadius:10,height:110}}
+      style={{padding:30,marginBottom:10,borderRadius:10,height:110,justifyContent:'center'}}
       >
       <TouchableWithoutFeedback onPress={()=>this.fetchData(filtCat,sub_category_name)} >
-        <View>
-          <CustomText bold text={sub_category_name.toUpperCase()} size={17}  />
+        <View style={{justifyContent:'center'}}>
+          <CustomText bold style={{marginTop:type != 'Music' ? 15 : 0}} text={sub_category_name.toUpperCase()} size={17}  />
           <CustomText style={{fontStyle:'italic',fontSize:14}} text={description} size={15}  />
         </View>
       </TouchableWithoutFeedback>
@@ -641,6 +635,7 @@ class MUSIC extends Component {
 
                <FlatList
                nestedScrollEnabled
+               showsVerticalScrollIndicator={false}
                   data={this.state.categories}
                   renderItem={this.drawCats}
                   keyExtractor={(item,index) => index}
@@ -651,6 +646,7 @@ class MUSIC extends Component {
           }
           <Interactable.View
           verticalOnly
+          // boundaries={{top:0, }}
           dragEnabled={!this.state.noMatches}
           ref={caraousalInteractable => this.caraousalInteractable = caraousalInteractable}
           style={{flex:1}}

@@ -12,6 +12,7 @@ Image
 } from 'react-native'
 import ErrorText from '../common/error'
 import Images from '../constant/images'
+import Fonts from "UIProps/Fonts";
 const {height,width} = Dimensions.get('screen')
 class TextInputPassSolo extends Component {
     constructor(props){
@@ -37,7 +38,9 @@ class TextInputPassSolo extends Component {
            </View>
            
             <View style={{ borderTopColor:'transparent',borderRightColor:'transparent',borderLeftColor:'transparent',borderLeftWidth:0,borderRightWidth:0,borderBottomColor:borderColor, width: width - 30, borderWidth: 2,  opacity: 2.0,  flexDirection: 'row',justifyContent:'space-between' }}>
-            <TextInput style={{ marginLeft:2, borderColor: '#C0C0C0', width: width - 125, borderWidth: 0,  opacity: 2.0,}}
+            <TextInput style={{ 
+                fontFamily:Fonts.medium
+                ,marginLeft:2, borderColor: '#C0C0C0', width: width - 125, borderWidth: 0,  opacity: 2.0,}}
             secureTextEntry={secureTextEntry} 
             value={value}
             onChangeText={onChangeText}

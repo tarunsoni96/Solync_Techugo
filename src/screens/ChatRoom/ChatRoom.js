@@ -12,10 +12,11 @@ import {
   AppState,
   TouchableWithoutFeedback,
   ImageBackground,
+  ToastAndroid,
   Keyboard
 } from "react-native";
 import OutsideCloser from "../../components/OutsideCloser";
-import {widthPercentageToDP as wp, heightPercentageToDP as hp, heightPercentageToDP} from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp, heightPercentageToDP, widthPercentageToDP} from 'react-native-responsive-screen';
 const { height, width } = Dimensions.get("screen");
 import { Colors } from "UIProps/Colors";
 import { GiftedChat, Send } from "react-native-gifted-chat";
@@ -191,16 +192,10 @@ class ChatRoom extends Component {
         event:params?.event,
         category_type: params?.eventType,
         event_year:params?.eventYr,
-
+        addedUsers:MobxStore.addedUserChat,
     }
 
-    socketio.listenEvent("createGroup", callBackData => {
-      const { result } = callBackData;
-      this.isGroupChat = true
-      group_id = result?.group_id
-      this.setState({groupCreatedName:result?.group_name})
-      this.setPreviousMsgs(true,group_id)
-    });
+    
 
     socketio.emitToEvent("createGroup",obj);
     MobxStore.reloadConvList = true
@@ -208,14 +203,23 @@ class ChatRoom extends Component {
     })
   }
 
+
+
   blockGroup(){
     let obj = {
       "user_id":MobxStore.userObj.user_id,
       group_id,
+      group_name:params?.event,
+      type:'block',
+      user_name:MobxStore.userObj.user_name
     }
-    MobxStore.reloadConvList = true
+    
+    setTimeout(()=>{
+      this.leaveGroupChat()
+    },600)
+
     socketio.emitToEvent("blockGroup",obj );
-    // this.leaveGroupChat()
+    
   }
 
   addUserToGroup(){
@@ -225,6 +229,7 @@ class ChatRoom extends Component {
       "group_name":params?.userObj.first_name,
       "other_user_id":userIds,
       user_id:MobxStore.userObj.user_id,
+      addedUsers:MobxStore.addedUserChat,
     }
     socketio.emitToEvent("addGroupUser",obj );
     this.clearAddPersons()
@@ -232,13 +237,13 @@ class ChatRoom extends Component {
 
   
 
-  setUserIds(){
+  setUserIds(addedUsers = MobxStore.addedUserChat){
     let usernames = [...this.state.groupUsernames]
-    userIds = MobxStore.addedUserChat.map((item,index) => {
+    userIds = addedUsers.map((item,index) => {
         usernames.push(item.first_name)
       return item.user_id
     }).join(',')
-    this.setState({groupUsernames:usernames,groupChatUsers:[...this.state.groupChatUsers,...MobxStore.addedUserChat]})
+    this.setState({groupUsernames:usernames,groupChatUsers:[...this.state.groupChatUsers,...addedUsers]})
   }
 
   clearAddPersons(){
@@ -276,6 +281,9 @@ class ChatRoom extends Component {
     clientId = params?.clientId;
     
     AppState.addEventListener("change", this._handleAppStateChange);
+    this.setGroupCreateListener()
+
+
     this.setBlockReciever()
     this.setPreviousMsgs();
   }
@@ -283,10 +291,13 @@ class ChatRoom extends Component {
   setBlockReciever(){
     socketio.listenEvent('blockedReceiver',callBackData => {
       const {result } = callBackData
-      if(result == 'blocked'){
+      if(result.type == 'block'){
         this.setState({blocked:true,blockedBy:true})
-        HelperMethods.snackbar('You have been blocked')
-      } else if(result == 'deleted'){
+        if(this.isGroupChat){
+          this.leaveGroupChat('You are blocked & this group has been deleted by the admin')
+        }
+        // HelperMethods.snackbar('You have been blocked')
+      } else if(result.type == 'delete'){
         setTimeout(() => {
           HelperMethods.snackbar('This group has been deleted by the admin')
           this.props.navigation.pop()
@@ -386,6 +397,7 @@ class ChatRoom extends Component {
           this.leaveGroupChat()
         }
       } else {
+
         this.setUpGroupChat(result)
         this.setUpChat();
         let msgs = [];
@@ -418,11 +430,32 @@ class ChatRoom extends Component {
     });
   }
 
-  leaveGroupChat(){
+  setGroupCreateListener(){
+    socketio.listenEvent("createGroup", callBackData => {
+      
+      const { result } = callBackData;
+
+      if(result.chat_with_id == MobxStore.userObj.user_id){ // reciever
+        HelperMethods.snackbar('This chat has been changed to group chat, Please restart the chat session')
+        setTimeout(()=>{
+          this.props.navigation.pop()
+        },600)
+      }
+
+      this.isGroupChat = true
+      group_id = result?.group_id
+      this.setState({groupCreatedName:result?.group_name})
+      this.setPreviousMsgs(true,group_id)
+    });
+  }
+  leaveGroupChat(msg = 'You have blocked all the users and left from the group'){
     this.isLeaved= true
-    HelperMethods.snackbar('You have blocked all the users and left from the group')
+    
+    HelperMethods.snackbar(msg)
         MobxStore.reloadConvList = true
-        this.props.navigation.pop()
+        setTimeout(()=>{
+          this.props.navigation.pop()
+        },400)
   }
 
   setUpGroupChat(result){
@@ -458,8 +491,6 @@ class ChatRoom extends Component {
           first_name
         } = callBackData.result;
 
-        
-
         let msgObj = [
           {
             _id: id,
@@ -480,7 +511,9 @@ class ChatRoom extends Component {
           msgObj[0].text = callBackData.result.msg;
         }
 
+        if(!this.isGroupChat)
         HelperMethods.animateLayout();
+
         this.setState(previousState => ({
           messages: GiftedChat.append(previousState.messages, msgObj[0])
         }));
@@ -635,9 +668,14 @@ class ChatRoom extends Component {
 
   onSend(messages = []) {
     this.giftedChatRef.scrollToBottom();
+    if(!this.state.showEvent || !this.isGroupChat)
     HelperMethods.animateLayout();
+
     if(messages[0].text && messages[0].text.trim().length == 0){
       return
+    }
+    if(messages[0].text){
+      messages[0].text = messages[0].text.trim()
     }
       this.setState(
         previousState => ({
@@ -649,7 +687,7 @@ class ChatRoom extends Component {
             
             this.sendMsg(myUserId, clientId, "", messages[0].url, "image");
           } else  {
-            this.sendMsg(myUserId, params?.clientId, messages[0].text);
+            this.sendMsg(myUserId, params?.clientId, messages[0].text.trim());
           }
         }
         );
@@ -668,7 +706,7 @@ class ChatRoom extends Component {
     if(this.state.typingUserName){
 
       return(
-        <View style={{flexDirection:'row',alignItems:'center',marginLeft:10,marginBottom:8 }} > 
+        <View style={{flexDirection:'row',alignItems:'center',marginLeft:10,marginBottom:HelperMethods.isPlatformAndroid() ? 25 : 10 }} > 
 
         <View style={{flexDirection:'row',alignItems:'center',}}>
 
@@ -689,10 +727,9 @@ class ChatRoom extends Component {
     bgColor = text.position == "left" ? clientMsgColor : tintColor;
     if (text.currentMessage?.url?.length > 0) {
       if(this.isGroupChat && text.position == 'left'){
-
         return (
           <View
-          style={{flexDirection:'row',alignItems:'center', padding: 10,  }}>
+          style={{flexDirection:'row',alignItems:'center', padding: 10,marginLeft:10,}}>
             <Image style={{borderRadius:60,width:40,height:40,position:'absolute',zIndex:100}} source={{uri:text.currentMessage.profile_picture}}  />
           <View
           style={{
@@ -744,21 +781,16 @@ class ChatRoom extends Component {
       if(this.isGroupChat){
 
         return (
-          <View
-          style={{flexDirection:'row',alignItems:'center', padding: 6,  }}>
-
+          <View style={{flexDirection:'row',alignItems:'center', padding: 6,marginHorizontal:10  }}>
           <Image style={{borderRadius:60,width:40,height:40,position:'absolute',zIndex:100}} source={{uri:text.currentMessage.profile_picture}}  />
-          <View
-          style={{ padding: 13,paddingLeft:wp(5), borderRadius: 10, backgroundColor: bgColor,marginLeft:20,paddingRight:100 }}
-        >
-
+          <View style={{ padding: 13,paddingLeft:wp(5), borderRadius: 10, backgroundColor: bgColor,marginLeft:20,paddingRight:60 }}>
           <Text style={{ color:tintColor, fontFamily: Fonts.medium }}>
             {text.currentMessage.first_name}
           </Text>
-
           <Text style={{ color: "#000", fontFamily: Fonts.medium }}>
             {text.currentMessage.text}
           </Text>
+
         </View>
           </View>
       );
@@ -767,8 +799,7 @@ class ChatRoom extends Component {
 
         return (
           <View
-          style={{ padding: 13, borderRadius: 10, backgroundColor: bgColor }}
-        >
+          style={{ padding: 13, borderRadius: 10, backgroundColor: bgColor }}>
           <Text style={{ color: "#000", fontFamily: Fonts.medium }}>
             {text.currentMessage.text}
           </Text>
@@ -778,8 +809,7 @@ class ChatRoom extends Component {
     } else {
       return (
         <View
-          style={{ padding: 13,marginHorizontal:13, borderRadius: 10, backgroundColor: bgColor }}
-        >
+          style={{ padding: 13,marginHorizontal:13, borderRadius: 10, backgroundColor: bgColor }}>
           <Text style={{ color: "#fff", fontFamily: Fonts.medium }}>
             {text.currentMessage.text}
           </Text>
@@ -789,6 +819,9 @@ class ChatRoom extends Component {
   };
 
   toggleEvent() {
+    if(HelperMethods.isPlatformIos())
+    Keyboard.dismiss()
+
     HelperMethods.animateLayout();
     this.setState({ showEvent: !this.state.showEvent });
   }
@@ -877,7 +910,7 @@ class ChatRoom extends Component {
           this.unSetChat();
         }
       }
-    });
+    },this.isGroupChat ? 'group' : '');
     }
   }
 
@@ -954,7 +987,7 @@ class ChatRoom extends Component {
           autoFocus
           onChangeText={msg => this.onInputEdit(msg)}
           value={this.state.msg}
-          onFocus={() => this.hideAttach(true)}
+          onFocus={() => this.hideAttach(HelperMethods.isPlatformAndroid())}
           style={{
             fontSize: 18,
             fontFamily: Fonts.medium,
@@ -1227,9 +1260,9 @@ class ChatRoom extends Component {
             resizeMode={"stretch"}>
             <FlatList
               data={this.state.groupChatUsers}
-          renderItem={this.renderGroupChatUsers}
-          keyExtractor={(item,index) => item.first_name} 
-          extraData={this.state}
+              renderItem={this.renderGroupChatUsers}
+              keyExtractor={(item,index) => item.first_name} 
+              extraData={this.state}
               style={{maxWidth:wp(60), maxHeight:200 }}
               keyboardShouldPersistTaps='always'
               showsVerticalScrollIndicator={false}
@@ -1371,9 +1404,9 @@ class ChatRoom extends Component {
           </View>
 
           {!this.state.blocked && (
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <View style={{ flexDirection: "row",paddingRight:7, alignItems: "center" }}>
               <TouchableOpacity onPress={() => this.toggleEvent()}>
-                <Image source={categoryPic} resizeMode='contain' style={[styles.imageStyle,{marginTop:12,marginRight:12}]} />
+                <Image source={categoryPic} resizeMode='contain' style={[styles.imageStyle,{marginTop:10,marginRight:12}]} />
               </TouchableOpacity>
 
               {this.state.showEvent && (
@@ -1381,7 +1414,7 @@ class ChatRoom extends Component {
                   style={[
                     styles.triangle,
                     {
-                      right: "75%",
+                      right: "74.5%",
                       top: "85%",
                       position: "absolute",
                       borderBottomColor: tintColor
@@ -1510,7 +1543,7 @@ const styles = {
   imageStyle: {
     width: 22,
     height: 22,
-    margin: 10
+    margin: widthPercentageToDP(2)
   },
 
   searchSection: {
@@ -1575,7 +1608,7 @@ const styles = {
     },
 
     headerTitle:{
-      width: wp('30%'),
+      width: wp('38%'),
       marginLeft: 20, 
     }
 }

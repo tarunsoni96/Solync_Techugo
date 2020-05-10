@@ -14,10 +14,12 @@ import {
 } from 'react-native'
 const { height, width } = Dimensions.get('screen')
 import Images from '../../constant/images'
+import Fonts from "UIProps/Fonts";
 import CodeInput from 'react-native-confirmation-code-input';
 import BackHandlerSingleton from "ServiceProviders/BackHandlerSingleton";
 import GradButton from '../../common/gradientButton';
 import Container from '../../AppLevelComponents/UI/Container';
+import ScreenHeader from '../../components/ScreenHeader';
 
 export default class instructionSent extends Component {
   constructor(props) {
@@ -69,7 +71,7 @@ export default class instructionSent extends Component {
         else if (responseJson.statusCode == 400) {
           this.setState({
             inactiveColorCode: '#bb205a',
-            messsage: 'Invalid Code entered.',
+            messsage: 'Invalid code entered',
             opacity: false
           })
         }
@@ -86,49 +88,35 @@ export default class instructionSent extends Component {
     let email = params?.email
     return (
       <>
-        <Container>
+        <Container extraScrollheight={70}>
 
-          <View style={{ alignItems: 'center',marginTop:40, flexDirection: 'row',  width: width, justifyContent: 'center', borderColor: '#DCDCDC' }}>
-            
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('ForgotPassword')}>
-              <View style={{ justifyContent: 'center', width: width / 6 }}>
-                <Image source={require('../../assets/Images/Left.png')} style={{ height: height / 40, width: width / 20, alignSelf: 'center' }} resizeMode={'contain'} />
-              </View>
-            </TouchableOpacity>
+        <ScreenHeader style={{marginTop:10}} isCenter title='Reset instructions sent' />
 
-            <View style={{  justifyContent: 'center', alignSelf: 'center', width: width / 1.2 }}>
-              <Text style={{ fontSize: 17, alignSelf: 'center', marginRight: width / 6, fontFamily: 'Montserrat-Bold' }}>Reset instructions sent</Text>
-            </View>
-          </View>
 
 
           <View style={{ width: width - 40, alignSelf: 'center', justifyContent: 'center', }}>
             <Image source={require('../../assets/Images/Tick.png')} style={{ alignSelf: 'center',marginVertical:20, height: 80, width: 80 }} />
-            <Text style={{ color: '#696969', textAlign: 'center', fontSize: 20, marginTop: 10 }}>If this email address is registered. you will receive an email containing your One Time Password</Text>
+            <Text style={{ color: '#696969', textAlign: 'center', fontSize: 16.5,fontFamily:Fonts.regular, marginTop: 10 }}>If this email address is registered. you will receive an email containing your One Time Password</Text>
           </View>
-          {
-            this.state.messsage == '' ? null
-              :
-              <View style={{ flexDirection: 'row', width: width, justifyContent: 'center', alignSelf: 'center',marginTop:10 }}>
-                <Image source={Images.warning} style={{ alignSelf: 'center', marginLeft: '58%' }} />
+
+
+             
+
+
+          <View style={{ marginTop: 70, width: width - 40, alignSelf: 'center', justifyContent: 'center' }}>
+          <View style={{ flexDirection: 'row',marginBottom:20, justifyContent: 'center',width:'100%'}}>
+                <Image source={this.state.messsage ? Images.warning : null} style={{  }} />
                 <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
                   <Text style={{
                     color: '#bb205a',
-                    height: 20,
-                    alignSelf: 'center',
                     fontSize: 15,
-                    fontWeight: 'bold',
-                    width: width,
-                    justifyContent: 'center'
-                  }}>  {this.state.messsage}</Text>
+                    marginLeft:10,
+                    fontFamily:Fonts.medium,
+                  }}>{this.state.messsage}</Text>
                 </View>
 
               </View>
-          }
-
-
-          <View style={{ marginTop: 60, width: width - 40, alignSelf: 'center', justifyContent: 'center' }}>
-            <Text style={{ textAlign: 'center', fontFamily: 'Montserrat-Bold', fontSize: 22, fontWeight: 'bold' }}>Please enter the OTP</Text>
+            <Text style={{ textAlign: 'center', fontFamily: 'Montserrat-Bold', fontSize: 20,  }}>Please enter the OTP</Text>
             <Text style={{ textAlign: 'center', fontSize: 15, color: '#696969', fontFamily: 'Montserrat-Regular' }}>Sent to {email}</Text>
           </View>
 
@@ -149,17 +137,17 @@ export default class instructionSent extends Component {
             inputPosition='left'
             onFulfill={(code) => this._onFinishCheckingCode1(code)}
             containerStyle={{ justifyContent: 'center' }}
-            codeInputStyle={{fontSize:20, fontFamily: 'Montserrat-Bold',marginTop:0}}
+            codeInputStyle={{fontSize:20, fontFamily: 'Montserrat-Bold',borderBottomColor:'lightgrey',bottomBottomWidth:4,height:50}}
             keyboardType="numeric"
           />
 
-          <View style={{width:'100%',marginTop:90}}>
+          <View style={{width:'100%',marginTop:0}}>
 
             <GradButton style={{opacity: this.state.opacity ? 1 :0.7,}} onPress={() => this.state.opacity ? this.verify() : ()=>{}   } isApiCall={this.state.isApiCall} text='Verify' />
 
           </View>
 
-          <View style={{  width: width, backgroundColor: 'transparent',marginTop:60 }}>
+          <View style={{  width: width, backgroundColor: 'transparent',marginVertical:20 }}>
               <Text style={{ fontSize: 16, alignSelf: 'center', color: '#2d2d2d', fontFamily: 'Montserrat-SemiBold' }}>Didn't receive the OTP?</Text>
               <TouchableOpacity onPress={() => this.props.navigation.navigate('ForgotPassword')}>
                 <Text style={{ fontSize: 15, alignSelf: 'center', color: '#7e2179', fontFamily: 'Montserrat-ExtraBold' }}>Re-enter email address</Text>

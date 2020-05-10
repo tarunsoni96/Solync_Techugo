@@ -22,6 +22,7 @@ import {
   widthPercentageToDP,
   heightPercentageToDP,
 } from "react-native-responsive-screen";
+import ScreenHeader from "../../components/ScreenHeader";
 export default class TermsConditions extends Component {
   state = {
     input: "",
@@ -53,68 +54,13 @@ export default class TermsConditions extends Component {
     const { type } = this.props.navigation.state.params || {};
     return (
       <Container>
-        <View
-          style={{
-            alignItems: "center",
-            flexDirection: "row",
-            width: width,
-            marginVertical: 40,
-            justifyContent: "space-between",
-            bottom: 7,
+       
+        
 
-            borderColor: "#DCDCDC",
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => this.props.navigation.pop()}
-            style={{ justifyContent: "center", width: width / 6 }}
-          >
-            <View>
-              <Image
-                source={require("../../assets/Images/Left.png")}
-                style={{
-                  height: height / 40,
-                  marginLeft: 20,
-                  width: width / 20,
-                  // alignSelf: "center"
-                }}
-                resizeMode={"contain"}
-              />
-            </View>
-          </TouchableOpacity>
-          <View
-            style={{
-              justifyContent: "center",
-              alignSelf: "center",
-              width: width / 1.2,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 20,
-                alignSelf: "center",
-                fontWeight: "bold",
-                marginRight: width / 6,
-                width: "100%",
-                textAlign: "center",
-              }}
-            >
-              {type || "Terms & Conditions"}
-            </Text>
-          </View>
-        </View>
+          <ScreenHeader isCenter title= {type || "Terms & Conditions"} />
+        
 
 
-        <View style={{ flex: 1,backgroundColor:'red', width: "100%" }}>
-          {/* <EventCardMusic obj= /> */}
-
-         
-          
-        </View>
-
-        <View style={{backgroundColor:'green',width:'100%'}}>
-              <Text>jaskdj</Text>
-        </View>
 
       </Container>
     );

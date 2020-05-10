@@ -24,6 +24,7 @@ import GradButton from '../../common/gradientButton'
 import Container from '../../AppLevelComponents/UI/Container'
 import NetworkAwareContent from '../../AppLevelComponents/UI/NetworkAwareContent'
 import SearchInput from '../../components/SearchInput'
+import { widthPercentageToDP } from 'react-native-responsive-screen'
 
 let dataBackup = []
 @observer
@@ -97,17 +98,15 @@ class AddPersonChat extends Component {
 
     _renderItem = ({item, index}) => {
         return (
-            <View style={{ height: 110 }}>
+            <View style={{ height: 110,marginHorizontal:20,width:widthPercentageToDP(88),alignSelf:'center', }}>
                 <TouchableWithoutFeedback style={{ height: 110, justifyContent: 'center' }} onPress={() => this.addUser(item)}>
                 <View>
-                    <View style={{ justifyContent: 'center', flexDirection: 'column', alignSelf: 'center', height: 110 }}>
-                    <View style={{ height: 110, width: width - 30, marginTop: 0, justifyContent: 'space-between', alignSelf: 'center', flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'column', height: 110 }}>
+                    <View style={{ height: 110, marginTop: 0, justifyContent: 'space-between',  flexDirection: 'row' }}>
                             <Image style={{ height: 65, width: 65, borderRadius: 65 / 2, alignSelf: 'center', justifyContent: 'center' }} source={{ uri: item.profile_picture }} />
                             <View style={{ height: 110, width: '75%', justifyContent: 'center' }}>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between',alignItems:'center' }}>
-                                <View style={{alignItems:'flex-start'}}>
-                                    <Text style={{ fontSize: 18, fontWeight: 'bold', }}>{item.first_name}</Text>
-                                </View>
+                                    <Text style={{ fontSize: 18, fontWeight: 'bold',maxWidth:'80%' }}>{item.first_name}</Text>
                                     
                                     <TouchableOpacity onPress={()=>this.addUser(item)} >
                                     {this.state.addedUsers.findIndex(v => v.user_id == item.user_id) >= 0 ? 
@@ -121,7 +120,7 @@ class AddPersonChat extends Component {
                             </View>
                         </View>
                     </View>
-                    <View style={{ height: 1, backgroundColor: '#C0C0C0', width: width - 30, alignSelf: 'center' }}></View>
+                    <View style={{ height: 1, backgroundColor: '#C0C0C0', width:'100%', alignSelf: 'center' }}></View>
                     </View>
                 </TouchableWithoutFeedback>
             </View>
@@ -141,15 +140,17 @@ class AddPersonChat extends Component {
     render() {
         return (
             <>
-            <Container>
-                    <View style={{alignItems:'center',zIndex:1000, flexDirection: 'row',  width: width, justifyContent: 'space-between', borderColor: '#DCDCDC', alignSelf: 'center',marginVertical:50, }}>
+            
+            <Container >
+                    
+            <View style={{alignItems:'center',zIndex:1000, flexDirection: 'row', justifyContent: 'space-between', borderColor: '#DCDCDC', alignSelf: 'center',marginTop:30, }}>
                         <View style={{ flexDirection:'row',alignItems:'center',width: width,  justifyContent: 'space-around', alignSelf: 'center', }}>
                             <View />
                             <Text style={{ fontSize: 17, alignSelf: 'center', fontFamily: 'Montserrat-Bold' }}>Add users to chat</Text>
                             <Icons lib='Material' name='close' size={27} onPress={()=>this.props.navigation.pop()} color='#808C94' />
                         </View>
                     </View>
-                
+
          <SearchInput textGetter={text => this.search(text)} />
 
                 <NetworkAwareContent isApiCall={this.state.isApiCall} data={this.state.data} >
@@ -167,7 +168,7 @@ class AddPersonChat extends Component {
                    
                 </Container>
 
-                 <View style={{width:'100%'}} >
+                 <View style={{width:'100%',marginBottom:HelperMethods.isIphoneXorAbove() ? 20 : 0}} >
 
 {this.state.addedUsers.length > 0 && this.state.changed ?
 <GradButton onPress={()=>this.setAddedUser()} text='Add users' />

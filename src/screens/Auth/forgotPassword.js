@@ -44,13 +44,13 @@ export default class forgotPassword extends Component {
     let validateEmailAddress = validateEmail(this.state.emailAddress);
     if (this.state.emailAddress == "") {
       this.setState({
-        emailAddressMessage: "Insert email address.",
+        emailAddressMessage: "Insert email address",
         emailAddressBorderColor: "#bb205a",
         opacityButton: true
       });
     } else if (validateEmailAddress.error != "") {
       this.setState({
-        emailAddressMessage: "Invalid email address.",
+        emailAddressMessage: "Invalid email address",
         emailAddressBorderColor: "#bb205a",
         opacityButton: true
       });
@@ -80,7 +80,7 @@ export default class forgotPassword extends Component {
         } else if (responseJson.statusCode == 400) {
           this.setState({
             emailAddressBorderColor: "#bb205a",
-            emailAddressMessage: "Email address not found.",
+            emailAddressMessage: "Email address not found",
             opacityButton: true
           });
         } else {
@@ -101,28 +101,23 @@ export default class forgotPassword extends Component {
   }
   render() {
     return (
-      <Container style={{height:HelperMethods.isPlatformAndroid() ? heightPercentageToDP(100) : undefined}}>
+      <>
+      <Container>
               
-            <ScreenHeader isCenter title='Forgotten password' />
+            <ScreenHeader style={{marginTop:10}} isCenter title='Forgotten password' />
 
-        <View style={{ flex: 0.9,  }}>
-          <View
-            style={{ height: height / 5, backgroundColor: "transparent" }}
-          ></View>
+        <View style={{ flex: 1,justifyContent:'center'  }}>
+          
           <View
             style={{
-              width: width - 30,
               flexDirection: "row",
-              justifyContent: "flex-start",
-              alignSelf: "center",
-              backgroundColor: "transparent"
             }}
           >
             {this.state.emailAddressMessage == "" ? null : (
-              <View style={{ flexDirection: "row", width: width / 1.2 }}>
+              <View style={{ flexDirection: "row",width:'100%',marginLeft:35 }}>
                 <Image
                   source={Images.warning}
-                  style={{ alignSelf: "flex-end" }}
+                  style={{ }}
                 />
                 <ErrorText
                   height={20}
@@ -165,6 +160,8 @@ export default class forgotPassword extends Component {
               textAlign: "center",
               opacity: 1,
               fontSize: 15,
+              marginTop:15,
+              marginBottom:10,
               fontFamily: "Montserrat-ExtraBold",
               color: "#7c1d76",
               alignSelf: "center"
@@ -174,6 +171,7 @@ export default class forgotPassword extends Component {
           </Text>
         </View>
       </Container>
+      </>
     );
   }
 }

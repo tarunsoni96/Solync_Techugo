@@ -11,15 +11,16 @@ import MobxStore from '../StorageHelpers/MobxStore';
             })
         },
 
-        blockUser:function(socketio,action,userId,callBack){
+        blockUser:function(socketio,action,userId,callBack,chatType){
             blockDeleteUser(userId,action).then((resp) => {
                 callBack(resp)
+                if(action == 'unblock' || chatType != 'group'){
+                  return
+                }
                 socketio.emitToEvent('blockUser',{
                     "s_id":MobxStore.userObj.user_id,
                     "id":userId
                 })
-
-
             })
         },
 
@@ -28,7 +29,6 @@ import MobxStore from '../StorageHelpers/MobxStore';
                 callBack(resp)
             })
         },
-
 
         formatMonth:function(date) {
             var monthNames = [

@@ -511,7 +511,9 @@ class SearchByUnique extends Component {
         >
           <View
             style={{
-              height: 200,
+              padding:40,
+              paddingTop:30,
+              width:widthPercentageToDP(90),
               backgroundColor: "#f6f7f8",
               justifyContent: "center",
               alignSelf: "center",
@@ -523,6 +525,7 @@ class SearchByUnique extends Component {
                 color: "#000",
                 fontSize: 17,
                 alignSelf: "center",
+                marginBottom:10,
                 fontFamily: "Montserrat-Bold",
               }}
             >
@@ -531,20 +534,8 @@ class SearchByUnique extends Component {
 
             {params?.searchType == "event" ? (
               <TextInput
-                style={{
-                  marginTop: 10,
-                  textAlign: "center",
-                  borderTopColor: "transparent",
-                  borderRightColor: "transparent",
-                  borderLeftColor: "transparent",
-                  borderBottomColor: "#cacaca",
-                  borderWidth: 2,
-                  width: width - 50,
-                  height: "30%",
-                  opacity: 2.0,
-                  fontFamily:Fonts.medium,
-                  alignSelf: "center",
-                }}
+                multiline
+                style={styles.input}
                 placeholder={params?.inputPlaceHolder}
                 fontSize={15}
                 autoFocus={true}
@@ -563,18 +554,7 @@ class SearchByUnique extends Component {
               />
             ) : (
               <TextInput
-                style={{
-                  textAlign: "center",
-                  borderTopColor: "transparent",
-                  borderRightColor: "transparent",
-                  borderLeftColor: "transparent",
-                  borderBottomColor: "#edeff0",
-                  borderWidth: 2,
-                  width: width - 50,
-                  height: "40%",
-                  opacity: 2.0,
-                  alignSelf: "center",
-                }}
+               style={styles.input}
                 onFocus={() =>
                   this.setState({
                     location: "",
@@ -585,6 +565,7 @@ class SearchByUnique extends Component {
                 }
                 placeholder={"Enter location"}
                 fontSize={15}
+                multiline
                 value={this.state.location}
                 placeholderTextColor={"#a5a6a6"}
                 onChangeText={(location) => this._buttonCheck(location)}
@@ -600,7 +581,7 @@ class SearchByUnique extends Component {
             source={require("../../assets/Images/@Groupdown.png")}
             style={{
               zIndex: 19,
-              marginTop: -60,
+              marginTop: -45,
               alignSelf: "center",
 
               padding: 20,
@@ -624,6 +605,22 @@ class SearchByUnique extends Component {
         </KeyboardAvoidingView>
       </Container>
     );
+  }
+}
+const styles = {
+  input:{
+    marginTop: 10,
+    textAlign: "center",
+    borderTopColor: "transparent",
+    borderRightColor: "transparent",
+    borderLeftColor: "transparent",
+    paddingBottom:10,
+    borderBottomColor: "#cacaca",
+    borderWidth: 2,
+    width:widthPercentageToDP(75),
+    opacity: 2.0,
+    fontFamily:Fonts.medium,
+    alignSelf: "center",
   }
 }
 export default withNavigation(SearchByUnique);

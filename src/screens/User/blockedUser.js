@@ -22,6 +22,8 @@ import Container from "../../AppLevelComponents/UI/Container";
 import NetworkAwareContent from "../../AppLevelComponents/UI/NetworkAwareContent";
 import NavigationConsistor from "../../Logicals/NavigationConsistor";
 import SearchInput from "../../components/SearchInput";
+import ScreenHeader from "../../components/ScreenHeader";
+import { widthPercentageToDP } from "react-native-responsive-screen";
 
 dataBackup = []
 class BlockedUser extends Component {
@@ -62,7 +64,7 @@ class BlockedUser extends Component {
 
   _renderItem(item, index) {
     return (
-      <TouchableOpacity style={{ marginTop: 0, justifyContent: "center" }} onPress={() =>{ this.setState({ modalVisible: true }); this.userId = item.user_id }}>
+      <TouchableOpacity style={{ marginTop: 0, justifyContent: "center",width:widthPercentageToDP(87) }} onPress={() =>{ this.setState({ modalVisible: true }); this.userId = item.user_id }}>
       <View style={{ flex: 1 }}>
         <View
           style={{
@@ -74,10 +76,8 @@ class BlockedUser extends Component {
           <View
             style={{
               height: 80,
-              width: width - 30,
               marginTop: 0,
               justifyContent: "space-between",
-              alignSelf: "center",
               flexDirection: "row"
             }}
           >
@@ -101,7 +101,7 @@ class BlockedUser extends Component {
                 }}
               >
                 <Text
-                  style={{ fontSize: 17, fontFamily: "Montserrat-ExtraBold" }}
+                  style={{ fontSize: 17,maxWidth:widthPercentageToDP(40), fontFamily: "Montserrat-ExtraBold" }}
                 >
                   {item.first_name}
                 </Text>
@@ -162,67 +162,11 @@ class BlockedUser extends Component {
 
   render() {
     return (
-      <Container>
+      <>
+      <ScreenHeader isCenter title='Blocked Users' />
+         <SearchInput style={{marginTop:-10,marginBottom:-5}} textGetter={text => this.search(text)} />
 
-          <View
-            style={{
-              position: "relative",
-              alignItems: "center",
-              flexDirection: "row",
-              width: width,
-              justifyContent: "space-between",
-              borderColor: "#DCDCDC",
-              alignSelf: "center",
-              marginVertical:30,
-            }}
-          >
-            <View
-              style={{
-                position: "absolute",
-                justifyContent: "center",
-                alignSelf: "center",
-                width: width,
-                
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 20,
-                  alignSelf: "center",
-                  fontWeight: "bold",
-                  width: "100%",
-                  textAlign: "center"
-                }}
-              >
-                Blocked Users
-              </Text>
-            </View>
-
-            <View
-              style={{
-                justifyContent: "center",
-                width: width / 6,
-                marginLeft: 20
-              }}
-            >
-              <TouchableOpacity
-                onPress={() => this.props.navigation.pop()}
-              >
-                <Image
-                  source={require("../../assets/Images/Left.png")}
-                  style={{
-                    height: height / 40,
-                    width: width / 20,
-                    alignSelf: "flex-start",
-                    left: 2
-                  }}
-                  resizeMode={"contain"}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-        
-         <SearchInput textGetter={text => this.search(text)} />
+      <Container onBackPress={()=>this.props.navigation.pop()} >
 
         <NetworkAwareContent onPress={()=>this.getData()} isApiCall={this.state.isApiCall} data={this.state.blockedUsers} >
 
@@ -249,7 +193,7 @@ class BlockedUser extends Component {
               style={{
                 height: height,
                 width: width,
-                backgroundColor: "#5bcbbb",
+                backgroundColor: "#E9F8F6",
                 opacity: 0.9,
                 position: "relative"
               }}
@@ -279,7 +223,7 @@ class BlockedUser extends Component {
                   <Text
                     style={{
                       fontFamily: "Montserrat-Bold",
-                      fontSize: 21,
+                      fontSize: 20,
                       color: "black",
                       textAlign: "center"
                     }}
@@ -351,6 +295,7 @@ class BlockedUser extends Component {
           </View>
         </Modal>
         </Container>
+        </>
       
     );
   }

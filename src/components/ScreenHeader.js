@@ -1,22 +1,29 @@
 import React, { Component } from 'react'
 import Fonts from "UIProps/Fonts";
-import { Text, View,TouchableWithoutFeedback,Image, } from 'react-native'
+
+import { Text,SafeAreaView, View,TouchableWithoutFeedback,Image, } from 'react-native'
 import { withNavigation } from 'react-navigation'
 import { widthPercentageToDP } from 'react-native-responsive-screen'
+import Icons from 'AppLevelComponents/UI/Icons'
+
 
 class ScreenHeader extends Component {
     render() {
-        const {title,isCenter,noBold} = this.props
+        const {title,isCenter,noBold,style} = this.props
 
         return (
+          <>
+          <SafeAreaView style={{ flex: 0, color:'#fff' ,}} />
+          <SafeAreaView style={{  }}>
             <View
           style={{
             alignItems: "center",
             flexDirection: "row",
             width: '100%',
-            marginVertical: 25,
+            marginTop:15,
             marginBottom:10,
             justifyContent:isCenter ? 'space-between' : undefined,
+            ...style
           }}
         >
         <View
@@ -25,16 +32,11 @@ class ScreenHeader extends Component {
            <TouchableWithoutFeedback
             onPress={() => this.props.navigation.pop()}
             >
+            <View style={{alignItems:'center',justifyContent:'center',marginLeft:10,width:50,height:50}}>
 
-              <Image
-                source={require("../assets/Images/Left.png")}
-                style={{
-                  marginLeft:21.5,
-                  width:20,
-                  height:20,
-                }}
-                resizeMode={"contain"}
-              />
+             <Icons lib='Ionicons' name='md-arrow-round-back' size={28} color='#808C94' />
+            </View>
+
           </TouchableWithoutFeedback>
          
         </View>
@@ -47,6 +49,8 @@ class ScreenHeader extends Component {
                     <View style={{flex:1}} />
                 }
         </View>
+        </SafeAreaView>
+        </>
         )
     }
 }

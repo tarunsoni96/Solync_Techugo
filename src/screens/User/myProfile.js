@@ -9,10 +9,10 @@ import {
   AsyncStorage
 } from 'react-native'
 
-import { withNavigation } from 'react-navigation';
+import { withNavigation, ScrollView } from 'react-navigation';
 import Constants from 'Helpers/Constants'
 import AsyncStorageHandler from "StorageHelpers/AsyncStorageHandler";
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp, widthPercentageToDP, heightPercentageToDP} from 'react-native-responsive-screen';
 
 import Container from '../../AppLevelComponents/UI/Container';
 import { observer } from 'mobx-react';
@@ -74,21 +74,24 @@ class MyProfile extends Component {
   render() {
     let profileImg = (MobxStore.userObj.images != undefined && MobxStore.userObj.images.length > 0) ? {uri:MobxStore.userObj.images[0]?.imageURL } : require('../../assets/Images/@3xprofile-active.png')
     return (
-      <Container>
+      <ScrollView >
         <View>
           <TouchableWithoutFeedback onPress={()=>this.props.navigation.navigate('EditProfile')} >
             <View style={{ justifyContent: 'center', alignSelf: 'center', alignItems: 'center', paddingTop:wp('7%') }}>
               <ImageBackground source={require('../../assets/Images/@proflie-bg-light.png')} style={{ position: 'relative', justifyContent: 'center', height: wp('45%'), width: wp('45%'), borderRadius: 200 / 2 }}>
                 <Image resizeMode='cover' source={profileImg} style={{ height: wp('34%'), width: wp('34%'), borderRadius: 150 / 2,  alignSelf: 'center' }} />
-              </ImageBackground>
-              <View style={{ height: 70, width: 70, borderRadius: 70 / 2, position: 'absolute', right: 0, bottom: 0, backgroundColor: 'transparent' }}>
-                <Image source={require('../../assets/Images/@3xedit-icon.png')} style={{ height: 45, width: 45 }} />
+              
+                <View style={{ position: 'absolute', right: widthPercentageToDP(5), bottom: heightPercentageToDP(2), }}>
+                <Image source={require('../../assets/Images/@3xedit-icon.png')} style={{ height: widthPercentageToDP(10), width: widthPercentageToDP(10) }} />
               </View>
+
+              </ImageBackground>
+              
             </View>
           </TouchableWithoutFeedback>
 
           <View style={{ width: width,  justifyContent: 'center' }}>
-            <Text style={{ fontSize: 23,textAlign:'center', alignSelf: 'center', fontFamily: 'Montserrat-ExtraBold' }}>{MobxStore.userObj.first_name}, {getAge(MobxStore.userObj.dob)}</Text>
+            <Text style={{ fontSize: 23,textAlign:'center', alignSelf: 'center', fontFamily: 'Montserrat-ExtraBold' }}>{MobxStore.userObj.first_name}, {getAge(MobxStore.userObj.dob) || 'Age set not'}</Text>
             <Text style={{ fontSize: 15, alignSelf: 'center', color: 'purple', fontFamily: 'Montserrat-SemiBold',textAlign:'center' }}>{MobxStore.userObj.occupation}</Text>
           </View>
           <View style={{ height: 20, width: width }}></View>
@@ -122,7 +125,7 @@ class MyProfile extends Component {
             </TouchableWithoutFeedback>
           </View>
         </View>
-        </Container>
+        </ScrollView>
     )
   }
 }

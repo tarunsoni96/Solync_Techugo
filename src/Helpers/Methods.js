@@ -5,6 +5,7 @@ import {
   BackHandler,
   Platform,
   Linking,
+  Dimensions,
   LayoutAnimation,
   PermissionsAndroid,
   ToastAndroid
@@ -92,6 +93,7 @@ const HelperMethods = {
     
   },
 
+
   makeNetworkCall: function(apiName, formData, callBack,method = 'GET',skipToken = false) {
     this.isConnected().then(connected => {
       if(!connected){
@@ -163,16 +165,14 @@ const HelperMethods = {
     if(!navigation){
       alert('Provide navigation prop to logout function')
       return
-    
     }
-    
 
     AsyncStorageHandler.delete(Constants.isSocialLoginComplete)
     AsyncStorageHandler.delete(Constants.photoUploaded)
     AsyncStorageHandler.delete(Constants.fbData)
     AsyncStorageHandler.delete(Constants.isInterestSelected)
     AsyncStorageHandler.delete(Constants.userInfoObj,() => {
-      navigation.navigate('loginStack')
+    navigation.navigate('loginStack')
     })
   },
 
@@ -311,10 +311,8 @@ const HelperMethods = {
       }
     }
       this.vibrateDevice()
-
       MobxStore.isAnyUnreadMsg = true
   },
-
 
   vibrateDevice:function(){
     if(MobxStore.userObj.in_app_vibration == 1){
@@ -322,8 +320,7 @@ const HelperMethods = {
     }
   },
 
-
-  logoutFB :function (callBack){
+  logoutFB:function(callBack){
     var current_access_token = '';
     AccessToken.getCurrentAccessToken().then((data) => {
       current_access_token = data.accessToken.toString();
@@ -333,7 +330,7 @@ const HelperMethods = {
             accessToken: current_access_token,
             httpMethod: 'DELETE'
         },
-        (error, result) => {
+        (error) => {
             if (error) {
                 console.log('Error fetching data: ' + error.toString());
             } else {
@@ -341,13 +338,11 @@ const HelperMethods = {
                 callBack({success:true})
             }
         });
-      new GraphRequestManager().addRequest(logout).start();
+        new GraphRequestManager().addRequest(logout).start();
     })
     .catch(error => {
       console.log(error)
     });    
-
-
     // AccessToken.getCurrentAccessToken().then(data => {
     //   const query = queryString.stringify({
     //     access_token: data.accessToken.toString(),
@@ -367,10 +362,6 @@ const HelperMethods = {
     //   .then(response => response.json()).then(jso => {})
     //   .catch(err => console.log(err))
     // })
-
-     
-
-
   },
 
   getAge :function(birthDate){
@@ -385,6 +376,16 @@ const HelperMethods = {
 
     navigation.dispatch(resetAction)
 
+  },
+
+  isIphoneXorAbove:function() {
+    const dimen = Dimensions.get('window');
+    return (
+      Platform.OS === 'ios' &&
+      !Platform.isPad &&
+      !Platform.isTVOS &&
+      ((dimen.height === 812 || dimen.width === 812) || (dimen.height === 896 || dimen.width === 896))
+    );
   }
 
 

@@ -57,7 +57,7 @@ export default class ModelOverlay extends Component {
             style={{
               width: "100%",
               height: "auto",
-              paddingVertical: heightPercentageToDP(3),
+              paddingVertical: heightPercentageToDP(2.4),
               paddingTop:heightPercentageToDP(7.5),
               alignItems: "center",
             }}
@@ -82,11 +82,9 @@ export default class ModelOverlay extends Component {
             <Text
               style={{
                 fontSize: widthPercentageToDP(4),
-
                 textAlign: "center",
-                marginVertical: heightPercentageToDP(4),
+                marginVertical: heightPercentageToDP(3.5),
                 maxWidth: "70%",
-
                 color: "#7a7a7a",
                 fontFamily: "Montserrat-Regular",
               }}
@@ -101,9 +99,7 @@ export default class ModelOverlay extends Component {
                 justifyContent: "space-between",
                 width: "90%",
                 height: heightPercentageToDP(9.5),
-                // marginTop: heightPercentageToDP(5),
                 alignSelf: "center",
-                // borderBottomRightRadius: 10,
                 // borderBottomLeftRadius: 10
               }}
             >

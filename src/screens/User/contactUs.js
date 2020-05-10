@@ -13,15 +13,13 @@ const { height, width } = Dimensions.get('screen')
 import BackHandlerSingleton from "ServiceProviders/BackHandlerSingleton";
 
 import Header from '../../common/headerCommon'
+import ScreenHeader from '../../components/ScreenHeader';
 export default class ContactUs extends Component {
     render() {
         return (
             <SafeAreaView style={{ flex: 1 }}>
     <BackHandlerSingleton />
-                <Header
-                    textTitle={'Contact Us'}
-                    onPressBack={() => this.props.navigation.pop()}
-                />
+               <ScreenHeader  title='Contact Us' isCenter />
 
 <TouchableWithoutFeedback onPress={()=>this.props.navigation.navigate('AskQues',{type:'Report a technical issue',contactType:'technicalIssue'})} >
 

@@ -346,7 +346,7 @@ HelperMethods.animateLayout()
         <BackHandlerSingleton />
         <StatusBar translucent={true} barStyle="dark-content" />
 
-          <SafeAreaView style={{ height: "13%" }}>
+          <SafeAreaView style={{ height: HelperMethods.isIphoneXorAbove() ? '7%' : "13%"   }}>
             <View
               style={{
                 alignItems: "center",

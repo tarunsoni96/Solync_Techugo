@@ -10,13 +10,13 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
  export default class Container extends Component {
   renderForIOS() {
-    let {padding,style,turnOffScroll} = this.props
+    let {padding,style,turnOffScroll,contentStyle,extraScrollheight} = this.props
     return (
       <>
       <SafeAreaView style={{ flex: 0, color:'#fff' ,}} />
       <SafeAreaView style={{ flex: 1, }}>
       <StatusBar translucent={true} barStyle="dark-content" />
-      <KeyboardAwareScrollView scrollEnabled={turnOffScroll == undefined ? true : turnOffScroll} keyboardShouldPersistTaps="always" contentContainerStyle={{flexGrow:1,alignItems:'center'}}  behavior='padding'>
+      <KeyboardAwareScrollView extraScrollHeight={extraScrollheight || undefined}  scrollEnabled={turnOffScroll == undefined ? true : turnOffScroll} keyboardShouldPersistTaps="always" contentContainerStyle={{flexGrow:1,alignItems:'center',...contentStyle}}  behavior='padding'>
           {this.props.children}
       </KeyboardAwareScrollView>
       </SafeAreaView>
@@ -25,14 +25,14 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
   }
 
   renderForAndroid() {
-    const {style,turnOffScroll} = this.props
+    const {style,turnOffScroll,contentStyle} = this.props
     return (
       <>
       <StatusBar backgroundColor="#eee" barStyle={'dark-content'} />
         <ScrollView
         scrollEnabled={turnOffScroll == undefined ? true : turnOffScroll}
         style={styles.container}
-        contentContainerStyle={{alignItems: "center",...styles.contentContainerStyle,...style}}
+        contentContainerStyle={{alignItems: "center",...styles.contentContainerStyle,...style,...contentStyle}}
         nestedScrollEnabled
         keyboardShouldPersistTaps="always">
           {this.props.children}

@@ -30,6 +30,7 @@ import Loader from "../../AppLevelComponents/UI/Loader";
 import MobxStore from "../../StorageHelpers/MobxStore";
 import EventCardMusic from "../../components/EventCardMusic";
 import { NavigationActions, StackActions } from 'react-navigation';
+import NavigationConsistor from "../../Logicals/NavigationConsistor";
  
 const { height, width } = Dimensions.get("screen");
 
@@ -79,17 +80,12 @@ class BlockedUser extends Component {
 
       .then(responseJson => {
        
-        let arrData = [];
         this.setState({
           isLoading: false
         });
         if (responseJson.statusCode == 200) {
-          for (i = 0; i <= responseJson.result.length - 1; i++) {
-            var data1 = responseJson.result[i];
-            arrData.push(data1);
-          }
           this.setState({
-            data: arrData
+            data: responseJson.result
           });
         } else {
           if(resp.statusCode == 201){
@@ -195,10 +191,12 @@ class BlockedUser extends Component {
     var year = date.getFullYear();
       if(startTime){
        if(startTime.indexOf(monthNames[monthIndex]) > -1 && startTime.indexOf(day) > -1){
-        return  `, ${year}`
+        // return  `, ${year}`
       } else if(startTime.indexOf(monthNames[monthIndex]) > -1){
-        return  ` - ${day}, ${year}`
-      } 
+        return  ` - ${day}`
+      } else if(year) {
+        // return `, ${year}`
+      }
       } else {
         return  `${monthNames[monthIndex]} ${day}`
       }
@@ -208,6 +206,7 @@ class BlockedUser extends Component {
     var str = item.item.start_time.split(" ")[0];
     var strEndTime = item.item.stop_time.split(" ")[0];
     var formatDate = this._formatDate(str);
+    let year = NavigationConsistor._formatYear(str)
     var formatDateEndTime = this._formatDate(strEndTime,formatDate);
     return (
       <TouchableOpacity
@@ -230,7 +229,7 @@ class BlockedUser extends Component {
           )
         }
         
-         obj={item.item} location={params?.loc} dates={`${formatDate}${formatDateEndTime || ''}`} isEventList={true} isOnHome={true} type={params?.type} />
+         obj={item.item} location={params?.loc} dates={`${formatDate}${formatDateEndTime || ''}, ${year}`} isEventList={true} isOnHome={true} type={params?.type} />
       </TouchableOpacity>
     );
   }

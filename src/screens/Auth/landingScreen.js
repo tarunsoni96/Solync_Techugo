@@ -28,6 +28,7 @@ import { withNavigation } from "react-navigation";
 
 import 'Helpers/global'
 import MobxStore from "../../StorageHelpers/MobxStore";
+import { widthPercentageToDP } from "react-native-responsive-screen";
 class landingScreen extends Component {
   constructor(props) {
     super(props);
@@ -274,31 +275,36 @@ class landingScreen extends Component {
           </View>
         </TouchableOpacity>
 
-        <View style={{height:"2%",width: width, backgroundColor: "transparent" }} />
+        <View style={{height:"2%", backgroundColor: "transparent" }} />
         <View
           style={{
-            alignSelf: "center",
-            justifyContent: "center",
-            flexDirection: "row",
-            marginBottom:10,
+            margin:10,
+            width:'100%',
+            paddingHorizontal:10,
+            alignItems:'center',
+            alignSelf:'center'
           }}>
 
           <Text style={{
               textAlign: "center",
-              fontSize: 15,
+              
+              fontSize: widthPercentageToDP(4),
               fontFamily: "Montserrat-SemiBold",
               color: "#fff"}}>
             Already have an account with email?
-          </Text>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("Login")}>
-            <Text style={{
-                fontSize: 15,
+
+            <Text
+            onPress={()=>this.props.navigation.navigate('Login')}
+             style={{
+              fontSize: widthPercentageToDP(4),
                 fontFamily: "Montserrat-Bold",
                 color: "#fff"}}>
               {" "}
               Log in
             </Text>
-          </TouchableOpacity>
+
+          </Text>
+          
         </View>
         <View
           style={{

@@ -209,7 +209,7 @@ export function validateFirstName(name) {
     if (occupation == "" || occupation == undefined || occupation == null) {
       return { status: false, error: 'Insert occupation',borderColor:'#bb205a', height: 20 }
     }
-    else if (!occupationRegex.test(occupation)) {
+    else if (/[^a-zA-Z ]/.test(occupation)) {
       if (message) {
         return { status: false, error: 'Occupation should only contain alphabets',borderColor:'#bb205a', height: 20 };
       } else {

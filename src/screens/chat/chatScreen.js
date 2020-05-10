@@ -7,12 +7,16 @@ import {
   Image,
   TouchableOpacity,
   Modal,
-  ImageBackground
+  ImageBackground,
+  TouchableWithoutFeedback,
 } from "react-native";
 const { height, width } = Dimensions.get("screen");
 import HelperMethods from "Helpers/Methods";
 import moment from "moment";
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 import Fonts from "UIProps/Fonts";
 import { SwipeableFlatList } from "react-native-swipeable-flat-list";
@@ -30,8 +34,9 @@ import SearchInput from "../../components/SearchInput";
 import ScreenHeader from "../../components/ScreenHeader";
 
 let dataBackup = [];
-
-let fullWidth = wp('95%')
+let listItemHeight = 110;
+let fullWidth = wp("95%");
+let group_id = ''
 @observer
 class ChatScreen extends Component {
   constructor(props) {
@@ -40,141 +45,149 @@ class ChatScreen extends Component {
       search: "",
       chatList: [],
       showBlockModal: false,
-      isApiCall: false,
-      maxWidthItem:fullWidth,
+      closeItem:false,
+      isApiCall: true,
+      maxWidthItem: fullWidth,
       showDeleteModal: false,
-      itemIndex:[],
-      isSwiping:undefined,
+      itemIndex: [],
+      isSwiping: undefined,
     };
     this.blockingUser = "";
+    this.chatType = "";
     this.userId = "";
     this.userIndex = 0;
+    this.openIndexs= []
     this.convData = "";
   }
 
   setBlockModalVisible(visible) {
     this.setState({
-      showBlockModal: visible
+      showBlockModal: visible,
     });
   }
 
   _Register() {
     this.setState({
-      showBlockModal: false
+      showBlockModal: false,
     });
   }
 
   setDeleteModalVisible(visible) {
     this.setState({
-      showDeleteModal: visible
+      showDeleteModal: visible,
     });
   }
 
   _deteUser() {
     this.setState({
-      showDeleteModal: false
+      showDeleteModal: false,
     });
   }
 
   componentDidMount() {
+    group_id= ''
     socketio = new SocketIO();
-    MobxStore.isAnyUnreadMsg = false
+    MobxStore.isAnyUnreadMsg = false;
     this.props.navigation.addListener("willFocus", this.willFocus);
     this.props.navigation.addListener("willBlur", this.willBlur);
-      this.setBlockReciever()
-    this.setGroupCreatedReciever()
-     
-
+    this.setBlockReciever();
+    this.setGroupCreatedReciever();
   }
 
-  setGroupCreatedReciever(){
-    socketio.listenEvent('newGroupInfo',callBackData => {
-      HelperMethods.snackbar(callBackData.result)
-   })
+  setGroupCreatedReciever() {
+    socketio.listenEvent("newGroupInfo", (callBackData) => {
+      HelperMethods.snackbar(callBackData.result);
+    });
   }
 
-  setBlockReciever(){
-
-    socketio.listenEvent('blockedReceiver',callBackData => {
-      const {result } = callBackData
-      if(result == 'blocked'){
-        this.fetchList()
+  setBlockReciever() {
+    socketio.listenEvent("blockedReceiver", (callBackData) => {
+      const { result } = callBackData;
+      setTimeout(()=>{
+        this.fetchList();
+      },1000)
+      let msg = ''
+      if(result.type == 'block'){
+        msg = `You have been blocked and group ${result.group_name} has been deleted by the admin`
+      } else {
+        msg = `Group ${result.group_name} has been deleted by the admin`
       }
-   })
+        HelperMethods.snackbar(`${msg}`)
+    });
   }
-
 
   componentWillUnmount() {
     NavigationConsistor.turnOffChatListeners(socketio, [
-      'conversationList',
-      'blockedReceiver',
-      'receiveHomeMessage',
-      'newGroupInfo',
+      "conversationList",
+      "blockedReceiver",
+      "receiveHomeMessage",
+      "newGroupInfo",
     ]);
-    
   }
 
-
   willFocus = () => {
-    if(!this.state.isApiCall){
       // socketio.emitToEvent("conversationList", {
       //   user_id: MobxStore.userObj.user_id
       // });
-      this.setState({isApiCall:true})
+      // this.setState({ isApiCall: true });
       socketio.emitToEvent("conversationList", {
-        user_id: MobxStore.userObj.user_id
+        user_id: MobxStore.userObj.user_id,
       });
-    }
-    socketio.listenEvent('receiveHomeMessage',callBackData => {
-      const {result} = callBackData
-      this.fetchList(false)
-      HelperMethods.triggerChatMsgFeedback(this.props.navigation,callBackData.result,false)
-    })
+    socketio.listenEvent("receiveHomeMessage", (callBackData) => {
+      const { result } = callBackData;
+      this.fetchList(false);
+      HelperMethods.triggerChatMsgFeedback(
+        this.props.navigation,
+        callBackData.result,
+        false
+      );
+    });
 
-
-    socketio.listenEvent("conversationList", callBackData => {
-      this.setState({isApiCall:false})
+    socketio.listenEvent("conversationList", (callBackData) => {
+      this.setState({ isApiCall: false });
       if (callBackData.result.length == 0) {
-        HelperMethods.animateLayout()
+        HelperMethods.animateLayout();
         this.setState({ noChats: true, chatList: [], isApiCall: false });
         return;
       }
       for (let i = 0; i < callBackData.result.length; i++) {
         callBackData.result[i].date_time = moment(
           callBackData.result[i].date_time
-          ).format("dddd");
-        }
-        dataBackup = callBackData.result;
-        HelperMethods.animateLayout()
+        ).format("dddd");
+      }
+      dataBackup = callBackData.result;
+      HelperMethods.animateLayout();
       this.setState({
-        chatList: callBackData.result,
+        chatList:callBackData.result,
         noChats: false,
-        isApiCall: false
+        isApiCall: false,
       });
     });
-
 
     // if (MobxStore.reloadConvList) {
     // }
   };
 
-
-
   willBlur = () => {
     NavigationConsistor.turnOffChatListeners(socketio, [
-      'receiveHomeMessage',
-      'conversationList',
-      'blockedReceiver',
+      "receiveHomeMessage",
+      "conversationList",
+      "blockedReceiver",
+      
     ]);
   };
 
   fetchList(showLoader = true) {
-    HelperMethods.animateLayout()
-    this.setState({ isApiCall:showLoader,maxWidthItem:fullWidth,itemIndex:[] });
+    HelperMethods.animateLayout();
+    this.setState({
+      isApiCall: showLoader,
+      maxWidthItem: fullWidth,
+      itemIndex: [],
+    });
     MobxStore.reloadConvList = false;
-    
+
     socketio.emitToEvent("conversationList", {
-      user_id: MobxStore.userObj.user_id
+      user_id: MobxStore.userObj.user_id,
     });
   }
 
@@ -182,18 +195,14 @@ class ChatScreen extends Component {
     this.setState({ search: text });
     const { chatList } = this.state;
     if (text.length == 0) {
-      HelperMethods.animateLayout();
       this.setState({ chatList: dataBackup });
     } else {
       let filteredArr = dataBackup.filter((item, index) => {
         return item.first_name.toLowerCase().includes(text.toLowerCase());
       });
-      HelperMethods.animateLayout();
       this.setState({ chatList: filteredArr });
     }
   }
-
-  
 
   setUserData(item, index, type) {
     this.convData = item;
@@ -201,6 +210,7 @@ class ChatScreen extends Component {
     this.userId = item.id;
     switch (type) {
       case "delete":
+        this.chatType = item.chat_type;
         this.setState({ showDeleteModal: true });
 
         break;
@@ -216,24 +226,22 @@ class ChatScreen extends Component {
     }
   }
 
-  _renderSwipeableContent(item, index) {
+  renderRight = ({ item, index }) => {
     return (
       <View
         style={{
-          width:wp('50%'),
-          height: 110,
-          // zIndex:1000,
+          height: listItemHeight,
           flexDirection: "row",
-          justifyContent:'flex-end'
+          justifyContent: "center",
+          width: 160,
         }}
       >
-
         <View
           style={{
             backgroundColor:
               item.block_status == "blocked" ? "#2EB968" : "#b8204f",
-            width: wp('25%'),
-            justifyContent: "space-evenly"
+            flex: 1,
+            justifyContent: "space-evenly",
           }}
         >
           <TouchableOpacity
@@ -244,18 +252,16 @@ class ChatScreen extends Component {
                 item.block_status == "blocked" ? "unblock" : "block"
               )
             }
-            style={{ justifyContent: "space-evenly" }}
+            style={{ justifyContent: "space-evenly", alignItems: "center" }}
           >
-            <Image
-              source={require("../../assets/Images/@3xblock.png")}
-              style={{ alignSelf: "center", height: 30, width: 30 }}
-            />
+            <Icons lib="Material" name="block-helper" color={item.block_status == 'blocked' ? '#E4E4E4' : '#E2A0BA' } />
             <Text
               style={{
                 alignSelf: "center",
                 color: "#fff",
-                fontSize: 16,
-                fontFamily: "Montserrat-Regular"
+                fontSize: 14,
+                marginTop: 5,
+                fontFamily: Fonts.medium,
               }}
             >
               {item.block_status == "blocked" ? "Unblock" : "Block"}
@@ -267,8 +273,7 @@ class ChatScreen extends Component {
           style={{
             backgroundColor: "#2d2d2d",
             justifyContent: "space-evenly",
-            width: wp('25%'),
-
+            flex: 1,
           }}
         >
           <TouchableOpacity
@@ -278,165 +283,185 @@ class ChatScreen extends Component {
             <Image
               source={require("../../assets/Images/@delete.png")}
               style={{ alignSelf: "center" }}
+              resizeMode="contain"
             />
             <Text
               style={{
                 alignSelf: "center",
                 color: "#fff",
-                fontSize: 16,
-                fontFamily: "Montserrat-Regular"
+                fontSize: 14,
+                marginTop: 5,
+                fontFamily: Fonts.medium,
               }}
             >
-              Delete 
+              Delete
             </Text>
           </TouchableOpacity>
         </View>
       </View>
     );
+  };
+
+  onSwipeOpen (index) {
+    this.openIndexs.push(index)
+  }
+  
+  onSwipeClose(index){
+    let i = this.openIndexs.findIndex(v => v == index)
+    if(i > -1){
+      this.openIndexs.splice(i,1)
+    }
   }
 
 
+  goToChat(item){
+    this.setState({closeItem:this.openIndexs.length > 0},()=>{
+      setTimeout(()=>{
+        NavigationConsistor.navigateToChat(this.props.navigation,item,item.id,item.event,item.event_year,item.category_type)
+      },this.state.closeItem ? 500 : 0)
+      this.setState({closeItem:false})
+    })
+  }
 
-  _renderItem =({item, index}) =>  {
+  _renderItem = ({ item, index }) => {
     return (
-      <View style={{ height: 110,width:'100%',}}>
-        <TouchableOpacity
-          style={{ height: 110 }}
-          onPress={() =>
-            NavigationConsistor.navigateToChat(
-              this.props.navigation,
-              item,
-              item.id,
-              item.event,
-              item.event_year,
-              item.category_type
-            )
-          }
+          
+          <TouchableOpacity style={{height: listItemHeight,}}  onPress={() =>
+            this.goToChat(item)
+          }>
+
+      <View
+        style={{
+          borderBottomColor: "lightgrey",
+          width: "86.5%",
+          alignSelf: "center",
+          borderBottomWidth: 1,
+          flex: 1,
+          justifyContent: "center",
+        }}
+      >
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
         >
-          <View
-            style={{
-              justifyContent: "center",
-              flexDirection: "column",
-              alignSelf: "center",
-              height: 110
-            }}
-          >
-            <View
+          <View style={{ flexDirection: "row", flex: 1 }}>
+            <ImageBackground
+              imageStyle={{ borderRadius: 65 / 2 }}
               style={{
-                height: 110,
-                width: width - 30,
-                marginTop: 0,
                 alignSelf: "center",
-                flexDirection: "row"
+                height: 60,
+                width: 60,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "#E4E7EA",
+                borderRadius: 65 / 2,
               }}
+              source={{ uri: item.profile_picture || "" }}
             >
-              <ImageBackground
-                imageStyle={{ borderRadius: 65 / 2 }}
-                style={{
-                  alignSelf: "center",
-                  height: 65,
-                  width: 65,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: "#E4E7EA",
-                  borderRadius: 65 / 2
-                }}
-                source={{ uri: item.profile_picture || "" }}
-              >
-                {item.chat_type == "group" && (
-                  <Icons lib="Entypo" name="users" color="#808C94" />
-                )}
-                {item.chat_type == "normal" && (
-                  <View
-                    style={[
-                      styles.circle,
-                      {
-                        backgroundColor:
-                          item.online_status == "offline"
-                            ? "#B92E53"
-                            : "#2EB968"
-                      }
-                    ]}
-                  />
-                )}
-              </ImageBackground>
-              <View
-                    
-                style={{ height: 110,paddingLeft:wp('4%'), width: this.state.itemIndex.includes(index)  ? wp(52) : wp(70), justifyContent: "center" }}
-              >
+              {item.chat_type == "group" && (
+                <Icons lib="Entypo" name="users" color="#808C94" />
+              )}
+              {item.chat_type == "normal" && (
                 <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between"
-                  }}
-                >
-                  <Text
-                  numberOfLines={3}
-                    style={{
-                      fontSize: 18,
-                      alignSelf: "center",
-                      fontWeight: "bold",
-                      width: "50%"
-                    }}
-                  >
-                    {item.first_name}
-                  </Text>
-                  <Text
-                    style={{ color: "#88939b", alignSelf: "center", right: 5 }}
-                  >
-                    {item.date_time}
-                  </Text>
-                </View>
-                <Text
+                  style={[
+                    styles.circle,
+                    {
+                      backgroundColor:
+                        item.online_status == "offline" ? "#B92E53" : "#2EB968",
+                    },
+                  ]}
+                />
+              )}
+            </ImageBackground>
+
+            <View style={{ marginHorizontal: 10,marginTop:hp(1), marginLeft: 20, flex: 1 }}>
+              <Text
+                numberOfLines={3}
+                style={{
+                  fontSize: wp(4),
+                  overflow: "hidden",
+                  fontFamily: Fonts.medium,
+                }}
+              >
+                {item.first_name}
+              </Text>
+
+              <Text
                 numberOfLines={1}
-                  style={{
-                    color: "#777777",
-                    fontFamily: Fonts.regular,
-                    fontSize: 14,
-                  
-                  }}
-                >
-                  {item.msg}
-                </Text>
-              </View>
+                style={{
+                  color: "#777777",
+                  fontFamily: Fonts.regular,
+                  fontSize: wp(3.5),
+                }}
+              >
+                {item.msg}
+              </Text>
+            </View>
+
+            <View style={{ alignItems: "flex-end",marginTop:hp(1) }}>
+              <Text
+                style={{
+                  fontSize: wp(3.5),
+
+                  color: "#808C94",
+                  fontFamily: Fonts.regular,
+                }}
+              >
+                {item.date_time}
+              </Text>
             </View>
           </View>
-          <View
-            style={{
-              height: 1,
-              backgroundColor: "#C0C0C0",
-              width: width - 30,
-              alignSelf: "center"
-            }}
-          ></View>
-        </TouchableOpacity>
+        </View>
       </View>
-    );
-  }
+      </TouchableOpacity>
 
-  blockGroup(action) {
+    );
+  };
+
+  blockGroup(action,name) {
     let obj = {
       user_id: MobxStore.userObj.user_id,
-      group_id
+      group_id,
+      group_name:this.blockingUser,
+      type:action,
+      user_name:MobxStore.userObj.user_name
     };
 
     socketio.emitToEvent(action == "block" ? "blockGroup" : "deleteGroup", obj);
-    setTimeout(()=>{
-      this.fetchList()
-    },600)
+    setTimeout(() => {
+      this.fetchList();
+    }, 600);
   }
 
   blockUnblockUser(action) {
     this.setState({ showBlockModal: false });
-    const { chat_type, id } = this.convData;
+    const { chat_type,first_name, id } = this.convData;
     if (chat_type == "group") {
       group_id = id;
       HelperMethods.snackbar(
         "You have blocked all the users and left from the group"
       );
-      this.blockGroup("block");
+      this.blockGroup("block",first_name);
     } else {
-      NavigationConsistor.blockUser(socketio,action, this.userId, resp => {
+      NavigationConsistor.blockUser(socketio, action, this.userId, (resp) => {
+        if (resp.statusCode == 200) {
+          this.fetchList();
+        }
+      },chat_type);
+    }
+  }
+
+  deleteUser() {
+    this.setState({ showDeleteModal: false });
+    const { chat_type, id } = this.convData;
+    if (chat_type == "group") {
+      group_id = id;
+      HelperMethods.snackbar("You have deleted and left from the group");
+      this.blockGroup("delete");
+    } else {
+      NavigationConsistor.deleteUser(this.userId, (resp) => {
         if (resp.statusCode == 200) {
           this.fetchList();
         }
@@ -444,30 +469,7 @@ class ChatScreen extends Component {
     }
   }
 
-
-  deleteUser() {
-    this.setState({ showDeleteModal: false });
-    const { chat_type, id } = this.convData;
-    if (chat_type == "group") {
-        group_id = id;
-      HelperMethods.snackbar(
-        "You have deleted and left from the group"
-      );
-      this.blockGroup("delete");
-    } else {
-        NavigationConsistor.deleteUser(this.userId, resp => {
-            if (resp.statusCode == 200) {
-              this.fetchList()
-                // let arr = [...this.state.chatList];
-                // arr.splice(this.userIndex, 1);
-                // HelperMethods.animateLayout();
-                // this.setState({ chatList: arr });
-            }
-        });
-    }
-  }
-
-  QuickActions = ({item}) =>  {
+  QuickActions = ({ item }) => {
     return (
       <View style={styles.qaContainer}>
         <View style={{}}>
@@ -478,93 +480,66 @@ class ChatScreen extends Component {
         </View>
       </View>
     );
-  }
+  };
 
-
-  onSwipeOpen (index) {
-    let arr = [...this.state.itemIndex]
-    arr.push(index)
-    // HelperMethods.animateLayout()
-    this.setState({itemIndex:arr},()=>{
-    })
-  }
-  
-  onSwipeClose(index){
-    let arr = [...this.state.itemIndex]
-    let i = arr.findIndex(v => v == index)
-    if(i > -1){
-      arr.splice(i,1)
-    }
-    HelperMethods.animateLayout()
-    this.setState({maxWidthItem: fullWidth,itemIndex:arr })
-  }
-
-  setScroll(isSwiping){
-    if(this.state.isSwiping != isSwiping){
-      this.setState({isSwiping})
+  setScroll(isSwiping) {
+    if (this.state.isSwiping != isSwiping) {
+      this.setState({ isSwiping });
     }
   }
   render() {
+   
     return (
-      <Container turnOffScroll={!this.state.isSwiping}>
-      
-
-        <ScreenHeader isCenter={true} title={'Chat'} noBold />
-        <View style={{padding:13,width:'100%'}}>
-       
-        <SearchInput style={{}} textGetter={text => this.search(text)} />
+      <>
+        <ScreenHeader isCenter={true} title={"Chat"} noBold />
+        <View style={{marginTop:-10}}>
+          <SearchInput textGetter={(text) => this.search(text)} />
         </View>
-       
+      <Container turnOffScroll={!this.state.isSwiping}>
 
-        <View style={{ width: "100%", flex: 1 }}>
+        <View style={{ width: "100%", flex: 1,marginTop:-15 }}>
           <NetworkAwareContent
             data={this.state.chatList}
             isApiCall={this.state.isApiCall}
           >
+
             <SwipeableFlatList
-            isSwiping={isSwiping => this.setScroll(isSwiping)}
               data={this.state.chatList}
+              renderItem={this._renderItem}
+              renderRight={this.renderRight}
+              backgroundColor={"white"}
+              isSwiping={isSwiping => this.setScroll(isSwiping)}
               scrollEnabled={!this.state.isSwiping}
-              extraData={this.state}
-              keyboardShouldPersistTaps="always"
-              // maxSwipeDistance={440}
               onopen={(index)=>this.onSwipeOpen(index)}
               onclose={(index)=>this.onSwipeClose(index)}
-              renderItem={this._renderItem}
-              backgroundColor={"#fff"}
-              renderRight={({ item, index }) =>
-                this._renderSwipeableContent(item, index)
-              }
-
+              closeItem={this.state.closeItem}
             />
           </NetworkAwareContent>
         </View>
 
-
-
         <ModelOverlay
           closeModal={() => this.setState({ showBlockModal: false })}
-            modalVisible={this.state.showBlockModal}
-            posPress={() => this.blockUnblockUser("block")}
-            showBg={true}
-            title={`Do you want to block ${this.blockingUser}?`}
-            posBtn="Block user"
-            msg="They will not be able to see your profile or message you."
-          />
-
+          modalVisible={this.state.showBlockModal}
+          posPress={() => this.blockUnblockUser("block")}
+          showBg={true}
+          title={`Do you want to block ${this.blockingUser}?`}
+          posBtn="Block user"
+          msg="They will not be able to see your profile or message you."
+        />
 
         <ModelOverlay
           closeModal={() => this.setState({ showDeleteModal: false })}
-            modalVisible={this.state.showDeleteModal}
-            posPress={() => this.deleteUser()}
-            showBg={true}
-            title="Delete chat"
-            posBtn="Delete"
-            msg="Are you sure you want to delete this chat?"
-          />
-
-</Container>
-      
+          modalVisible={this.state.showDeleteModal}
+          posPress={() => this.deleteUser()}
+          showBg={true}
+          title="Delete chat"
+          posBtn="Delete"
+          msg={`Are you sure you want to delete this ${
+            this.chatType == "group" ? "group" : "chat"
+          }?`}
+        />
+      </Container>
+      </>
     );
   }
 }
@@ -579,16 +554,14 @@ const styles = {
     borderRadius: 100 / 2,
 
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
 
   qaContainer: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginRight: 5
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    marginRight: 5,
   },
-
-
 };
 export default withNavigation(ChatScreen);

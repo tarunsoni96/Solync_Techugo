@@ -28,8 +28,8 @@ export default class ModelImageModeCapture extends Component {
         <View
           style={{
             flex: 1,
+            backgroundColor: 'rgba(255,255,255,0.8)',
             justifyContent: "center",
-            position: "relative"
           }}
         >
           <TouchableWithoutFeedback onPress={() => closeModal()}>
@@ -37,9 +37,6 @@ export default class ModelImageModeCapture extends Component {
               style={{
                 height: global.deviceHeight,
                 width: global.deviceWidth,
-                backgroundColor: "transparent",
-                opacity: 0.9,
-                position: "relative"
               }}
             ></View>
           </TouchableWithoutFeedback>
@@ -68,7 +65,7 @@ export default class ModelImageModeCapture extends Component {
               </TouchableOpacity>
 
               <View
-                style={{ height: 1, backgroundColor: "#eee", width: "100%" }}
+                style={{ height: 1, backgroundColor: "#eee", width: "90%",alignSelf:'center' }}
               />
 
               <TouchableOpacity onPress={() => openMedia("cam")}>
@@ -96,7 +93,7 @@ const styles = {
   font: {
     fontFamily: Fonts.medium,
     color: "#000",
-    fontSize: 18,
+    fontSize: 17,
     paddingHorizontal: 10
   },
   circle: {

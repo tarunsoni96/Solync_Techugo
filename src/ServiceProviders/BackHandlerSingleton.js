@@ -57,7 +57,8 @@ class BackHandlerSingleton extends Component {
         this.props.onBackPress();
         return true;
       } else {
-        return false;
+        this.props.navigation.pop()
+        return true;
       }
     }
   };

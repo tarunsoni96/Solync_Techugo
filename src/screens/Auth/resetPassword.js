@@ -24,6 +24,7 @@ import {
 
 import Images from '../../constant/images'
 import Container from '../../AppLevelComponents/UI/Container';
+import ScreenHeader from '../../components/ScreenHeader';
 const { height, width } = Dimensions.get('screen')
 export default class ResetPassword extends Component {
     constructor(props) {
@@ -98,7 +99,7 @@ export default class ResetPassword extends Component {
                 },
                 body: JSON.stringify({
                     "email": params?.email.email,
-                    "password": this.state.password.trim(),
+                    "password": this.state.password,
                 }),
  
             }).then((response) => response.json())
@@ -154,18 +155,7 @@ export default class ResetPassword extends Component {
     render() {
         return (
                 <Container>
-                <SafeAreaView style={{ height: '13%' }}>
-                    <View style={{ alignItems: 'center', flexDirection: 'row', height: '100%', width: width, justifyContent: 'center', borderColor: '#DCDCDC' }}>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('InstructionSent')}>
-                            <View style={{ height: '100%', justifyContent: 'center', width: width / 6 }}>
-                                <Image source={require('../../assets/Images/Left.png')} style={{ height: height / 40, width: width / 20, alignSelf: 'center' }} resizeMode={'contain'} />
-                            </View>
-                        </TouchableOpacity>
-                        <View style={{ height: '100%', justifyContent: 'center', alignSelf: 'center', width: width / 1.2 }}>
-                            <Text style={{ fontSize: 17, alignSelf: 'center', marginRight: width / 6, fontFamily: 'Montserrat-Bold' }}>Reset password</Text>
-                        </View>
-                    </View>
-                </SafeAreaView>
+        <ScreenHeader style={{marginTop:10}} isCenter title='Reset password' />
               
                 <View style={{flex:1,marginTop:50 }}>
 

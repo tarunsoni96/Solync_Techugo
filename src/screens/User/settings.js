@@ -12,6 +12,7 @@ import {
   ImageBackground,
   TouchableWithoutFeedback,
 } from "react-native";
+import Fonts from "UIProps/Fonts";
 import { ScrollView } from "react-native-gesture-handler";
 import ModalAlert from "../../common/modalAlert";
 import HelperMethods from "Helpers/Methods";
@@ -282,7 +283,9 @@ this.props.navigation.pop()
         this.setState({ isApiCall:false });
       });
   }
-
+onBack(){
+  this.props.navigation.pop()
+}
   render() {
     return (
       <SafeAreaView style={{ flex: 1 }}>
@@ -299,6 +302,11 @@ this.props.navigation.pop()
               alignSelf: "center",
             }}
           >
+
+        <BackHandlerSingleton  onBackPress={()=>this.onBack()} />              
+
+
+
             <View
               style={{
                 zIndex: 100,
@@ -402,7 +410,7 @@ this.props.navigation.pop()
               style={{
                 fontSize: 17,
                 color: "#000",
-                fontWeight: "bold",
+                fontFamily:Fonts.medium,
                 top: 10,
               }}
             >
@@ -417,7 +425,7 @@ this.props.navigation.pop()
                 <RangeSlider
                   style={{
                     width: width - 30,
-                    marginBottom: 20,
+                    // marginBottom: 20,
                     height: 80,
                     backgroundColor: "transparent",
                     justifyContent: "center",
@@ -649,6 +657,7 @@ this.props.navigation.pop()
               width: width - 30,
               height: 50,
               flexDirection: "row",
+              alignItems:'center',
               backgroundColor: "transparent",
               alignSelf: "center",
             }}
@@ -657,7 +666,7 @@ this.props.navigation.pop()
               style={{
                 fontSize: 17,
                 alignSelf: "center",
-                fontWeight: "bold",
+                fontFamily:Fonts.medium,
                 width: "70%",
               }}
             >
@@ -723,7 +732,7 @@ this.props.navigation.pop()
                 style={{
                   fontSize: 17,
                   alignSelf: "center",
-                  fontWeight: "bold",
+                  fontFamily:Fonts.medium,
                   width: "70%",
                 }}
               >
@@ -779,7 +788,7 @@ this.props.navigation.pop()
               style={{
                 fontSize: 17,
                 alignSelf: "center",
-                fontWeight: "bold",
+                fontFamily:Fonts.medium,
                 width: "70%",
               }}
             >
@@ -835,7 +844,7 @@ this.props.navigation.pop()
               style={{
                 fontSize: 17,
                 alignSelf: "center",
-                fontWeight: "bold",
+                fontFamily:Fonts.medium,
                 width: "70%",
               }}
             >
@@ -891,7 +900,7 @@ this.props.navigation.pop()
               style={{
                 fontSize: 17,
                 alignSelf: "center",
-                fontWeight: "bold",
+                fontFamily:Fonts.medium,
                 width: "70%",
               }}
             >
@@ -964,7 +973,7 @@ this.props.navigation.pop()
               style={{
                 fontSize: 17,
                 alignSelf: "center",
-                fontWeight: "bold",
+                fontFamily:Fonts.medium,
                 width: "70%",
               }}
             >
@@ -1008,7 +1017,7 @@ this.props.navigation.pop()
               style={{
                 fontSize: 17,
                 alignSelf: "center",
-                fontWeight: "bold",
+                fontFamily:Fonts.medium,
                 width: "70%",
               }}
             >
@@ -1021,14 +1030,6 @@ this.props.navigation.pop()
           </TouchableOpacity>
           <View
             style={{ height: 10, width: width, backgroundColor: "#fff" }}
-          ></View>
-          <View
-            style={{
-              height: 1,
-              width: 500,
-              backgroundColor: "#DCDCDC",
-              justifyContent: "center",
-            }}
           ></View>
           <View
             style={{ width: width, height: 40, backgroundColor: "#f6f7f8" }}
@@ -1055,27 +1056,23 @@ this.props.navigation.pop()
             </View>
           </View>
           <View
-            style={{ height: 10, width: width, backgroundColor: "#fff" }}
-          ></View>
-          <View
             style={{
               justifyContent: "space-between",
-              width: width - 30,
-              height: 50,
               flexDirection: "row",
+              marginVertical:20,
               backgroundColor: "#fff",
+              marginLeft:15,
               alignSelf: "center",
             }}
           >
             <TouchableOpacity
               onPress={() => this._onLogOut()}
-              style={{ width: "100%" }}
+              style={{ width: "100%",alignSelf:'center' }}
             >
               <Text
                 style={{
                   fontSize: 17,
-                  alignSelf: "center",
-                  fontWeight: "bold",
+                  fontFamily:Fonts.medium,
                   width: "100%",
                 }}
               >

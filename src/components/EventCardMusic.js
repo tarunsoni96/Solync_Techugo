@@ -121,7 +121,7 @@ class EventCardMusic extends Component {
     this.setState({showFullLength:!this.state.showFullLength})
   }
   render() {
-    const { type, obj,onPress, location,dates, isEventList,isOnHome,style } = this.props;
+    const { type, obj,onPress, isFrmRegister,location,dates, isEventList,isOnHome,style } = this.props;
     let title = "";
     let subTitle = obj?.artist_or_event || obj?.title;
     let bgImage = require("../assets/Images/@2xmusic_Ticket_BG.png");
@@ -133,10 +133,10 @@ class EventCardMusic extends Component {
         break;
 
       case "Sports":
-        subTitle = obj?.location || obj?.title;
+        subTitle = obj?.artist_or_event || obj?.title;
         typeId = 2
         dateText = 'Date'
-        title = "Location:";
+        title = "Event:";
         bgImage = require("../assets/Images/@2xsport_ticket_bg.png");
         break;
 
@@ -205,7 +205,7 @@ class EventCardMusic extends Component {
             imageStyle={{ borderRadius: 10 }}
             style={{
               zIndex: 0,
-              padding:height < MobxStore.heightToScaleSmall ? 10 : 15,
+              padding:15,
               
             }}
           >
@@ -219,7 +219,7 @@ class EventCardMusic extends Component {
                   
                 }}
               >
-                {title}
+                {isEventList ? 'Event:' : title}
               </Text>
 
 
@@ -290,21 +290,16 @@ class EventCardMusic extends Component {
           {isEventList ?
           <>
             <View>
-            <CustomText style={{fontSize:wp(4)}} text={'Date/s'} color='#859198' />
-          <CustomText style={{fontSize:wp(4)}} text={dates} color='#000' />
-
+              <CustomText style={{fontSize:wp(4)}} text={'Date/s'} color='#859198' />
+              <CustomText style={{fontSize:wp(4)}} text={dates} color='#000' />
             </View>
 
             <View style={{marginTop:20}}>
-            <CustomText style={{fontSize:wp(4)}} text={'Location'} color='#859198' />
-          <CustomText style={{fontSize:wp(4)}} text={location} color='#000' />
-
-
+              <CustomText style={{fontSize:wp(4)}} text={'Location'} color='#859198' />
+              <CustomText style={{fontSize:wp(4)}} text={location} color='#000' />
             </View>
-</>
-
+          </>
           :
-
           <View style={[styles.rowContainer,]}>
         <View>
           <CustomText style={{fontSize:wp(4)}} text={dateText} color='#859198' />
@@ -373,10 +368,12 @@ class EventCardMusic extends Component {
       </TouchableWithoutFeedback>
       </>
     );
-          } else {
+          } else if(!isFrmRegister) {
             return (
               <EventNotSetup eventId={typeId} eventName={type} />
             )
+          } else {
+            return null
           }
     
   }

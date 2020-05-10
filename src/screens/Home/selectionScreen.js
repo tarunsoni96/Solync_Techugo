@@ -108,7 +108,6 @@ export default class BlockedUser extends Component {
       <Text
             style={{
               fontSize: 16,
-              textAlign: "left",
               fontFamily: "Montserrat-ExtraBold",
               margin:20,
               color:'red',
@@ -121,7 +120,7 @@ export default class BlockedUser extends Component {
 
         <View
           style={{
-            height: "25%",
+            marginBottom:40,
             width: width - 70,
             alignSelf: "center",
             justifyContent: "center"
@@ -131,7 +130,8 @@ export default class BlockedUser extends Component {
             style={{
               fontSize: 23,
               textAlign: "left",
-              fontFamily: "Montserrat-ExtraBold"
+              fontFamily: "Montserrat-ExtraBold",
+              marginTop:20,
             }}
           >
             What would you like to discover first?
@@ -150,14 +150,6 @@ export default class BlockedUser extends Component {
           </Text>
         </View>
 
-        <View
-          style={{
-            height: "1%",
-            width: width - 40,
-            alignSelf: "center",
-            justifyContent: "center"
-          }}
-        ></View>
         <FlatList
           data={this.state.data}
           renderItem={(item, index) => this.renderItemList(item, index)}

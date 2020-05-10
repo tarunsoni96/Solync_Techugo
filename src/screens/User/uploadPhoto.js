@@ -155,8 +155,8 @@ export default class UploadPhoto extends Component {
 
 <View style={{width:'100%',}} >
 
-<GradButton textStyle={{fontSize:wp(4.5)}} gradStyle={{padding:wp(4),margin:wp(3),borderRadius:7}} onPress={() => this._navToNext()} text='Take a photo' />
-<GradButton textStyle={{fontSize:wp(4.5)}} gradStyle={{padding:wp(4),margin:wp(3),borderRadius:7}} onPress={() =>
+<GradButton textStyle={{fontSize:wp(4.5)}} gradStyle={{padding:wp(5),margin:wp(3),borderRadius:7}} onPress={() => this._navToNext()} text='Take a photo' />
+<GradButton textStyle={{fontSize:wp(4.5)}} gradStyle={{padding:wp(5),margin:wp(3),borderRadius:7}} onPress={() =>
                 this.props.navigation.navigate("EditProfile", {
                   image: "",
                   openMediaType:'gallery',
@@ -166,7 +166,7 @@ export default class UploadPhoto extends Component {
 
               <TouchableWithoutFeedback onPress={() => this.checkFbData()}>
 
-  <View style={{padding:wp(4),borderRadius:7,backgroundColor:'#dfe2f7',margin:wp(3),flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+  <View style={{padding:wp(5),borderRadius:7,backgroundColor:'#dfe2f7',margin:wp(3),flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
 
   <Image
                     source={require("../../assets/Images/Facebook.png")}

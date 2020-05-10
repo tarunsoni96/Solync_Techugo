@@ -50,6 +50,8 @@ import { heightPercentageToDP } from "react-native-responsive-screen";
 const { height, width } = Dimensions.get("screen");
 
 let maxImages = 6;
+
+let params = {}
 export default class EditProfile extends Component {
   constructor(props) {
     super(props);
@@ -231,6 +233,7 @@ export default class EditProfile extends Component {
   }
 
   componentWillMount(){
+    params = {}
     params = this.props.navigation.state.params
 
   }
@@ -483,6 +486,11 @@ export default class EditProfile extends Component {
   _done(navigateBack = true, showMsg = true) {
     Keyboard.dismiss();
 
+    if(this.state.isApiCall){
+      alert('Loading data. Please wait')
+      return
+    }
+
     const { name, email, occupation } = this.state;
     if (!name || !email || !occupation) {
       alert("Please fill all fields");
@@ -497,7 +505,7 @@ export default class EditProfile extends Component {
       }
     }
 
-    this.setState({ isApiCall: true });
+    this.setState({ isDoneinProg: true });
     const { valueYear, valueDate } = this.state;
     const { images } = this.state;
 
@@ -532,7 +540,7 @@ export default class EditProfile extends Component {
     })
       .then((responser) => responser.json())
       .then((response) => {
-        this.setState({ isApiCall: false });
+        this.setState({ isDoneinProg: false });
 
         if (response.statusCode == 200) {
           if (this.state.images.length > 0) {
@@ -726,6 +734,7 @@ export default class EditProfile extends Component {
       type='Music'
       style={{marginBottom:25}}
         obj={this.state.eventMusic}
+        isFrmRegister={params?.openMediaType}
         year={getYr(this.state.eventMusic)}
       />
     );
@@ -734,6 +743,7 @@ export default class EditProfile extends Component {
     let sportEvent = (
       <EventCardMusic
       type='Sports'
+      isFrmRegister={params?.openMediaType}
       style={{marginBottom:25}}
       obj={this.state.eventSports}
         year={getYr(this.state.eventSports)}
@@ -745,6 +755,7 @@ export default class EditProfile extends Component {
       
       <EventCardMusic
       type='Travel'
+      isFrmRegister={params?.openMediaType}
       style={{marginBottom:25}}
       obj={this.state.eventTravels}
         year={getYr(this.state.eventTravels)}
@@ -836,6 +847,19 @@ export default class EditProfile extends Component {
     this.setState({ showMonth: this.state.flatId == '0' ? false : true, flatId: this.state.flatId == '0' ? '' : "0" });
   }
 
+  judgeFeb(date){
+    const {valueDate,valueMonth} = this.state
+    if(valueMonth == 'Feb'){
+      if(date == '30' || date == '29' || date == '31'){
+        HelperMethods.snackbar('Please select valid date for the month of Feb')
+      } else {
+        this.setState({ showMonth: false, valueDate: date,dateErrorMessage:'' })
+      }
+    } else {
+      this.setState({ showMonth: false, valueDate: date,dateErrorMessage:'' })
+    }
+  }
+
   _renderItemDate(item) {
     return (
       <View
@@ -845,7 +869,8 @@ export default class EditProfile extends Component {
           style={{ justifyContent: "center" }}
           onPress={() => {
             this.animateLayout();
-            this.setState({ showMonth: false, valueDate: item.key });
+              this.judgeFeb(item.key)
+            
           }}
         >
           <Text
@@ -870,6 +895,42 @@ export default class EditProfile extends Component {
       </View>
     );
   }
+
+  judgeMonth(month,item){
+    const {valueDate,valueMonth} = this.state
+
+    if(month != 'Feb'){
+      this.setState({
+        showMonth: false,
+        valueMonth: month,
+        idMonth: item.id,
+        dateErrorMessage:''
+      });
+    } else {
+      if(valueDate == '29' || valueDate == '30' || valueDate == '31'){
+        this.setState({
+          showMonth: true,
+          valueDate : 'Not set',
+          flatId:'1',
+          valueMonth: month,
+          idMonth: item.id,
+        });
+        HelperMethods.snackbar('Please reselect date for the month of Feb')
+      } else {
+        this.setState({
+          showMonth: false,
+          valueMonth: month,
+          idMonth: item.id,
+        });
+      }
+    }
+
+    
+  
+   
+   
+  }
+
   _renderItemMonth(item, index) {
     return (
       <View
@@ -879,11 +940,7 @@ export default class EditProfile extends Component {
           style={{ justifyContent: "center" }}
           onPress={() => {
             this.animateLayout();
-            this.setState({
-              showMonth: false,
-              valueMonth: item.key,
-              idMonth: item.id,
-            });
+            this.judgeMonth(item.key,item)
           }}
         >
           <Text
@@ -959,7 +1016,7 @@ export default class EditProfile extends Component {
   render() {
     return (
       
-      <Container>
+      <Container >
 
       <SafeAreaView style={{ flex: 1,width:'100%', }}>
           <View
@@ -975,7 +1032,6 @@ export default class EditProfile extends Component {
               alignSelf: "center",
             }}
           >
-            <BackHandlerSingleton />
             <View
               style={{
                 justifyContent: "center",
@@ -1017,7 +1073,7 @@ export default class EditProfile extends Component {
                 marginRight: 20,
               }}
             >
-              {this.state.isApiCall ? (
+              {this.state.isDoneinProg ? (
                 <Loader color={Colors.accent} size="small" />
               ) : (
                 <Text
@@ -1110,9 +1166,11 @@ export default class EditProfile extends Component {
 
           <View
             style={{
-              height: height / 7,
+              // height: height / 7,
+
               paddingHorizontal:18,
-              marginTop:20,
+              marginVertical:20,
+              marginBottom:25,
             }}
           >
             <View style={{ flexDirection: "row" }}>
@@ -1453,6 +1511,7 @@ export default class EditProfile extends Component {
             style={{ height: 10, width: width, backgroundColor: "#fff" }}
           ></View>
 
+              
           <NetworkAwareContent
             data={this.state.dataSource}
             isApiCall={this.state.isApiCall}
@@ -1460,6 +1519,7 @@ export default class EditProfile extends Component {
           >
             <View style={{ marginBottom: 20 }}>{this.renderEvents()}</View>
           </NetworkAwareContent>
+              
 
           <ModelImageModeCapture
             openMedia={(type) => this.openMedia(type)}
@@ -1484,8 +1544,6 @@ export default class EditProfile extends Component {
             remUri={this.state.remUri}
             imageId={this.state.imageId}
           /> */}
-
-
       </SafeAreaView>
       </Container>
 

@@ -4,7 +4,7 @@ import CustomText from 'AppLevelComponents/UI/CustomText'
 const NoDataView = () => {
     return (
         <View style={{alignItems:'center',width:'100%',marginTop:50}} >
-            <CustomText textAlign='center' text='No data' color='#000' />
+            <CustomText textAlign='center' text='No results found' color='#000' />
         </View>
     )
 }
