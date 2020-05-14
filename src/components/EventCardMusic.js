@@ -272,7 +272,7 @@ class EventCardMusic extends Component {
 
         <View
           style={{
-            // flex:1,
+            
             backgroundColor: "#EBF0F3",
             zIndex: 0,
             borderRadius: 15,
@@ -290,33 +290,33 @@ class EventCardMusic extends Component {
           {isEventList ?
           <>
             <View>
-              <CustomText style={{fontSize:wp(4)}} text={'Date/s'} color='#859198' />
-              <CustomText style={{fontSize:wp(4)}} text={dates} color='#000' />
+              <CustomText style={{fontSize:wp(3.6)}} text={'Date/s'} color='#859198' />
+              <CustomText style={{fontSize:wp(3.6)}} text={dates} color='#000' />
             </View>
 
             <View style={{marginTop:20}}>
-              <CustomText style={{fontSize:wp(4)}} text={'Location'} color='#859198' />
-              <CustomText style={{fontSize:wp(4)}} text={location} color='#000' />
+              <CustomText style={{fontSize:wp(3.6)}} text={'Location'} color='#859198' />
+              <CustomText style={{fontSize:wp(3.6)}} text={location} color='#000' />
             </View>
           </>
           :
           <View style={[styles.rowContainer,]}>
         <View>
-          <CustomText style={{fontSize:wp(4)}} text={dateText} color='#859198' />
-          <CustomText style={{fontSize:wp(3.5)}} text={formatMonth} color='#000' />
+          <CustomText style={{fontSize:wp(3.5)}} text={dateText} color='#859198' />
+          <CustomText style={{fontSize:wp(3.3)}} text={formatMonth} color='#000' />
         </View>
 
         <View>
-          <CustomText style={{fontSize:wp(4)}} text='Year' color='#859198' />
-          <CustomText style={{fontSize:wp(3.5)}} text={type == 'Travel' ? obj.year  : NavigationConsistor._formatYear(obj?.date)} color='#000' />
+          <CustomText style={{fontSize:wp(3.5)}} text='Year' color='#859198' />
+          <CustomText style={{fontSize:wp(3.3)}} text={type == 'Travel' ? obj.year  : NavigationConsistor._formatYear(obj?.date)} color='#000' />
         </View>
 
         {type != 'Travel'  ?
 
         
         <View style={{maxWidth:height < MobxStore.heightToScaleSmall ? 100 : 150}}>
-          <CustomText style={{fontSize:wp(4)}} text='Location' color='#859198' />
-          <CustomText style={{fontSize:wp(3.5)}} text={obj?.location}   color='#000' />
+          <CustomText style={{fontSize:wp(3.5)}} text='Location' color='#859198' />
+          <CustomText style={{fontSize:wp(3.3)}} text={obj?.location}   color='#000' />
         </View>
         :
 
@@ -332,7 +332,7 @@ class EventCardMusic extends Component {
          
         </View>
 
-          <View style={{maxHeight:100}}>
+          <View style={{maxHeight:100,}}>
 
         <FlatList
             renderItem={this.renderItem}

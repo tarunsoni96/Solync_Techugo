@@ -3,24 +3,19 @@ import {
   StyleSheet,
   Text,
   View,
-  SafeAreaView,
   Image,
   Dimensions,
-  PanResponder,
-  ScrollView,
   ImageBackground,
   Animated,
+  ScrollView,
   TouchableOpacity,
-  AsyncStorage,
   FlatList,
-  BackHandler,
   TouchableWithoutFeedback
 } from "react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
   heightPercentageToDP,
-  widthPercentageToDP
 } from "react-native-responsive-screen";
 import BackHandlerSingleton from "ServiceProviders/BackHandlerSingleton";
 
@@ -31,9 +26,7 @@ import Carousel from "react-native-snap-carousel";
 import LinearGradient from "react-native-linear-gradient";
 import HelperMethods from 'Helpers/Methods'
 import { getCats } from "ServiceProviders/ApiCaller";
-import Constants from "Helpers/Constants";
 import Interactable from 'react-native-interactable';
-import AsyncStorageHandler from "StorageHelpers/AsyncStorageHandler";
 import { withNavigation, NavigationEvents } from "react-navigation";
 import NetworkAwareContent from "../../AppLevelComponents/UI/NetworkAwareContent";
 import MobxStore from "../../StorageHelpers/MobxStore";
@@ -43,11 +36,9 @@ import CustomText from 'AppLevelComponents/UI/CustomText'
 import GradButton from "../../common/gradientButton";
 import NavigationConsistor from "../../Logicals/NavigationConsistor";
 import EventCardMusic from "../../components/EventCardMusic";
-import EventCardSports from "../../components/EventCardSports";
 import Loader from "../../AppLevelComponents/UI/Loader";
-import EventCardTravel from "../../components/EventCardTravel";
-import Container from "../../AppLevelComponents/UI/Container";
 import {Colors} from "UIProps/Colors";
+import ImageCaraousal from "../ImageCaraousal/ImageCaraousal";
 
 
 padding = 7
@@ -65,6 +56,7 @@ class MUSIC extends Component {
       isApiCall: false,
       catList: [],
       myText: "I'm ready to get swiped!",
+      imageCaraousalVisible:false,
       gestureName: "none",
       carScrollEnabled:true,
       backgroundColor: "#fff",
@@ -249,6 +241,12 @@ class MUSIC extends Component {
   toggleCarScroll(val){
     this.setState({carScroll:val})
   }
+
+  navigateCaraousal(userObj){
+    this.setState({imageCaraousalVisible:!this.state.imageCaraousalVisible,cUserObj:userObj})
+    // this.props.navigation.navigate('ImageCaraousal',{userObj})
+  }
+
   renderItem = ({ item, index }) => {
     let cardToRender = <EventCardMusic toggleCarScroll={(val)=>this.toggleCarScroll(val)} type={type}  obj={item} isOnHome />;
     if (type == "Sports") {
@@ -281,7 +279,7 @@ class MUSIC extends Component {
 
       <Text
         style={{
-          color: "grey",
+          color: '#E2E2E2',
           fontSize: 16,
         fontFamily: Fonts.regular,
           
@@ -328,12 +326,15 @@ class MUSIC extends Component {
                 {info}
               </ImageBackground>
             ) : (
+
               <ImageBackground
-                style={[styles.CurrentVideoImage,{borderRadius:20,flex:0.99,}]}
+                style={[styles.CurrentVideoImage,{borderRadius:20,flex:height < MobxStore.heightToScaleSmall ? 0.98 : 0.86}]}
                 source={{ uri: item.profile_picture }}
                 imageStyle={{borderRadius:20}}
                 resizeMode={"cover"}
               >
+              <TouchableWithoutFeedback onPress={()=>this.navigateCaraousal(item)}>
+              <View style={{flex:1}}>
                 <LinearGradient
                   colors={[
                     "rgba(0,0,0,0.8)",
@@ -344,9 +345,11 @@ class MUSIC extends Component {
                 />
 
               {info}
-             
+             </View>
+              </TouchableWithoutFeedback>
 
               </ImageBackground>
+
             )}
 
             <View style={{marginTop:-20,}}>
@@ -469,7 +472,7 @@ class MUSIC extends Component {
                   this.props.navigation,
                   currentItem,
                   currentItem.user_id,
-                  currentItem.artist_or_event,
+                  type == 'Travel' ? `${currentItem?.artist_or_event}, ${currentItem?.location}` : currentItem.artist_or_event,
                   type == 'Travel' ? currentItem.year  : NavigationConsistor._formatYear(currentItem.date) ,
                   type
                 )
@@ -618,7 +621,9 @@ class MUSIC extends Component {
     return (
       <View style={{flex:1}}>
       <BackHandlerSingleton onBackPress={()=>this.onBackPress()} />
-      
+      {this.state.imageCaraousalVisible && 
+      <ImageCaraousal closeModal={()=>this.setState({imageCaraousalVisible:false})} visible={this.state.imageCaraousalVisible} userObj={this.state.cUserObj} />
+      }
           {this.state.isApiCall ? 
           <Loader style={{marginTop:heightPercentageToDP(30)}} />
           :

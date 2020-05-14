@@ -9,7 +9,7 @@ import Icons from 'AppLevelComponents/UI/Icons'
 
 class ScreenHeader extends Component {
     render() {
-        const {title,isCenter,noBold,style} = this.props
+        const {title,isCenter,noBold,icon,onPressBack,color,style} = this.props
 
         return (
           <>
@@ -30,18 +30,18 @@ class ScreenHeader extends Component {
           style={{flex:isCenter ? 1 : 0,}}>
 
            <TouchableWithoutFeedback
-            onPress={() => this.props.navigation.pop()}
+            onPress={() => onPressBack ? onPressBack() : this.props.navigation.pop()}
             >
-            <View style={{alignItems:'center',justifyContent:'center',marginLeft:10,width:50,height:50}}>
+            <View style={{alignItems:'center',justifyContent:'center',marginLeft:10,width:50,height:50,...style}}>
 
-             <Icons lib='Ionicons' name='md-arrow-round-back' size={28} color='#808C94' />
+             <Icons lib='Ionicons' name={icon || 'md-arrow-round-back'} size={28} color={color || '#808C94'} />
             </View>
 
           </TouchableWithoutFeedback>
          
         </View>
 
-            <Text style={{fontSize: widthPercentageToDP(4.5),flex:isCenter ? 0 : 1,marginLeft:isCenter ? 0 : 25,fontFamily:noBold ? Fonts.medium : Fonts.heavy,paddingRight:5,flexWrap:'wrap'}}>
+            <Text style={{fontSize: widthPercentageToDP(4.5),flex:isCenter ? 0 : 1,marginLeft:isCenter ? 0 : 25,fontFamily:noBold ? Fonts.medium : Fonts.heavy,paddingRight:5,flexWrap:'wrap',color}}>
               {title}
             </Text>
 

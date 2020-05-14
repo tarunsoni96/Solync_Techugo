@@ -179,6 +179,21 @@ export const blockDeleteUser = function(id,type) {
     );
   });
 };
+export const fetchUserImages = function(user_id) {
+  return new Promise(function(resolve, reject) {
+    const formData = { user_id}
+    HelperMethods.makeNetworkCall(`user/userProfileImages`,formData,(resp, isError) => {
+        if (!isError) {
+          resolve(resp)
+        } else {
+          reject(true);
+        }
+      },
+      'POST'
+    );
+  });
+};
+
 
 export const getBlockedUsers = function() {
   return new Promise(function(resolve, reject) {

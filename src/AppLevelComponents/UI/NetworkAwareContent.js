@@ -66,12 +66,12 @@ class NetworkAwareContent extends Component {
   }
 
   drawView(isApiCall, children) {
-    const {apiFunc} = this.props;
+    const {apiFunc,loaderColor} = this.props;
     let view;
 
     switch (isApiCall) {
       case true:
-        view = <Loader color={Colors.accent} style={{marginTop: marginTop}} />;
+        view = <Loader color={loaderColor || Colors.accent} style={{marginTop: marginTop}} />;
         break;
       case 'failed':
         view = (

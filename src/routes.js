@@ -34,6 +34,7 @@ import AddPersonChat from "./screens/AddPersonChat/AddPersonChat";
 import AskQues from "./screens/AskQues/AskQues";
 import CropImage from "./screens/CropImage/CropImage";
 import TermsConditions from "./screens/TermsConditions/TermsConditions";
+import ImageCaraousal from "./screens/ImageCaraousal/ImageCaraousal";
 
 const loginStack = createStackNavigator(
   {
@@ -243,7 +244,8 @@ const App = createStackNavigator(
     },
 
 
-    TermsConditions:TermsConditions
+    TermsConditions:TermsConditions,
+    ImageCaraousal:ImageCaraousal
   },
   {
     headerMode: "none",

@@ -146,7 +146,7 @@ export default class ModelOverlay extends Component {
                     fontFamily: "Montserrat-ExtraBold",
                   }}
                 >
-                  {posBtn?.toUpperCase() || "BLOCK USER"}
+                  {posBtn?.toUpperCase()}
                 </Text>
               </TouchableOpacity>
             </View>

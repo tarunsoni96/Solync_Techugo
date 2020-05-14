@@ -206,8 +206,9 @@ class ChatScreen extends Component {
 
   setUserData(item, index, type) {
     this.convData = item;
-    this.blockingUser = item.first_name;
+    this.blockingUser = item.chat_type == 'group' ? 'all users in this event' : item.first_name;
     this.userId = item.id;
+    this.chatType = item.chat_type;
     switch (type) {
       case "delete":
         this.chatType = item.chat_type;
@@ -523,7 +524,7 @@ class ChatScreen extends Component {
           posPress={() => this.blockUnblockUser("block")}
           showBg={true}
           title={`Do you want to block ${this.blockingUser}?`}
-          posBtn="Block user"
+          posBtn={`Block user${this.chatType == 'group' ? 's' : ''}`}
           msg="They will not be able to see your profile or message you."
         />
 

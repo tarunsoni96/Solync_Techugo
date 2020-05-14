@@ -186,7 +186,7 @@ class ChatRoom extends Component {
 
       let obj = {
         "user_id":MobxStore.userObj.user_id,
-        "group_name":`${params?.event} ${params?.eventYr}`,
+        "group_name":`${params?.event} ${params?.eventYr == 'Any year' ? '' : params?.eventYr}`,
         "add_user_ids":userIds,
         "chat_with_id":clientId,
         event:params?.event,
@@ -1175,7 +1175,7 @@ class ChatRoom extends Component {
 
   hideAttach(showEvent) {
     HelperMethods.animateLayout();
-    this.setState({ showAttachPopup: false,showChatUsers:false,showEvent:!showEvent ? false : this.state.showEvent });
+    this.setState({ showAttachPopup: false,showChatUsers:false, });
   }
 
   renderChatDP() {
@@ -1236,6 +1236,7 @@ class ChatRoom extends Component {
   toggleUserList(){
     if(this.isGroupChat){
       HelperMethods.animateLayout()
+      Keyboard.dismiss()
   this.setState({showEvent:false, showChatUsers:!this.state.showChatUsers})      
     }
   }
@@ -1332,7 +1333,7 @@ class ChatRoom extends Component {
     return (
       <SafeAreaView style={{ flex: 1, }}
       >
-        {(this.state.showAttachPopup || this.state.showChatUsers || this.state.showEvent) ? (
+        {(this.state.showAttachPopup || this.state.showChatUsers) ? (
           <>
             <TouchableOpacity
               onPress={() => this.hideAttach()}
@@ -1414,7 +1415,7 @@ class ChatRoom extends Component {
                   style={[
                     styles.triangle,
                     {
-                      right: "74.5%",
+                      right: "80%",
                       top: "85%",
                       position: "absolute",
                       borderBottomColor: tintColor
@@ -1441,7 +1442,7 @@ class ChatRoom extends Component {
 
               <TouchableOpacity
                 onPress={() => {
-                  this.setState({ showEvent: false });
+                  // this.setState({ showEvent: false });
                   this.toggleBlockModal();
                 }}
               >
