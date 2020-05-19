@@ -68,6 +68,9 @@ class MUSIC extends Component {
     };
     this.props = props;
     this._carousel = {};
+    this.cat = ''
+    this.specificCat = ''
+    this.nextProps = {}
       this._deltaY = new Animated.Value(0);
       this.clippingPoint = hp(76)
 
@@ -77,14 +80,24 @@ class MUSIC extends Component {
 
   componentDidMount() {
     this.switchDateFetch(this.props.show,MobxStore.specificCat)
+    this.props.navigation.addListener('didFocus',this.willFocus)
+  }
+
+  willFocus = () => {
+    if(MobxStore.navigateToTabUserId && this.cat == MobxStore.catType){
+        this.switchDateFetch(this.cat,this.specificCat)
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    this.switchDateFetch(nextProps.show,nextProps.specificCat);
+    this.switchDateFetch(nextProps.show,nextProps.specificCat,);
   }
 
 
   switchDateFetch(cat,specificCat){
+    this.cat = cat
+    this.specificCat = specificCat
+
     filtCat = 1;
     typeId = 1;
     tintColor = Colors.colorMusic
@@ -119,16 +132,18 @@ class MUSIC extends Component {
     } else {
       MobxStore.specificCat = ''
     }
-    this.setState({ isApiCall: true,isSpecificCat:specificCat,videos:[] });
+    this.setState({ isApiCall: true,isSpecificCat:MobxStore.navigateToTabUserId ? `${MobxStore.navigateToTabUsername}'s profile` : specificCat,videos:[] });
 
     let obj = {
       user_id: MobxStore.userObj.user_id,
-      filterCategory: filtCat
+      filterCategory: filtCat,
+      dataOfId:MobxStore.navigateToTabUserId
     }
 
-    if(specificCat){
+    if(specificCat && !MobxStore.navigateToTabUserId){
       obj.filter_category = specificCat
     }
+    MobxStore.navigateToTabUserId = ''
 
     fetch("http://13.232.62.239:6565/api/user/home", {
       method: "POST",
@@ -153,6 +168,8 @@ class MUSIC extends Component {
           }
 
           currentItem = arrData[0]
+
+
           this.setState({
             videos: arrData,
             noMatches: false,
@@ -309,9 +326,11 @@ class MUSIC extends Component {
           <View>
             {item.profile_picture == "" ? (
               <ImageBackground
-                style={[styles.CurrentVideoImage,{borderRadius:40,flex:0.99}]}
+                style={[styles.CurrentVideoImage,{borderRadius:40,height:hp(height < MobxStore.heightToScaleSmall ? 45 : 38),}]}
                 source={require("../../assets/Images/@photo-cropped.png")}
                 resizeMode={"cover"}
+                imageStyle={{borderRadius:20}}
+
               >
                 <LinearGradient
                   colors={[
@@ -328,7 +347,7 @@ class MUSIC extends Component {
             ) : (
 
               <ImageBackground
-                style={[styles.CurrentVideoImage,{borderRadius:20,flex:height < MobxStore.heightToScaleSmall ? 0.98 : 0.86}]}
+                style={[styles.CurrentVideoImage,{borderRadius:20,height:hp(height < MobxStore.heightToScaleSmall ? 45 : 38),}]}
                 source={{ uri: item.profile_picture }}
                 imageStyle={{borderRadius:20}}
                 resizeMode={"cover"}

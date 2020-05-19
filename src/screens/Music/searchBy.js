@@ -111,9 +111,12 @@ export default class SearchBy extends Component {
             <SafeAreaView style={{ flex: 1, backgroundColor: 'transparent' }}>
     <BackHandlerSingleton  onBackPress={()=> this.props.navigation.pop()} />
                 
-                <ScreenHeader isCenter={false} title={title} />
-                    <View style={{ height: height / 4, width: width - 30, alignSelf: 'center', justifyContent: 'center' }}>
-                        <View style={{ height: height / 5, width: width - 30, backgroundColor: '#f6f7f8', justifyContent: 'center', alignSelf: 'center', borderRadius: 8 }}>
+                <ScreenHeader style={{marginTop:30,}} isCenter={false} title={title} />
+
+                <View style={{marginTop:45}}>
+
+                    <View style={{ height: height / 4, alignSelf: 'center', justifyContent: 'center' }}>
+                        <View style={{ height: height / 5, backgroundColor: '#f6f7f8', justifyContent: 'center', alignSelf: 'center', borderRadius: 8 }}>
 
                             <Text style={{ color: '#000', fontSize: 17, alignSelf: 'center', fontFamily: 'Montserrat-Bold' }}>{firstInputTitle}</Text>
 
@@ -129,8 +132,8 @@ export default class SearchBy extends Component {
                     </View>
                 <Text style={{ fontSize: 17, color: '#7f7f7f', textAlign: 'center', fontFamily: 'Montserrat-SemiBold' }}>OR</Text>
 
-                <View style={{ height: height / 4, width: width - 30, alignSelf: 'center', justifyContent: 'center' }}>
-                    <View style={{ height: height / 5, width: width - 30, backgroundColor: '#f6f7f8', justifyContent: 'center', alignSelf: 'center', borderRadius: 8 }}>
+                <View style={{ height: height / 4,  alignSelf: 'center', justifyContent: 'center' }}>
+                    <View style={{ height: height / 5, backgroundColor: '#f6f7f8', justifyContent: 'center', alignSelf: 'center', borderRadius: 8 }}>
                         <Text style={{ color: '#000', fontSize: 17, alignSelf: 'center', fontFamily: 'Montserrat-Bold' }}>Search by location</Text>
                         <TouchableOpacity style={{ height: '50%' }} onPress={() => this.props.navigation.navigate('SearchByUnique', { type: abc,selectedCats:params?.selectedCats, searchType:'location',inputTitle:'Search by location', data: data, typeId: params?.typeId, dataSubName: dataSubName })}>
                             <View style={{ textAlign: 'center', borderTopColor: 'transparent', borderRightColor: 'transparent', borderLeftColor: 'transparent', borderBottomColor: '#edeff0', borderWidth: 2, width: width - 50, height: '100%', opacity: 2.0, alignSelf: 'center', justifyContent: 'center' }}>
@@ -139,6 +142,8 @@ export default class SearchBy extends Component {
                         </TouchableOpacity>
                     </View>
                 </View>
+                </View>
+
             </SafeAreaView>
         )
     }

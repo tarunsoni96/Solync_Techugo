@@ -9,10 +9,14 @@ import {
   ImageBackground,
   BackHandler
 } from "react-native";
+import Loader from 'AppLevelComponents/UI/Loader'
+import {Colors} from "UIProps/Colors";
+import {cancelSignup as cancelSignupApi} from 'ServiceProviders/ApiCaller'
 import HelperMethods from 'Helpers/Methods'
 import AsyncStorageHandler from "StorageHelpers/AsyncStorageHandler";
 import Constants from 'Helpers/Constants'
 import ScreenMemory from "../../AppLevelComponents/UI/ScreenMemory";
+import MobxStore from "../../StorageHelpers/MobxStore";
 const { height, width } = Dimensions.get("screen");
 export default class BlockedUser extends Component {
   constructor(props) {
@@ -57,10 +61,10 @@ export default class BlockedUser extends Component {
       <View>
           <TouchableOpacity
             onPress={() =>
-              this.props.navigation.navigate("MultipleView", {
+              {!this.state.isApiCall ? this.props.navigation.navigate("MultipleView", {
                 type: item.item.type,
                 typeId: item.item.id
-              })
+              }): alert("Cannot perform that action while signup is being canceled")}
             }
           >
             <ImageBackground
@@ -94,8 +98,17 @@ export default class BlockedUser extends Component {
 
 
   cancelSignup(){
-    
-    HelperMethods.logout(this.props.navigation)
+    HelperMethods.animateLayout()
+     this.setState({isApiCall:true})
+     cancelSignupApi(MobxStore.userObj.email).then(resp => {
+       if(resp.statusCode == 200){
+         HelperMethods.snackbar('Signup canceled, You may register again with your email id')
+         HelperMethods.logout(this.props.navigation)
+        }
+      }).catch(err => {
+        HelperMethods.snackbar('Some problem occured while canceling, Please retry')
+          this.setState({isApiCall:false})
+        })
   }
 
   render() {
@@ -104,8 +117,10 @@ export default class BlockedUser extends Component {
 
       <SafeAreaView style={{ flex: 1 }}>
 
-      
-      <Text
+        {this.state.isApiCall ? 
+          <Loader size='small' style={{alignSelf:'flex-start',margin:20,marginLeft:30,}} />
+        :
+        <Text
             style={{
               fontSize: 16,
               fontFamily: "Montserrat-ExtraBold",
@@ -117,6 +132,7 @@ export default class BlockedUser extends Component {
           >
             Cancel Signup
           </Text>
+        }
 
         <View
           style={{

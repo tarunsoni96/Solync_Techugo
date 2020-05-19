@@ -10,6 +10,9 @@ class MobxStore {
   @observable isAnyUnreadMsg = false
   @observable reloadConvList = false
   @observable navigateToTab = ''
+  @observable catType = ''
+  @observable navigateToTabUserId = ''
+  @observable navigateToTabUsername = ''
   @observable heightToScaleSmall = 750
   @observable specificCat = ''
   

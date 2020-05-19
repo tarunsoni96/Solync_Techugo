@@ -120,6 +120,20 @@ class EventCardMusic extends Component {
     HelperMethods.animateLayout()
     this.setState({showFullLength:!this.state.showFullLength})
   }
+
+  renderLines(){
+    let line = []
+    let size=6
+    let numCount = width / 30
+    for(let i=0;i<=numCount;i++){
+      line.push( <View
+        style={[styles.circle,{position:'relative',width:size,height:size}]}
+      />)
+
+    }
+
+    return line
+  }
   render() {
     const { type, obj,onPress, isFrmRegister,location,dates, isEventList,isOnHome,style } = this.props;
     let title = "";
@@ -187,6 +201,8 @@ class EventCardMusic extends Component {
               backgroundColor: "transparent"
             }}
           >
+
+
         <LinearGradient
         onStartShouldSetResponder={()=>true}
           start={{ x: 0, y: 0 }}
@@ -224,8 +240,9 @@ class EventCardMusic extends Component {
 
 
               <Text
+              numberOfLines={this.state.showFullLength  ? undefined : height < MobxStore.heightToScaleSmall ? 1 : 3}
+
               onPress={()=>this.toggleLines()}
-              numberOfLines={this.state.showFullLength  ? undefined : 2}
               onTextLayout={({ nativeEvent: { lines } }) => {
                       this.setState({eventLinesLength:lines.length})
                       }}
@@ -242,22 +259,11 @@ class EventCardMusic extends Component {
               }
 
             </ScrollView>
-
-            <View
-              style={{
-                width: "100%",
-                alignSelf: "center",
-                position: "absolute",
-                borderStyle: "dotted",
-                borderWidth: 3.5,
-                borderRadius:0.1,
-                borderColor: "#fff",
-                zIndex: 100,
-                bottom: -5,
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            />
+              
+              <View style={{flexDirection:'row',position:'absolute',width:'94%',alignSelf:'center',bottom:-3,justifyContent:'space-between',alignItems:'center'}}>
+                {this.renderLines()}
+              </View>
+           
           </ImageBackground>
 
         </LinearGradient>

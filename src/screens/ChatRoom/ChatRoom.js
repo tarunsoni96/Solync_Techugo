@@ -1185,7 +1185,8 @@ class ChatRoom extends Component {
       return <Text>{`+${this.state.groupUsernames.length}`}</Text>;
     } else {
       return (
-        
+        <TouchableWithoutFeedback onPress={()=>this.navigateToUserProfile({first_name:params?.userObj.first_name,user_id:clientId})} >
+
         <Image
           source={{
             uri:
@@ -1195,6 +1196,7 @@ class ChatRoom extends Component {
           style={{ width: 35,height:35, borderRadius: 50 }}
           resizeMode="cover"
         />
+        </TouchableWithoutFeedback>
       );
     }
   }
@@ -1222,7 +1224,7 @@ class ChatRoom extends Component {
       return (
         <>
           <ScrollView horizontal>
-            <Text style={{ color: "#000",fontSize:17,fontFamily:Fonts.medium }}>
+            <Text onPress={()=>this.navigateToUserProfile({first_name:params?.userObj.first_name,user_id:clientId})} style={{ color: "#000",fontSize:17,fontFamily:Fonts.medium }}>
               {params?.userObj.first_name}
               {MobxStore.addedUserNamesChat.join("")}
             </Text>
@@ -1291,9 +1293,15 @@ class ChatRoom extends Component {
   }
 
     navigateToUserProfile(userData){
+      if(this.isGroupChat)
       this.toggleUserList()
+
       if(MobxStore.userObj?.first_name != userData.first_name){
         MobxStore.navigateToTab = categoryType
+        // MobxStore.specificCat = ''
+        MobxStore.navigateToTabUserId = userData.user_id
+        MobxStore.catType = categoryType.toUpperCase()
+        MobxStore.navigateToTabUsername = userData.first_name
         this.props.navigation.navigate('Home')
       }
   }
@@ -1511,7 +1519,7 @@ class ChatRoom extends Component {
           userObj={this.props.navigation.state.params?.userObj}
           modalVisible={this.state.isModalVisible}
           showBg
-          posBtn={this.isGroupChat ? 'Block' : null}
+          posBtn={'Block'}
           isGroupChat={this.isGroupChat}
           tintColor={tintColor}
           posPress={() => this.blockUnblockUser("block")}

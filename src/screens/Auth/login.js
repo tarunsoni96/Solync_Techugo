@@ -36,6 +36,7 @@ import GradButton from "../../common/gradientButton";
 import { withNavigation } from "react-navigation";
 import MobxStore from "../../StorageHelpers/MobxStore";
 import Container from "../../AppLevelComponents/UI/Container";
+import ModalTNC from "../../components/ModalTNC";
 const { width, height } = Dimensions.get("screen");
 
 class Login extends Component {
@@ -48,6 +49,7 @@ class Login extends Component {
       passwordMessage: "*Please enter username",
       maxErrorMessageHeight: 0,
       isApiCall: false,
+      showTncModal:false,
       passwordErrorMessageHeight: 0,
       username: "",
       usernameBorderColor: "transparent",
@@ -108,13 +110,21 @@ class Login extends Component {
     });      
   }
 
-  facebookLogin(self, socialType) {
+  facebookLogin(self, socialType,check = false) {
+    if(check){
+      AsyncStorageHandler.get('tncAgreed',val => {
+        if(val){
+          this.facebookLogin(this,'facebook',false)
+        } else {
+          this.setState({showTncModal:true})
+      }
+    })
+  } else {
+    this.setState({showTncModal:false})
+
     if (socialType == "facebook") {
-    //  this.customFacebookLogout()
-    //  return
-    
       LoginManager.setLoginBehavior(HelperMethods.isPlatformAndroid() ? 'web_only' : 'browser');
-    LoginManager.logInWithPermissions(["public_profile","user_birthday","user_work_history","user_about_me", "email"]).then(
+      LoginManager.logInWithPermissions(["public_profile", "email"]).then(
         function(result) {
           if (result.isCancelled) {
           } else {
@@ -136,10 +146,13 @@ class Login extends Component {
             });
           }
         },
-      );
+      ).catch(err => {
+        alert(JSON.stringify( err))
+      });
     } 
   }
 
+  }
   _setData(result) {
     this.setState({
       emailFb: result.id,
@@ -154,6 +167,8 @@ class Login extends Component {
 
     socialLoginFB(email,id,first_name,picture.data.url,global.latitude,global.longitude).then((resp) => {
         HelperMethods.snackbar('Logged in successfully')
+        AsyncStorageHandler.store('tncAgreed','true')
+
         AsyncStorageHandler.store(Constants.userInfoObj,resp.result,()=>{
           MobxStore.updateUserObj(resp.result)
 
@@ -504,7 +519,8 @@ HelperMethods.animateLayout()
                   height: "70%",
                   justifyContent: "center"
                 }}
-                onPress={() => this.facebookLogin(this, "facebook")}
+          onPress={() => this.facebookLogin(this, "facebook",true)}
+                
               >
                  <View
             style={{
@@ -530,6 +546,8 @@ HelperMethods.animateLayout()
           </View>
               </TouchableOpacity>
             </View>
+
+            <ModalTNC modalVisible={this.state.showTncModal} closeModal={()=>this.setState({showTncModal:false})} posPress={()=>this.facebookLogin(this, "facebook",false)} />
 
             <View
               style={{

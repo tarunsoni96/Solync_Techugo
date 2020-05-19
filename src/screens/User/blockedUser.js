@@ -193,8 +193,9 @@ class BlockedUser extends Component {
               style={{
                 height: height,
                 width: width,
-                backgroundColor: "#E9F8F6",
-                opacity: 0.9,
+                
+                backgroundColor: "rgba(77, 177, 150,0.8)",
+                
                 position: "relative"
               }}
             ></View>

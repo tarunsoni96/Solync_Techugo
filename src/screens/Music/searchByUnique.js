@@ -503,7 +503,7 @@ class SearchByUnique extends Component {
       <Container>
         <BackHandlerSingleton onBackPress={() => this.props.navigation.pop()} />
 
-        <ScreenHeader isCenter={false} title={title} />
+        <ScreenHeader style={{marginTop:30}} isCenter={false} title={title} />
         <View
           style={{
             marginTop: 60,
@@ -513,7 +513,7 @@ class SearchByUnique extends Component {
             style={{
               padding:40,
               paddingTop:30,
-              width:widthPercentageToDP(90),
+              width:widthPercentageToDP(86.5),
               backgroundColor: "#f6f7f8",
               justifyContent: "center",
               alignSelf: "center",
@@ -529,7 +529,7 @@ class SearchByUnique extends Component {
                 fontFamily: "Montserrat-Bold",
               }}
             >
-              {params?.inputTitle}
+              {`${params?.inputTitle} (City)`}
             </Text>
 
             {params?.searchType == "event" ? (

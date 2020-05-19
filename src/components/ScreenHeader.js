@@ -9,7 +9,7 @@ import Icons from 'AppLevelComponents/UI/Icons'
 
 class ScreenHeader extends Component {
     render() {
-        const {title,isCenter,noBold,icon,onPressBack,color,style} = this.props
+        const {title,titleStyle,isCenter,noBold,icon,onPressBack,color,style} = this.props
 
         return (
           <>
@@ -30,9 +30,9 @@ class ScreenHeader extends Component {
           style={{flex:isCenter ? 1 : 0,}}>
 
            <TouchableWithoutFeedback
-            onPress={() => onPressBack ? onPressBack() : this.props.navigation.pop()}
+            onPress={() => onPressBack  ? onPressBack() : this.props.navigation.pop()}
             >
-            <View style={{alignItems:'center',justifyContent:'center',marginLeft:10,width:50,height:50,...style}}>
+            <View style={{alignItems:'center',justifyContent:'center',marginLeft:10,width:50,height:50,...style,marginTop:0}}>
 
              <Icons lib='Ionicons' name={icon || 'md-arrow-round-back'} size={28} color={color || '#808C94'} />
             </View>
@@ -41,8 +41,9 @@ class ScreenHeader extends Component {
          
         </View>
 
-            <Text style={{fontSize: widthPercentageToDP(4.5),flex:isCenter ? 0 : 1,marginLeft:isCenter ? 0 : 25,fontFamily:noBold ? Fonts.medium : Fonts.heavy,paddingRight:5,flexWrap:'wrap',color}}>
-              {title}
+            <Text
+             style={{fontSize: widthPercentageToDP(isCenter ? 4.5 : 4.9),alignSelf:'center',flex:isCenter ? 0 : 1,marginLeft:isCenter ? 0 : 12,fontFamily:noBold ? Fonts.medium : Fonts.heavy,paddingRight:7,flexWrap:'wrap',color,...titleStyle}}>
+              {title} 
             </Text>
 
                 {isCenter && 

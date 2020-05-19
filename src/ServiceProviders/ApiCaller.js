@@ -194,6 +194,21 @@ export const fetchUserImages = function(user_id) {
   });
 };
 
+export const cancelSignup = function(email) {
+  return new Promise(function(resolve, reject) {
+    const formData = { email}
+    HelperMethods.makeNetworkCall(`user/emailDelete`,formData,(resp, isError) => {
+        if (!isError) {
+          resolve(resp)
+        } else {
+          reject(true);
+        }
+      },
+      'POST'
+    );
+  });
+};
+
 
 export const getBlockedUsers = function() {
   return new Promise(function(resolve, reject) {

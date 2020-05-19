@@ -7,6 +7,7 @@ export const Colors  = {
   pageBackground:'#fff',
   primary: '#fff',
   accent:'#792673',
+  errMsg:'#bb205a',
   colorMusic:'#792673',
   colorSports:'#245E60',
   colorTravel:'#26568F',

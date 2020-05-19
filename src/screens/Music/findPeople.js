@@ -1004,7 +1004,7 @@ export default class SearchByUnique extends Component {
                     text={`${this.state.isGettingEveDetails ? 'Please wait' : 'Find me my people'}`}
                     onPress={() => this.state.opacityButton ? this._findPeople() : {}}
                     isApiCall={this.state.isApiCall}
-                    style={{ opacity: !this.state.opacityButton ? 0.7 : 1 }}
+                    style={{ opacity: !this.state.opacityButton ? 0.7 : undefined }}
                   />
               </View>
 

@@ -29,10 +29,12 @@ import { withNavigation } from "react-navigation";
 import 'Helpers/global'
 import MobxStore from "../../StorageHelpers/MobxStore";
 import { widthPercentageToDP } from "react-native-responsive-screen";
+import ModalTNC from "../../components/ModalTNC";
 class landingScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      showTncModal:false,
       emailFb: "",
       idFb: "",
       firstName: "",
@@ -67,6 +69,7 @@ class landingScreen extends Component {
     const {id,email,first_name,picture} = fbData
     socialLoginFB(email,id,first_name,picture.data.url,latitude,longitude).then((resp) => {
         HelperMethods.snackbar('Logged in successfully')
+        AsyncStorageHandler.store('tncAgreed','true')
         AsyncStorageHandler.store(Constants.userInfoObj,resp.result,()=>{
           MobxStore.updateUserObj(resp.result)
           const {statusCode} = resp
@@ -121,7 +124,18 @@ class landingScreen extends Component {
     }
   }
 
-  facebookLogin(self, socialType) {
+  facebookLogin(self, socialType,check = false) {
+    if(check){
+      AsyncStorageHandler.get('tncAgreed',val => {
+        if(val){
+          this.facebookLogin(this,'facebook',false)
+        } else {
+          this.setState({showTncModal:true})
+      }
+    })
+  } else {
+    this.setState({showTncModal:false})
+
     if (socialType == "facebook") {
       LoginManager.setLoginBehavior(HelperMethods.isPlatformAndroid() ? 'web_only' : 'browser');
       LoginManager.logInWithPermissions(["public_profile", "email"]).then(
@@ -150,6 +164,8 @@ class landingScreen extends Component {
         alert(JSON.stringify( err))
       });
     } 
+  }
+
   }
 
   _setData(result) {
@@ -249,7 +265,7 @@ class landingScreen extends Component {
             backgroundColor: "#dfe2f7",
             justifyContent: "center"
           }}
-          onPress={() => this.facebookLogin(this, "facebook")}
+          onPress={() => this.facebookLogin(this, "facebook",true)}
         >
           <View
             style={{
@@ -306,6 +322,10 @@ class landingScreen extends Component {
           </Text>
           
         </View>
+
+        <ModalTNC modalVisible={this.state.showTncModal} closeModal={()=>this.setState({showTncModal:false})} posPress={()=>this.facebookLogin(this, "facebook",false)} />
+
+
         <View
           style={{
             height: 40,

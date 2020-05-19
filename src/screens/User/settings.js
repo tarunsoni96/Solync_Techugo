@@ -670,7 +670,7 @@ onBack(){
                 width: "70%",
               }}
             >
-              Hide my profile
+              {this.state.hideProfileValue ? 'Unhide my profile' : 'Hide my profile'}
             </Text>
             {Platform.OS == "ios" ? (
               <Switch

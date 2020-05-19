@@ -1240,7 +1240,7 @@ export default class registerTest extends Component {
                   fontSize: 14,
                   marginTop: 5,
                   alignSelf: "flex-start",
-                  color: this.state.textColor,
+                  color: this.state.passwordMessage ? '#bb205a' : this.state.textColor,
                 }}
               >
                 Use at least 6 letters, 1 number & 1 capital letter
@@ -1301,7 +1301,8 @@ export default class registerTest extends Component {
                 height: height,
                 width: width,
                 position: "absolute",
-                backgroundColor: "#4DB196",
+                backgroundColor: "rgba(77, 177, 150,0.8)",
+
               }}
             />
 
@@ -1454,187 +1455,7 @@ export default class registerTest extends Component {
                 </Text>
               </TouchableOpacity>
             </View>
-
-
-
               </View>
-
-            
-{/* 
-              <View
-                style={{
-                  width: width - 55,
-                  backgroundColor: "#fff",
-                  zIndex: 1,
-                  alignSelf: "center",
-                  opacity: 1.0,
-                  position: "absolute",
-                  borderRadius: 10,
-                }}
-              >
-                <View
-                  style={{ width: "100%", borderRadius: 10 }}
-                >
-                  <View
-                    style={{
-                      alignSelf: "center",
-                      justifyContent: "flex-end",
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontFamily:Fonts.medium,
-                        fontSize: 21,
-                        color: "black",
-                        textAlign: "center",
-                      }}
-                    >
-                      Accept terms & privacy
-                    </Text>
-                  </View>
-                  <View
-                    style={{
-                      alignSelf: "center",
-                      justifyContent: "center",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        fontFamily:Fonts.regular,
-                        textAlign: "center",
-                        marginTop: "4%",
-                        padding:10,
-                        color: "#7a7a7a",
-                      }}
-                    >
-                      By creating an acdklsaj ksjd klajsdkl asjd klasjd klasjdcount, you
-                    </Text>
-                  </View>
-                  <View
-                    style={{
-                      alignSelf: "center",
-                      justifyContent: "center",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        textAlign: "center",
-                        marginTop: "4%",
-                        color: "#7a7a7a",
-                        bottom: 5,
-                      }}
-                    >
-                      agree to the{" "}
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        fontFamily:Fonts.regular,
-                        textAlign: "center",
-                        marginTop: "4%",
-                        color: "#781672",
-                        bottom: 5,
-                      }}
-                    >
-                      Terms of service{" "}
-                    </Text>
-                  </View>
-                  <View
-                    style={{
-                      alignSelf: "center",
-                      justifyContent: "center",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        textAlign: "center",
-                        marginTop: "4%",
-                        color: "#7a7a7a",
-                        bottom: 10,
-                        fontFamily:Fonts.regular,
-                      }}
-                    >
-                      &
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        textAlign: "center",
-                        marginTop: "4%",
-                        color: "#781672",
-                        bottom: 10,
-                        fontFamily:Fonts.regular,
-                      }}
-                    >
-                      {" "}
-                      Privacy policy.
-                    </Text>
-                  </View>
-
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      bottom: 0,
-                      height: "30%",
-                      borderBottomRightRadius: 10,
-                      borderBottomLeftRadius: 10,
-                    }}
-                  >
-                    <TouchableOpacity
-                      onPress={() => {
-                        this.setModalVisible(!this.state.modalVisible);
-                      }}
-                      style={{
-                        backgroundColor: "#f6f7f8",
-                        height: "100%",
-                        width: "49.5%",
-                        justifyContent: "center",
-                        borderBottomLeftRadius: 10,
-                      }}
-                    >
-                      <Text
-                        style={{
-                          fontSize: 15,
-                          color: "grey",
-                          fontFamily: "Montserrat-ExtraBold",
-                          alignSelf: "center",
-                        }}
-                      >
-                        CANCEL
-                      </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                      onPress={() => this._Register()}
-                      style={{
-                        backgroundColor: "#f6f7f8",
-                        height: "100%",
-                        width: "49.5%",
-                        justifyContent: "center",
-                        borderBottomRightRadius: 10,
-                      }}
-                    >
-                      <Text
-                        style={{
-                          fontSize: 15,
-                          color: "#781672",
-                          alignSelf: "center",
-                          fontFamily: "Montserrat-ExtraBold",
-                        }}
-                      >
-                        I AGREE
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View> */}
             </View>
           </Modal>
 

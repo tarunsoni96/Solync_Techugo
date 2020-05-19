@@ -5,6 +5,7 @@ import {
   Text,
   View,
   Modal,
+  StatusBar,
   ImageBackground,
   TouchableWithoutFeedback,
 } from "react-native";
@@ -17,6 +18,7 @@ import NetworkAwareContent from "../../AppLevelComponents/UI/NetworkAwareContent
 import ReactNativeZoomableView from "@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView";
 import Loader from "../../AppLevelComponents/UI/Loader";
 import { widthPercentageToDP, heightPercentageToDP } from "react-native-responsive-screen";
+import Container from "../../AppLevelComponents/UI/Container";
 export default class ImageCaraousal extends Component {
   state = {
     input: "",
@@ -108,6 +110,7 @@ export default class ImageCaraousal extends Component {
   render() {
     const { visible, userObj, closeModal } = this.props;
     return (
+
       <Modal
         animationType="fade"
         transparent={true}
@@ -117,6 +120,7 @@ export default class ImageCaraousal extends Component {
           closeModal();
         }}
       >
+      <StatusBar translucent={true} barStyle="light-content" />
 
         <View
           style={{
@@ -128,10 +132,11 @@ export default class ImageCaraousal extends Component {
 
          
 <TouchableWithoutFeedback onPress={()=>closeModal()} >
-        <View style={{backgroundColor:'rgba(0,0,0,0.9)',position:'absolute',height:'100%',width:'100%'}} />
+        <View style={{backgroundColor:'rgba(0,0,0,1)',position:'absolute',height:'100%',width:'100%'}} />
       </TouchableWithoutFeedback>
 
       <ScreenHeader
+      titleStyle={{maxWidth:'70%'}}
       icon='md-close'
             style={{ marginLeft:0 }}
             title={`${userObj?.first_name}'s profile picture${this.state.images.length > 1 ? 's' : ''}`}
@@ -148,13 +153,13 @@ export default class ImageCaraousal extends Component {
 
 
 
-            <View style={{flex:0.9}}>
+            <View style={{flex:HelperMethods.isIphoneXorAbove() ? 0.8 : 0.87}}>
 
               <Carousel
                 ref={(c) => {
                   this._carousel = c;
                 }}
-                layout='stack'
+                // layout='stack'
                 onSnapToItem={(index) => this.setState({ activeSlide: index }) }
                 data={this.state.images}
                 renderItem={this.renderItem}
@@ -170,6 +175,7 @@ export default class ImageCaraousal extends Component {
 
 
       </Modal>
+
     );
   }
 }
