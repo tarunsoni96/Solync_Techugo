@@ -1471,7 +1471,7 @@ export default class registerTest extends Component {
             modalVisible={this.state.modalAlreadyRegisterd}
             title="Already Registered"
             posBtn="Try again"
-            msg="The email address is already registered. Please signup with a different email address."
+            msg="The email address is already registered. Please sign up with a different email address."
           />
 
         

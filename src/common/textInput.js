@@ -22,11 +22,11 @@ class TextInputSolo extends Component {
         }
     }
     render() {
-        let { onFocusText, onChangeText,autoFocus,ref,editable,dontValidate, borderColor, inputState, message, labelText, keyboard, value, fontSize, fontFamily, maxLength } = this.props
+        let { onFocusText,style, onChangeText,autoFocus,ref,editable,dontValidate, borderColor, inputState, message, labelText, keyboard, value, fontSize, fontFamily, maxLength } = this.props
         return (
-            <View style={{ margin: 5, height: height / 8.5, width: width - 30, alignSelf: 'center', flexDirection: 'column', justifyContent: 'center' }}>
+            <View style={{ margin: 5, height: height / 8.5, width: width - 30, alignSelf: 'center', flexDirection: 'column', justifyContent: 'center',...style }}>
                 <View style={{ flexDirection: 'row',flexWrap:'wrap',alignItems:'center' }}>
-                    <Text style={{ opacity: 1, fontSize: 13,marginBottom:-10, fontFamily: 'Montserrat-SemiBold', color: '#879299' }}> {labelText}</Text>
+                    <Text style={{ opacity: 1, fontSize: 13,marginBottom:-10, fontFamily: 'Montserrat-SemiBold', color: '#879299' }}>{labelText}</Text>
                     {inputState == '' || dontValidate ? null :
                         <View style={{ flexDirection: 'row',flexWrap:'wrap',flex:1,alignItems:'center' }}>
                             <Image source={Images.warning} style={{ marginLeft: 20, width: 17, height: 16 }} />
@@ -38,7 +38,7 @@ class TextInputSolo extends Component {
                 </View>
 
                 
-                    <TextInput style={{ borderTopColor: 'transparent', borderRightColor: 'transparent', borderLeftColor: 'transparent', borderLeftWidth: 0, borderRightWidth: 0, borderBottomColor: borderColor || 'lightgrey', borderWidth: 2, width: width - 35, height: Platform.OS == 'ios' ? '60%' : undefined,color:'#000', }}
+                    <TextInput style={{ borderTopColor: 'transparent', borderRightColor: 'transparent', borderLeftColor: 'transparent', borderLeftWidth: 0, borderRightWidth: 0, borderBottomColor: borderColor || 'lightgrey', borderWidth: 2, width: width - 35, height: Platform.OS == 'ios' ? '60%' : undefined,color:'#000',...style }}
                         onChangeText={onChangeText}
                         fontSize={17}
                         fontFamily={Fonts.medium}

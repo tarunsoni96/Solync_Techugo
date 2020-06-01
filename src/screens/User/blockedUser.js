@@ -64,7 +64,7 @@ class BlockedUser extends Component {
 
   _renderItem(item, index) {
     return (
-      <TouchableOpacity style={{ marginTop: 0, justifyContent: "center",width:widthPercentageToDP(87) }} onPress={() =>{ this.setState({ modalVisible: true }); this.userId = item.user_id }}>
+      <TouchableOpacity style={{ marginTop: 0,alignSelf:'center', justifyContent: "center",width:widthPercentageToDP(87) }} onPress={() =>{ this.setState({ modalVisible: true }); this.userId = item.user_id }}>
       <View style={{ flex: 1 }}>
         <View
           style={{

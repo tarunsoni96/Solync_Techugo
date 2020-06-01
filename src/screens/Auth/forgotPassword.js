@@ -102,19 +102,20 @@ export default class forgotPassword extends Component {
   render() {
     return (
       <>
-      <Container>
+            <ScreenHeader style={{marginTop:HelperMethods.isPlatformAndroid() ? 45 : null}} bold isCenter title='Forgotten password' />
+      <KeyboardAvoidingView style={{flex:1}} behavior={HelperMethods.isPlatformAndroid() ? '' : 'padding'}>
               
-            <ScreenHeader style={{marginTop:10}} isCenter title='Forgotten password' />
 
-        <View style={{ flex: 1,justifyContent:'center'  }}>
+        <View style={{ flex: 1,justifyContent:'center',padding:20,alignItems:'center'  }}>
           
           <View
             style={{
               flexDirection: "row",
+              justifyContent:'center'
             }}
           >
             {this.state.emailAddressMessage == "" ? null : (
-              <View style={{ flexDirection: "row",width:'100%',marginLeft:35 }}>
+              <View style={{ flexDirection: "row",alignItems:'center',width:'100%', }}>
                 <Image
                   source={Images.warning}
                   style={{ }}
@@ -130,6 +131,8 @@ export default class forgotPassword extends Component {
             onChangeText={emailAddress =>
               this.setState({ emailAddress, opacityButton: false })
             }
+
+            style={{width:'100%'}}
             borderColor={this.state.emailAddressBorderColor}
             inputState={""}
             autoFocus
@@ -170,7 +173,7 @@ export default class forgotPassword extends Component {
             Back to login
           </Text>
         </View>
-      </Container>
+      </KeyboardAvoidingView>
       </>
     );
   }

@@ -506,13 +506,15 @@ class SearchByUnique extends Component {
   }
 
   render() {
-    let imgHeight = 0
+    let imgHeight = undefined
     
     let { params } = this.props.navigation.state;
 
-    if(params?.typeId == 1 && this.state.eventData.length == 0){
+    if(this.state.showLocation){
+      if(this.state.locationData.length == 0){
         imgHeight = 100
-      } else if(params?.typeId == 2 && this.state.locationData.length == 0) {
+      }
+    } else if(this.state.eventData.length == 0) {
         imgHeight = 100
     } else {
       imgHeight = undefined
@@ -605,7 +607,6 @@ class SearchByUnique extends Component {
               zIndex: 19,
               marginTop: -45,
               alignSelf: "center",
-              // height:'100',
               padding:20,
               paddingTop:imgHeight ? 0 : 20
             }}

@@ -12,6 +12,7 @@ import {
     KeyboardAvoidingView,
     Image
 } from 'react-native'
+import HelperMethods from 'Helpers/Methods'
 import ErrorText from '../../common/error'
 import LinearGradient from 'react-native-linear-gradient';
 import Header from '../../common/headerCommon'
@@ -154,14 +155,15 @@ export default class ResetPassword extends Component {
 
     render() {
         return (
-                <Container contentStyle={{alignItems:'center'}} >
+            <KeyboardAvoidingView style={{flex:1,alignItems:'center',width:'100%'}} behavior={HelperMethods.isPlatformAndroid() ? '' : 'padding'}>
+
         <ScreenHeader style={{marginTop:10}} isCenter title='Reset password' />
               
                 <View style={{flex:1,marginTop:40 }}>
 
 
                 {this.state.passwordMessage == '' ? null :
-                    <View style={{ flexDirection: 'row',alignItems:'center',flex:1,marginBottom:10}}>
+                    <View style={{ flexDirection: 'row',alignItems:'center',marginBottom:20}}>
                         <Image source={Images.warning} style={{   width: 17, height: 16 }} />
                         <ErrorText
                             height={20}
@@ -256,7 +258,7 @@ export default class ResetPassword extends Component {
                         />
                 }
                 </View>
-            </Container>
+            </KeyboardAvoidingView>
         )
     }
 }

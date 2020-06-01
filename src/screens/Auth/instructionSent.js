@@ -14,6 +14,7 @@ import {
 } from 'react-native'
 const { height, width } = Dimensions.get('screen')
 import Images from '../../constant/images'
+import HelperMethods from 'Helpers/Methods'
 import Fonts from "UIProps/Fonts";
 import CodeInput from 'react-native-confirmation-code-input';
 import BackHandlerSingleton from "ServiceProviders/BackHandlerSingleton";
@@ -88,9 +89,9 @@ export default class instructionSent extends Component {
     let email = params?.email
     return (
       <>
-        <Container extraScrollheight={70}>
+        <ScreenHeader style={{marginTop:HelperMethods.isPlatformAndroid() ? 45 : null}} isCenter title='Reset instructions sent' />
+        <Container extraScrollheight={HelperMethods.isPlatformAndroid() ? 70 : 140}>
 
-        <ScreenHeader style={{marginTop:10}} isCenter title='Reset instructions sent' />
 
 
 
