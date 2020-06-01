@@ -40,8 +40,8 @@ class GradButton extends Component {
         <LinearGradient
           start={{ x: 0, y: 1 }}
           end={{ x: 1, y: 1 }}
-          locations={[0.2,0.5,0.7]}
-          colors={["#8863BB", "#61ACE2", "#55C7C9"]}
+          locations={[0.06,0.5,0.99]}
+          colors={["#7C2D8C", "#61ACE2", "#14A085"]}
           style={[styles.btn,{padding:wp(5),margin:wp(3),...gradStyle,opacity:style?.opacity ? style?.opacity  - 0.2 : 1}]}
         >
           {isApiCall ? (

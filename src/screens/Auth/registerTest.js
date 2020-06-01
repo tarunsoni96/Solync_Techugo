@@ -1479,7 +1479,7 @@ export default class registerTest extends Component {
           {this.state.iskboadOpen && HelperMethods.isPlatformIos() && (
             <GradButton
               style={{
-                opacity: this.state.invalidInputs ? 0.7 : 1,
+                opacity: this.state.invalidInputs ? 0.7 : undefined,
                 width: "100%",
               }}
               onPress={() => this.checkValidation()}
@@ -1492,7 +1492,7 @@ export default class registerTest extends Component {
         {!this.state.iskboadOpen && (
           <GradButton
             style={{
-              opacity: this.state.invalidInputs ? 0.7 : 1,
+              opacity: this.state.invalidInputs ? 0.7 : undefined,
               width: "100%",
             }}
             onPress={() => this.checkValidation()}

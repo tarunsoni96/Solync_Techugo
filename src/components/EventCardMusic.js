@@ -31,6 +31,7 @@ import MobxStore from "../StorageHelpers/MobxStore";
 class EventCardMusic extends Component {
   state = {
     eventLinesLength: 0,
+    showFullLength:false,
   };
 
   constructor(props){
@@ -123,7 +124,7 @@ class EventCardMusic extends Component {
 
   renderLines(){
     let line = []
-    let size=6
+    let size=5.5
     let numCount = width / 30
     for(let i=0;i<=numCount;i++){
       line.push( <View
@@ -240,9 +241,9 @@ class EventCardMusic extends Component {
 
 
               <Text
-              numberOfLines={this.state.showFullLength  ? undefined : height < MobxStore.heightToScaleSmall ? 1 : 3}
+              numberOfLines={(this.state.showFullLength || isEventList)  ? undefined : height < MobxStore.heightToScaleSmall ? 1 : 3}
 
-              onPress={()=>this.toggleLines()}
+              onPress={()=> this.toggleLines()}
               onTextLayout={({ nativeEvent: { lines } }) => {
                       this.setState({eventLinesLength:lines.length})
                       }}
@@ -254,7 +255,7 @@ class EventCardMusic extends Component {
               >
                 {subTitle}
               </Text>
-              {this.state.eventLinesLength > 2 && 
+              {(this.state.eventLinesLength && !isEventList) > 2 && 
                 <CustomText text={this.state.showFullLength ? 'Hide' : 'See more'} onPress={()=>this.toggleLines()} />
               }
 

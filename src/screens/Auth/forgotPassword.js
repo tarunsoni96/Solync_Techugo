@@ -142,7 +142,7 @@ export default class forgotPassword extends Component {
           />
         </View>
         <View style={{ width: "100%" }}>
-          {this.state.opacityButton == false ? (
+          {this.state.emailAddress ? (
             <GradButton
               onPress={() => this.checkMail()}
               isApiCall={this.state.isApiCall}

@@ -469,8 +469,6 @@ class MUSIC extends Component {
           style={{ backgroundColor: "transparent", flex: 1 }}
         >
           <View style={[styles.CarouselBackgroundView]}>
-          
-
             <Carousel
               ref={c => {
                 this._carousel = c;
@@ -503,10 +501,6 @@ class MUSIC extends Component {
             />
 
           </View>
-
-          
-
-
         </View>
       ) : (
         <ScrollView contentContainerStyle={{ alignSelf: "center",flexGrow:1,  }}>
@@ -578,7 +572,6 @@ class MUSIC extends Component {
                 text={`Showing ${this.state.isSpecificCat}, Show all instead?`}
               />
               :null
-            
               }
             </View>
           </View>
@@ -603,12 +596,12 @@ class MUSIC extends Component {
       source={{uri:item.image}}
       imageStyle={{borderRadius:10}}
       resizeMode='cover'
-      style={{padding:30,marginBottom:10,borderRadius:10,height:110,justifyContent:'center'}}
+      style={{padding:30,marginBottom:10,borderRadius:10,height:120,justifyContent:'center'}}
       >
       <TouchableWithoutFeedback onPress={()=>this.fetchData(filtCat,sub_category_name)} >
         <View style={{justifyContent:'center'}}>
-          <CustomText bold style={{marginTop:type != 'Music' ? 15 : 0}} text={sub_category_name.toUpperCase()} size={17}  />
-          <CustomText style={{fontStyle:'italic',fontSize:14}} text={description} size={15}  />
+          <CustomText bold style={{marginTop:type != 'Music' ? 15 : 0}} text={sub_category_name.toUpperCase()} size={15.5}  />
+          <CustomText style={{fontStyle:'italic',fontSize:14}} text={description} size={13}  />
         </View>
       </TouchableWithoutFeedback>
       </ImageBackground>
@@ -621,7 +614,7 @@ class MUSIC extends Component {
 
       <View style={{flexDirection:'row',alignItems:'center',alignSelf:'center',}}>   
         <CustomText text='showing: ' color={Colors.lighter} />
-        <CustomText text={this.state.isSpecificCat} style={{marginLeft:5}} color={tintColor} />
+        <CustomText text={type == 'Travel' ? this.state.isSpecificCat.charAt(0) + this.state.isSpecificCat.slice(1).toLowerCase() : this.state.isSpecificCat.toUpperCase()} style={{marginLeft:5}} color={tintColor} />
       </View>
   <Icons lib='Material' onPress={()=>this.fetchData(filtCat)} style={{marginLeft:10}} name='close' color={Colors.lighter} />
 </View>

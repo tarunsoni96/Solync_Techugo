@@ -14,16 +14,14 @@ const options = {
     storageOptions: { skipBackup: true, path: 'images', cameraRoll: true, waitUntilSaved: false }
   };
 
-
-
   const multiplePickerOptions = {
           multiple:true,
           compressQuality:50,
           mediaType:'photo',
           title:'Select pictures',
           // cropping:true,
+}
 
-        }
   export const TakePhoto = function(callback){
     ImagePicker.showImagePicker(options, (response) => {
         console.log('Response = ', response);

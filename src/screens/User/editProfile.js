@@ -773,8 +773,7 @@ export default class EditProfile extends Component {
     if (type == "cam") {
       openCamMultiple((resp) => {
         let imagesArr = [...this.state.images];
-        let isImageAdderExist =
-          this.state.images.findIndex((v) => v.isImageAdder == true) > -1;
+        let isImageAdderExist = this.state.images.findIndex((v) => v.isImageAdder == true) > -1;
 
         if (imagesArr.length == maxImages && isImageAdderExist) {
           imagesArr.pop();
@@ -924,11 +923,6 @@ export default class EditProfile extends Component {
         });
       }
     }
-
-    
-  
-   
-   
   }
 
   _renderItemMonth(item, index) {

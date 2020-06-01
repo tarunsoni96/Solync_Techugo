@@ -446,7 +446,7 @@ export default class SearchByUnique extends Component {
         break;
     }
 
-    content = <ScreenHeader title={params?.title || title} isCenter={false} />;
+    content = <ScreenHeader title={params?.title || title} style={{marginTop:30,marginLeft:5}} isCenter={false} />;
   }
 
   fetchCountry(country) {
@@ -475,7 +475,8 @@ export default class SearchByUnique extends Component {
 
   fetchCity(city) {
     this.setState({ isApiCall: true });
-    getCitites(this.state.countryId, city)
+    // alert(this.state.country)
+    getCitites(this.state.country, city)
       .then((resp) => {
         const { result } = resp;
         let arr = [{ name: "Any city", id: "0" }, ...result];
@@ -507,7 +508,7 @@ export default class SearchByUnique extends Component {
           style={{
             opacity: 1,
             fontSize: 14,
-            fontFamily: "Montserrat-SemiBold",
+            fontFamily: Fonts.medium,
             color: "#879299",
           }}
         >
@@ -536,9 +537,10 @@ export default class SearchByUnique extends Component {
         >
           <Text
             style={{
-              fontSize: 16,
-              fontFamily: "Montserrat-Bold",
+              fontSize: 18,
+              fontFamily: Fonts.medium,
               alignSelf: "center",
+              
               marginVertical: 10,
             }}
           >
@@ -689,7 +691,7 @@ export default class SearchByUnique extends Component {
                 this.secondTextInput.focus();
               }}
               onChangeText={(country) => this.fetchCountry(country)}
-              fontFamily={Fonts.heavy}
+              fontFamily={Fonts.medium}
             />
 
             {this.state.showCountries && this.renderListContainer()}
@@ -704,7 +706,7 @@ export default class SearchByUnique extends Component {
               }}
               value={this.state.city}
               onChangeText={(city) => this.fetchCity(city)}
-              fontFamily={Fonts.heavy}
+              fontFamily={Fonts.medium}
               placeholder={
                 this.state.countryId
                   ? "Please select city"

@@ -238,7 +238,7 @@ class BlockedUser extends Component {
     let { params } = this.props.navigation.state;
     return (
       <Container turnOffScroll={true}>
-      <ScreenHeader title={params?.loc} isCenter />
+      <ScreenHeader isCenter title={params?.loc}  />
       {this.state.isLoading ? 
         <Loader style={{alignSelf:'center',marginTop:heightPercentageToDP(38)}} />
 
@@ -247,7 +247,7 @@ class BlockedUser extends Component {
         initialNumToRender={20}
           data={this.state.data}
           nestedScrollEnabled
-          style={{width:'100%',marginTop:30}}
+          style={{width:'100%',marginTop:20}}
           renderItem={(item, index) => this.renderItemList(item, index)}
           keyExtractor={(item,index) => index}
         />

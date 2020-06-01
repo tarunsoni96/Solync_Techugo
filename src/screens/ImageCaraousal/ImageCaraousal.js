@@ -136,9 +136,8 @@ export default class ImageCaraousal extends Component {
       </TouchableWithoutFeedback>
 
       <ScreenHeader
-      titleStyle={{maxWidth:'70%'}}
+      // titleStyle={{maxWidth:'80%'}}
       icon='md-close'
-            style={{ marginLeft:0 }}
             title={`${userObj?.first_name}'s profile picture${this.state.images.length > 1 ? 's' : ''}`}
             onPressBack={() => closeModal()}
             isCenter

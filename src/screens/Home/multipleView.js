@@ -38,12 +38,20 @@ class multipleView extends Component {
       arrayLength: "",
       asdf: []
     };
+
+    this.rx = []
+    this.ry = []
+
+    
   }
   componentDidMount() {
     let { params } = this.props.navigation.state;
     console.log(params);
     console.log("====================", params);
     this._handleEvent();
+
+    
+    
   }
 
   _handleEvent() {
@@ -181,6 +189,10 @@ class multipleView extends Component {
     let borderColor = params?.type == "Music" ? "#d6b9d4" : params?.type == "Sports" ? "#b2d1ce" : "#bdccdd"
 
     let boxSize = this.randomIntFromInterval(widthPercentageToDP(25),widthPercentageToDP(30))
+    if(this.ry.length < this.state.asdf.length){
+      this.ry[index] = this.randomIntFromInterval(Math.random(0,10),15)
+      this.rx[index] = this.randomIntFromInterval(Math.random(0,5),8)
+    }
     return (
       <TouchableOpacity
       onPress={index => this.selectItem(item)}
@@ -188,6 +200,8 @@ class multipleView extends Component {
       margin: widthPercentageToDP(2),
       height: boxSize,
       width:  boxSize,
+      top:this.ry[index],
+      left:this.rx[index],
       borderRadius: boxSize / 2,
     }}
     >
@@ -198,7 +212,7 @@ class multipleView extends Component {
         style={{
           borderColor,
           borderRadius: boxSize / 2,
-          borderWidth: 1,
+          borderWidth: item.item.isSelect ? 1 : 2,
           alignItems:'center',
           justifyContent:'center',
           flex:1,
@@ -281,6 +295,7 @@ class multipleView extends Component {
                     fontSize: 13,
                     fontStyle: "italic",
                     color: "grey",
+                    marginTop:4,
                     fontFamily: "Montserrat-SemiBoldItalic"
                   }}
                 >
@@ -342,6 +357,7 @@ class multipleView extends Component {
                     fontSize: 13,
                     fontStyle: "italic",
                     color: "grey",
+                    marginTop:4,
                     fontFamily: "Montserrat-SemiBoldItalic"
                   }}
                 >
@@ -403,6 +419,7 @@ class multipleView extends Component {
                   style={{
                     fontSize: 13,
                     fontStyle: "italic",
+                    marginTop:4,
                     color: "grey",
                     fontFamily: "Montserrat-SemiBoldItalic"
                   }}

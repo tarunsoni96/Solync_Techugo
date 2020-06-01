@@ -103,9 +103,9 @@ export const getCountries = function(country) {
   });
 };
 
-export const getCitites = function(country_id,city) {
+export const getCitites = function(country,city) {
   return new Promise(function(resolve, reject) {
-    const formData = {country_id,city}
+    const formData = {country,city}
     HelperMethods.makeNetworkCall(`user/getCity`,formData,(resp, isError) => {
         if (!isError) {
           resolve(resp)

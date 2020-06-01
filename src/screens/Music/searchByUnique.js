@@ -385,7 +385,15 @@ class SearchByUnique extends Component {
   }
 
   noSuggestionsView = () => {
-    return <CustomText text={this.state.loadingSuggestions ? 'Loading..' : 'No data'} style={{ marginTop: 20 }} color="#000" />;
+    const {params} = this.props.navigation.state
+    let t 
+    if(params?.typeId == 1){
+      t = 'No upcoming concerts for this artist / festival'
+    } else {
+      t = 'No upcoming sporting event by this name'
+    }
+
+    return <CustomText text={this.state.loadingSuggestions ? 'Loading..' : t} style={{ marginTop: 20,padding:10 ,textAlign:'center'}} color="#000" />;
   };
 
   _renderItemLocation = ({ item, index }) => {
@@ -498,7 +506,17 @@ class SearchByUnique extends Component {
   }
 
   render() {
+    let imgHeight = 0
+    
     let { params } = this.props.navigation.state;
+
+    if(params?.typeId == 1 && this.state.eventData.length == 0){
+        imgHeight = 100
+      } else if(params?.typeId == 2 && this.state.locationData.length == 0) {
+        imgHeight = 100
+    } else {
+      imgHeight = undefined
+    }
     return (
       <Container>
         <BackHandlerSingleton onBackPress={() => this.props.navigation.pop()} />
@@ -521,6 +539,8 @@ class SearchByUnique extends Component {
             }}
           >
             <Text
+            adjustsFontSizeToFit
+            numberOfLines={1}
               style={{
                 color: "#000",
                 fontSize: 17,
@@ -529,7 +549,7 @@ class SearchByUnique extends Component {
                 fontFamily: "Montserrat-Bold",
               }}
             >
-              {`${params?.inputTitle} (City)`}
+              {`${params?.inputTitle}`}
             </Text>
 
             {params?.searchType == "event" ? (
@@ -543,6 +563,7 @@ class SearchByUnique extends Component {
                 // fontWeight={'bold'}
                 placeholderTextColor={"#a5a6a6"}
                 onChangeText={(artist) => this.artistDropDown(artist)}
+                blurOnSubmit
                 onFocus={() =>
                   this.setState({
                     artist: "",
@@ -566,6 +587,7 @@ class SearchByUnique extends Component {
                 placeholder={"Enter location"}
                 fontSize={15}
                 multiline
+                blurOnSubmit
                 value={this.state.location}
                 placeholderTextColor={"#a5a6a6"}
                 onChangeText={(location) => this._buttonCheck(location)}
@@ -583,17 +605,18 @@ class SearchByUnique extends Component {
               zIndex: 19,
               marginTop: -45,
               alignSelf: "center",
-
-              padding: 20,
+              // height:'100',
+              padding:20,
+              paddingTop:imgHeight ? 0 : 20
             }}
-            imageStyle={{ alignItems: "center" }}
+            imageStyle={{ alignItems: "center",height:imgHeight }}
             resizeMode={"stretch"}
           >
             {this.renderFlatList()}
           </ImageBackground>
         )}
         {HelperMethods.isPlatformAndroid() && 
-<View style={{flex:1}} />
+            <View style={{flex:1}} />
         }
         <KeyboardAvoidingView
         style={HelperMethods.isPlatformIos() ? {flex:1,justifyContent:'flex-end',width:'100%'} : {width:'100%'} }

@@ -16,7 +16,8 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
       <SafeAreaView style={{ flex: 0, color:'#fff' ,}} />
       <SafeAreaView style={{ flex: 1, }}>
       <StatusBar translucent={true} barStyle="dark-content" />
-      <KeyboardAwareScrollView extraScrollHeight={extraScrollheight || undefined}  scrollEnabled={turnOffScroll == undefined ? true : turnOffScroll} keyboardShouldPersistTaps="always" contentContainerStyle={{flexGrow:1,alignItems:'center',...contentStyle}}  behavior='padding'>
+      <KeyboardAwareScrollView extraScrollHeight={extraScrollheight || undefined}  scrollEnabled={turnOffScroll == undefined ? true : turnOffScroll} keyboardShouldPersistTaps="always" 
+      contentContainerStyle={{flexGrow:1,...contentStyle}}  behavior='padding'>
           {this.props.children}
       </KeyboardAwareScrollView>
       </SafeAreaView>
@@ -32,7 +33,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
         <ScrollView
         scrollEnabled={turnOffScroll == undefined ? true : turnOffScroll}
         style={styles.container}
-        contentContainerStyle={{alignItems: "center",...styles.contentContainerStyle,...style,...contentStyle}}
+        contentContainerStyle={{...styles.contentContainerStyle,...style,...contentStyle}}
         nestedScrollEnabled
         keyboardShouldPersistTaps="always">
           {this.props.children}

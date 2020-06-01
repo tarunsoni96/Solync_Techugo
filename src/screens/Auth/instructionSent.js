@@ -143,7 +143,7 @@ export default class instructionSent extends Component {
 
           <View style={{width:'100%',marginTop:0}}>
 
-            <GradButton style={{opacity: this.state.opacity ? 1 :0.7,}} onPress={() => this.state.opacity ? this.verify() : ()=>{}   } isApiCall={this.state.isApiCall} text='Verify' />
+            <GradButton style={{opacity: this.state.opacity ? undefined :0.7,}} onPress={() => this.state.opacity ? this.verify() : ()=>{}   } isApiCall={this.state.isApiCall} text='Verify' />
 
           </View>
 

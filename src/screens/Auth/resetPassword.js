@@ -64,7 +64,7 @@ export default class ResetPassword extends Component {
             })
         }  else if (this.state.confirmpassword == '') {
             this.setState({
-                passwordMessage: 'Insert Confirm password.',
+                passwordMessage: 'Insert confirm password',
                 confirmpasswordBorderColor: '#bb205a',
                 confirmpasswordErrorMessageHeight: 20,
                 opacityButton:true,
@@ -154,22 +154,24 @@ export default class ResetPassword extends Component {
 
     render() {
         return (
-                <Container>
+                <Container contentStyle={{alignItems:'center'}} >
         <ScreenHeader style={{marginTop:10}} isCenter title='Reset password' />
               
-                <View style={{flex:1,marginTop:50 }}>
+                <View style={{flex:1,marginTop:40 }}>
 
-                        <View style={{ flexDirection: 'row',alignItems:'center' }}>
-                            <Text style={{ opacity: 1, fontSize: 13, fontFamily: 'Montserrat-SemiBold', color: '#879299',  }}>Enter new password</Text>
 
-{this.state.passwordMessage == '' ? null :
-                    <View style={{ flexDirection: 'row',alignItems:'center',marginLeft:10,flex:1}}>
+                {this.state.passwordMessage == '' ? null :
+                    <View style={{ flexDirection: 'row',alignItems:'center',flex:1,marginBottom:10}}>
                         <Image source={Images.warning} style={{   width: 17, height: 16 }} />
                         <ErrorText
                             height={20}
                             message={this.state.passwordMessage}
                         />
                     </View>}
+
+
+                        <View style={{ flexDirection: 'row',alignItems:'center' }}>
+                            <Text style={{ opacity: 1, fontSize: 13, fontFamily: 'Montserrat-SemiBold', color: '#879299',  }}>Enter new password</Text>
 
                         </View>
 

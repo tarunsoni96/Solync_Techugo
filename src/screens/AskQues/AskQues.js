@@ -66,8 +66,7 @@ export default class AskQues extends Component {
             onChangeText={text => this.setState({ input:text })}
             style={{ padding: 20 }}
             multiline
-            onSelectionChange={this.onSelectionChange}
-        selection={this.state.selection}
+          blurOnSubmit
             fontSize={17}
             fontFamily={"Montserrat-Bold"}
           />
@@ -80,7 +79,7 @@ export default class AskQues extends Component {
       <View style={{width:'100%'}} >
             
             <GradButton
-            style={{opacity:this.state.input.trim().length == 0 ? 0.7 : 1}}
+            style={{opacity:this.state.input.trim().length == 0 ? 0.7 : undefined}}
               onPress={() => this.postQue()}
               isApiCall={this.state.isApiCall}
               text="Send message"

@@ -38,7 +38,7 @@ export default class SearchInput extends Component {
               <View
                 style={{
                   width:'100%',
-                  padding:15,
+                  padding:10,
                   ...this.props.style
                 }}
               >

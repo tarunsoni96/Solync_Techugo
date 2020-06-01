@@ -135,7 +135,7 @@ export default class SearchBy extends Component {
                 <View style={{ height: height / 4,  alignSelf: 'center', justifyContent: 'center' }}>
                     <View style={{ height: height / 5, backgroundColor: '#f6f7f8', justifyContent: 'center', alignSelf: 'center', borderRadius: 8 }}>
                         <Text style={{ color: '#000', fontSize: 17, alignSelf: 'center', fontFamily: 'Montserrat-Bold' }}>Search by location</Text>
-                        <TouchableOpacity style={{ height: '50%' }} onPress={() => this.props.navigation.navigate('SearchByUnique', { type: abc,selectedCats:params?.selectedCats, searchType:'location',inputTitle:'Search by location', data: data, typeId: params?.typeId, dataSubName: dataSubName })}>
+                        <TouchableOpacity style={{ height: '50%' }} onPress={() => this.props.navigation.navigate('SearchByUnique', { type: abc,selectedCats:params?.selectedCats, searchType:'location',inputTitle:'Search by location (City)', data: data, typeId: params?.typeId, dataSubName: dataSubName })}>
                             <View style={{ textAlign: 'center', borderTopColor: 'transparent', borderRightColor: 'transparent', borderLeftColor: 'transparent', borderBottomColor: '#edeff0', borderWidth: 2, width: width - 50, height: '100%', opacity: 2.0, alignSelf: 'center', justifyContent: 'center' }}>
                                 <Text style={{ fontSize: 15, fontFamily: 'Montserrat-Bold', alignSelf: 'center', color: '#a7a8a8' }}>Enter location</Text>
                             </View>
