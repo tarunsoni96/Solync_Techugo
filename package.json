@@ -20,7 +20,7 @@
     "@react-native-community/geolocation": "^2.0.2",
     "@react-native-community/netinfo": "^5.3.3",
     "@twotalltotems/react-native-otp-input": "^1.1.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "axios-cancel": "^0.2.2",
     "mobx": "^5.15.4",
     "mobx-react": "^6.1.8",
